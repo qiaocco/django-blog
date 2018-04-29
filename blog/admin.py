@@ -1,13 +1,17 @@
 from django.contrib import admin
-from django.utils.html import format_html
 from django.urls import reverse
+from django.utils.html import format_html
 
-from .models import Post, Category, Tag
 from django_blog.custom_site import custom_site
+
+from .adminform import PostAdminForm
+from .models import Category, Post, Tag
 
 
 @admin.register(Post, site=custom_site)
 class PostAdmin(admin.ModelAdmin):
+    form = PostAdminForm
+
     list_display = ('title', 'owner', 'category', 'desc', 'status_show', 'created_time', 'operator')
     list_filter = ('owner', 'category', 'status', 'created_time')
     search_fields = ('title', 'owner__username', 'category__name', 'desc')
@@ -16,10 +20,6 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_time'
 
     # 编辑界面
-    # fields = (
-    #     ('title', 'category'),
-    #     'content',
-    # )
     fieldsets = (
         ('基础配置', {
             'fields': (('title', 'category'), 'content', 'desc')
@@ -39,12 +39,23 @@ class PostAdmin(admin.ModelAdmin):
 
     operator.short_description = '操作'
 
+    def save_model(self, request, obj, form, change):
+        obj.owner = request.user
+        super().save_model(request, obj, form, change)
+
+
+class PostInline(admin.TabularInline):
+    fields = ('title', 'status')
+    extra = 1
+    model = Post
+
 
 @admin.register(Category, site=custom_site)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'created_time', 'is_nav', 'operator')
     list_filter = ('status', 'is_nav')
     search_fields = ('name',)
+    inlines = (PostInline,)
 
     def operator(self, obj):
         return format_html(

@@ -18,7 +18,7 @@ class Post(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def status_show(self):
-        return '当前状态：{}'.format(self.status)
+        return '当前状态：{}'.format(self.get_status_display())
 
     status_show.short_description = '当前状态'
 
@@ -26,7 +26,7 @@ class Post(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = verbose_name_plural = '文章'
+        verbose_name = verbose_name_plural = '  文章'
 
 
 class Category(models.Model):
@@ -45,7 +45,7 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = verbose_name_plural = '分类'
+        verbose_name = verbose_name_plural = ' 分类'
 
 
 class Tag(models.Model):
