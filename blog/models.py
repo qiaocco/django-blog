@@ -15,10 +15,15 @@ class Post(models.Model):
     desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')
     content = models.TextField(verbose_name='正文', help_text='正文仅支持Markdown语法')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
-    created_time = models.DateTimeField(auto_now_add=True)
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    def status_show(self):
+        return '当前状态：{}'.format(self.status)
+
+    status_show.short_description = '当前状态'
 
     def __str__(self):
-        return '<Post: {}>'.format(self.title)
+        return self.title
 
     class Meta:
         verbose_name = verbose_name_plural = '文章'
@@ -55,7 +60,7 @@ class Tag(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def __str__(self):
-        return '<Tag: {}>'.format(self.name)
+        return self.name
 
     class Meta:
         verbose_name = verbose_name_plural = '标签'

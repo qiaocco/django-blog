@@ -6,4 +6,4 @@ class CustomSite(AdminSite):
     site_title = '博客管理后台'
 
 
-custom_site = CustomSite(name='cus_site')
+custom_site = CustomSite(name='cus_admin')
