@@ -4,7 +4,7 @@ from django.utils.html import format_html
 
 from django_blog.custom_site import custom_site
 
-from .adminform import PostAdminForm
+from .adminforms import PostAdminForm
 from .models import Category, Post, Tag
 
 
@@ -15,8 +15,6 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner', 'category', 'desc', 'status_show', 'created_time', 'operator')
     list_filter = ('owner', 'category', 'status', 'created_time')
     search_fields = ('title', 'owner__username', 'category__name', 'desc')
-    show_full_result_count = False
-    actions_on_top = True
     date_hierarchy = 'created_time'
 
     # 编辑界面
@@ -56,6 +54,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('status', 'is_nav')
     search_fields = ('name',)
     inlines = (PostInline,)
+    exclude = ('owner',)
 
     def operator(self, obj):
         return format_html(
@@ -65,12 +64,17 @@ class CategoryAdmin(admin.ModelAdmin):
 
     operator.short_description = '操作'
 
+    def save_model(self, request, obj, form, change):
+        obj.owner = request.user
+        super().save_model(request, obj, form, change)
+
 
 @admin.register(Tag, site=custom_site)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'created_time', 'operator')
     list_filter = ('status',)
     search_fields = ('name',)
+    exclude = ('owner',)
 
     def operator(self, obj):
         return format_html(
@@ -79,3 +83,7 @@ class TagAdmin(admin.ModelAdmin):
         )
 
     operator.short_description = '操作'
+
+    def save_model(self, request, obj, form, change):
+        obj.owner = request.user
+        super().save_model(request, obj, form, change)

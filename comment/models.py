@@ -9,7 +9,10 @@ class Comment(models.Model):
     email = models.EmailField(verbose_name='邮箱')
     website = models.URLField(verbose_name='网站地址')
     content = models.CharField(max_length=2000, verbose_name='内容')
-    created_time = models.DataTimeField(auto_add_now=True, verbose_name='创建时间')
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    def __str__(self):
+        return '评论：{}'.format(self.post)
 
     class Meta:
         verbose_name = verbose_name_plural = '评论'
