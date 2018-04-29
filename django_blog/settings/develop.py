@@ -3,7 +3,7 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['jasonqiao36.cc']
+ALLOWED_HOSTS = []
 
 DATABASES = {
     'default': {
