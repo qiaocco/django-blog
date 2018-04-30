@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>posts</h1>
+
+<ul>
+    {% for cate in nav_cates %}
+        <li><a href="{% url 'blog:post_list' cate.id %}">{{ cate.name }}</a></li>
+    {% endfor %}
+
+</ul>
+
+<ul>
+    {% for post in posts %}
+    <li><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+
+</ul>
+
+<ul>
+    {% for cate in cates %}
+        <li><a href="{% url 'blog:post_list' cate.id %}">{{ cate.name }}</a></li>
+    {% endfor %}
+
+</ul>
+
+<ul>
+    {% for sidebar in sidebars %}
+        {% if sidebar.display == 1 %}
+            <h1>最新文章</h1>
+        <li><a href="">{{ sidebar.title }}</a></li>
+        {% autoescape off %}
+        <li>{{ sidebar.content }}</li>
+        {% endautoescape %}
+        <li>{{ sidebar.get_display_type_display }}</li>
+        {% elif sidebar.display_type == 2 %}
+            <h1>最近文章</h1>
+            {% for post in recently_posts %}
+                <li>{{ post.title }}</li>
+            {% endfor %}
+        {% elif sidebar.display_type == 4 %}
+            <h1>最近评论</h1>
+            {% for comment in recently_comments %}
+                <li>{{ comment.content }}</li>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+</ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href="?page=1">首页</a>
+            <a href="?page={{ posts.previous_page_number }}">&laquo;</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">&raquo;</a>
+            <a href="?page={{ posts.paginator.num_pages }}">尾页</a>
+        {% endif %}
+    </span>
+</div>
+</body>
+</html>
