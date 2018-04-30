@@ -24,6 +24,11 @@ class Link(models.Model):
 
 
 class SideBar(models.Model):
+    STATUS_ITEMS = (
+        (1, '展示'),
+        (2, '下线'),
+    )
+
     DISPLAY_ITEMS = (
         (1, '最新文章'),
         (2, '最热文章'),
@@ -32,7 +37,8 @@ class SideBar(models.Model):
     )
     title = models.CharField(max_length=64, verbose_name='标题')
     display_type = models.PositiveIntegerField(default=1, choices=DISPLAY_ITEMS, verbose_name='展示类型')
-    content = models.CharField(max_length=512, blank=True, verbose_name='内容', help_text='如果设置的不是ＨＴＭＬ类型，可为空')
+    content = models.CharField(max_length=512, blank=True, verbose_name='内容', help_text='如果设置的不是HTML类型，可为空')
+    status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
 

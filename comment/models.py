@@ -4,11 +4,17 @@ from blog.models import Post
 
 
 class Comment(models.Model):
+    STATUS_ITEMS = (
+        (1, '正常'),
+        (2, '删除'),
+    )
+
     post = models.ForeignKey(Post, verbose_name='文章', on_delete=models.PROTECT)
     nickname = models.CharField(max_length=64, verbose_name='用户名')
     email = models.EmailField(verbose_name='邮箱')
     website = models.URLField(verbose_name='网站地址')
     content = models.CharField(max_length=2000, verbose_name='内容')
+    status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def __str__(self):
