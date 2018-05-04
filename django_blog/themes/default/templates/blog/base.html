@@ -19,6 +19,10 @@
                 margin-top: 10px;
             }
 
+            .nav-item {
+                margin-right: 20px;
+            }
+
             .content {
                 margin-bottom: 10px;
             }
@@ -34,11 +38,6 @@
                 color: #333;
             }
 
-            i.fa {
-                color: #999;
-                font-size: 12px;
-            }
-
             p {
                 color: #777;
                 font-size: 14px;
@@ -50,6 +49,13 @@
                 margin-top: 15px;
             }
 
+            #sidebar li {
+                list-style: none;
+            }
+
+            .power {
+                margin-top: 30px;
+            }
         </style>
     {% endblock %}
     {% block title %}
@@ -58,11 +64,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        {#        <a class="navbar-brand" href="#">Navbar</a>#}
+        {#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"#}
+        {#                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+        {#            <span class="navbar-toggler-icon"></span>#}
+        {#        </button>#}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -97,7 +103,8 @@
                             <ul>
                                 {% for post in recently_posts %}
                                     <li>
-                                        <a class="text-muted" href="">{{ post.title }}</a>
+                                        <a class="text-muted"
+                                           href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -142,6 +149,12 @@
         {% block pagination %}{% endblock %}
     </div>
 </div>
+<footer class="footer">
+    <div class="container power">
+        <hr/>
+        <span class="text-muted">blog by jason.</span>
+    </div>
+</footer>
 <!-- Optional JavaScript -->
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.min.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.14.3/umd/popper.min.js"></script>
