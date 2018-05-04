@@ -1,22 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>posts</h1>
-<h2><a href="{% url 'blog:index' %}">首页</a></h2>
-<ul>
-    <li>{{ post.title }}</li>
-    <li>{{ post.content }}</li>
-    <li>{{ post.desc }}</li>
-    <li>{{ post.status }}</li>
-    <li>{{ post.created_time }}</li>
-    <li>{{ post.category }}</li>
-    <li>{{ post.tags.name }}</li>
+{% extends './base.html' %}
 
+{% block stylesheet %}
+    {{ block.super }}
+    <style>
+        .bs-callout {
+            margin: 20px 0;
+            padding: 15px 30px 15px 15px;
+            border-left: 5px solid #eee;
+        }
 
-</ul>
-</body>
-</html>
+        .bs-callout-info {
+            background-color: #f0f7fd;
+            border-color: #d0e3f0;
+        }
+
+        .nav {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .info {
+            color: #999;
+        }
+
+        .content {
+            padding: 20px 40px 0 0;
+            font-size: 15px;
+        }
+    </style>
+{% endblock %}
+{% block title %}<title>{{ post.title }}</title>{% endblock %}
+{% block main_content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'blog:index' %}">首页</a></li>
+            <li class="breadcrumb-item"><a
+                    href="{% url 'blog:category' post.category.id %}">{{ post.category.name }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">正文</li>
+        </ol>
+    </nav>
+    <div class="under-line">
+        <h1>{{ post.title }}</h1>
+    </div>
+    <div class="info">
+        作者：{{ post.owner.username }} | 标签：<a href="">{{ post.tags.name }}</a> | 发布：{{ post.created_time }} | 阅读：3000
+    </div>
+    <div class="content" id="article">
+        {{ post.content }}
+    </div>
+    <div class="row">
+        <div class="bs-callout bs-callout-info">
+            分享到：
+            <ul class="nav nav-pills">
+                <li><a href="">新浪微博</a></li>
+                <li><a href="">qq</a></li>
+                <li><a href="">微信</a></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
