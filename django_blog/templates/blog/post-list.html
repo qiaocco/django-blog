@@ -1,57 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>posts</h1>
+{% extends './base.html' %}
 
-<ul>
-    {% for cate in nav_cates %}
-        <li><a href="{% url 'blog:post_list' cate.id %}">{{ cate.name }}</a></li>
-    {% endfor %}
+{% block main_content %}
 
-</ul>
-
-<ul>
     {% for post in posts %}
-    <li><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></li>
+        <div class="content">
+            <h5><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h5>
+            <div class="entry-meta">
+                <a href="#"><i class="fa fa-user"> {{ post.owner__name }}</i></a>
+                <a href=""><i class="fa fa-clock-o" aria-hidden="true"> {{ post.created_time }}</i></a>
+                <a href=""><i class="fa fa-tags"> 标签</i></a>
+                <a href="#"><i class="fa fa-eye"> 300</i></a>
+                <a href="#"><i class="fa fa-comments"> 100</i></a>
+            </div>
+            <p id="para">{{ post.desc }}</p>
+        </div>
     {% endfor %}
 
-</ul>
+{% endblock %}
 
-<ul>
-    {% for cate in cates %}
-        <li><a href="{% url 'blog:post_list' cate.id %}">{{ cate.name }}</a></li>
-    {% endfor %}
-
-</ul>
-
-<ul>
-    {% for sidebar in sidebars %}
-        {% if sidebar.display == 1 %}
-            <h1>最新文章</h1>
-        <li><a href="">{{ sidebar.title }}</a></li>
-        {% autoescape off %}
-        <li>{{ sidebar.content }}</li>
-        {% endautoescape %}
-        <li>{{ sidebar.get_display_type_display }}</li>
-        {% elif sidebar.display_type == 2 %}
-            <h1>最近文章</h1>
-            {% for post in recently_posts %}
-                <li>{{ post.title }}</li>
-            {% endfor %}
-        {% elif sidebar.display_type == 4 %}
-            <h1>最近评论</h1>
-            {% for comment in recently_comments %}
-                <li>{{ comment.content }}</li>
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
-
-</ul>
-<div class="pagination">
+{% block pagination %}
+    <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
             <a href="?page=1">首页</a>
@@ -67,6 +35,5 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">尾页</a>
         {% endif %}
     </span>
-</div>
-</body>
-</html>
+    </div>
+{% endblock %}

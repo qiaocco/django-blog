@@ -46,4 +46,4 @@ class SideBar(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = verbose_name_plural = '侧栏'
+        verbose_name = verbose_name_plural = '侧边栏'
