@@ -89,7 +89,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-THEME = 'themes/default'
+THEME = 'themes/vtheme'
 
 STATIC_URL = '/static/'
 

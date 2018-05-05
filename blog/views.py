@@ -45,7 +45,7 @@ class BasePostsView(CommonMixin, ListView):
 
 
 class IndexView(BasePostsView):
-    paginate_by = 2
+    paginate_by = 10
     allow_empty = True
 
 

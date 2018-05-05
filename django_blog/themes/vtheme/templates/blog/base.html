@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <title>Jason's Blog</title>
+    <link rel="Bookmark" href="favicon.ico">
+    <link rel="Shortcut Icon" href="favicon.ico"/>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/font-awesome.min.cs' %}s" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/rewrite-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5.js"></script>
+    <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<header class="vc-header">
+    <nav class="navbar navbar-default" data-spy="affix" data-offset-top="80">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#vmenu">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <h1 class="vc-logo">Jasonqiao</h1>
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="vmenu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{% url 'blog:index' %}">首页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li><a href="#">Python</a>
+                    </li>
+                    <li><a href="#">Flask</a>
+                    </li>
+                    <li><a href="#">GitHub</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">更多可能
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">vim</a>
+                            </li>
+                            <li><a href="#">mysql</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="">关于</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container vc-container">
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            {% block main_content %}
+            {% endblock %}
+        </div>
+        <div class="visible-lg visible-md col-md-3">
+            {% block sidebar %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form role="search">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <input type="text" class="form-control" placeholder="善于搜索...">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default vc-panel">
+                    <h4 class="vc-widget-title">公告</h4>
+                    <div class="panel-body">
+                        <p style="text-indent:2rem;word-break:break-all;">
+                            这里是我的个人博客，欢迎骚扰
+                        </p>
+                    </div>
+                </div>
+
+                {% for sidebar in sidebars %}
+                    {% if sidebar.display_type == 1 %}
+                        <div id="recent-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                            近期文章</h4>
+                            <ul>
+                                {% for post in recently_posts %}
+                                    <li>
+                                        <a href="">{{ post.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% elif sidebar.display_type == 2 %}
+                        <div id="recent-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                            最热文章</h4>
+                            <ul>
+                                {% for post in recently_posts %}
+                                    <li>
+                                        <a href="">{{ post.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% elif sidebar.display_type == 3 %}
+                        <div id="recent-comments-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                            近期评论</h4>
+                            <ul id="recentcomments">
+                                {% for post in recently_posts %}
+                                    <li class="recentcomments"><span
+                                            class="comment-author-link">{{ post.owner.username }}</span>发表在《<a
+                                            href="">{{ post.title }}</a>》
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% elif sidebar.display_type == 5 %}
+                        <div class="panel panel-default vc-panel">
+                            <h4 class="vc-widget-title">友情链接</h4>
+                            <div class="panel-body">
+                                <div class="row text-center">
+                                    <a href="" class="col-md-6 vc-a">Python官网</a>
+                                    <a href="" class="col-md-6 vc-a">Flask官网</a>
+                                    <a href="" class="col-md-6 vc-a">Jinja官网</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<footer class="vc-footer">
+    <div class="vc-footer-info">
+        <ul class="vc-footer-menu">
+            <li><a class="vc-a" href="#!"><i class="fa fa-weixin"></i></a>
+            </li>
+            <li><a class="vc-a" href="#!"><i class="fa fa-weibo"></i></a>
+            </li>
+            <li><a class="vc-a" href="#!"><i class="fa fa-rss"></i></a>
+            </li>
+            <li><a class="vc-a" href="#!"><i class="fa fa-github"></i></a>
+            </li>
+        </ul>
+    </div>
+    <div class="vc-footer-copyright">
+        <div> Theme: <a class="vc-a" href="https://github.com/imvicchen/vTheme">Vic Theme</a> by Vic chen
+        </div>
+        <a class="vc-a" href="#!">hahah</a>
+    </div>
+    <div class="backtop" title="返回顶部" style="display: block;"></div>
+</footer>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+<script src="http://cdn.bootcss.com/holder/2.6.0/holder.min.js"></script>
+</body>
+</html>
