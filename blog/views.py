@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .models import Post, Tag, Category
 from config.models import SideBar
 from comment.models import Comment
+from config.models import Link
 
 
 class CommonMixin(object):
@@ -27,11 +28,13 @@ class CommonMixin(object):
         recently_posts = Post.objects.filter(status=1)[:10]
         # hot_posts = Post.objects.filter(status=1)[:10]
         recently_comments = Comment.objects.filter(status=1)[:10]
+        links = Link.objects.filter(status=1)
 
         kwargs.update({
             'sidebars': sidebars,
             'recently_posts': recently_posts,
             'recently_comments': recently_comments,
+            'links': links,
         })
         kwargs.update(self.get_category_context())
         return super(CommonMixin, self).get_context_data(**kwargs)
