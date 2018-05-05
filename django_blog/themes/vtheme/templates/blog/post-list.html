@@ -15,7 +15,7 @@
                 </p>
                 <p class="hidden-xs">{{ post.desc }}</p>
                 <p class="clearfix">
-                    <a class="hidden-xs pull-right vc-more-link" href="" role="button">继续阅读 &raquo;</a>
+                    <a class="hidden-xs pull-right vc-more-link" href="{% url 'blog:post_detail' post.id %}" role="button">继续阅读 &raquo;</a>
                     <span class="vc-tags">
                         {% for tag in post.tags.all %}
                             <a href="">{{ tag }}</a>
@@ -28,32 +28,16 @@
     {% endfor %}
     <nav>
         <ul class="pager">
-            <li class="previous"><a href="#"><i class="fa fa-angle-left"></i> Older</a>
-            </li>
-            <li class="next"><a href="#">Newer <i class="fa fa-angle-right"></i></a>
-            </li>
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="?page={{ page_obj.previous_page_number }}"><i
+                        class="fa fa-angle-left"></i> 上一页</a>
+                </li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="?page={{ page_obj.next_page_number }}">下一页 <i
+                        class="fa fa-angle-right"></i></a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
-
-
-{% endblock %}
-
-{% block pagination %}
-    <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">首页</a>
-            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">尾页</a>
-        {% endif %}
-    </span>
-    </div>
 {% endblock %}
