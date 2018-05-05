@@ -27,7 +27,7 @@ class Post(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '  文章'
-        ordering = ('-created_time',)
+        ordering = ('-id',)
 
 
 class Category(models.Model):

@@ -12,7 +12,7 @@
         <article class="vc-blog">
             <h1 class="vc-blog-title">{{ post.title }}</h1>
             <p class="vc-author-info">
-                <time>{{ post.created_time }}</time> &bull; <span>{{ post.title }}</span> &bull; <span><a
+                <time>{{ post.created_time|date:'Y年n月d日' }}</time> &bull; <span>{{ post.title }}</span> &bull; <span><a
                     href="">27条评论</a></span>
             </p>
             <div class="vc-blog-content">
