@@ -21,7 +21,7 @@
             </div>
             <span class="vc-tags">
                 {% for tag in post.tags.all %}
-                    <a href="">{{ tag.name }}</a>
+                    <a href="{% url 'blog:tag' tag.id %}">{{ tag.name }}</a>
                 {% endfor %}
             </span>
             <div class="vc-copyright">
