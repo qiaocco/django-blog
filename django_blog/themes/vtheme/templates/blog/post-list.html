@@ -1,0 +1,59 @@
+{% extends './base.html' %}
+
+{% block main_content %}
+    {% for post in posts %}
+        <div class="thumbnail">
+            {#        <div class="vc-pagelist-img">#}
+            {#            <a href=""><img src="img/demo01.jpg" alt="demo image">#}
+            {#            </a>#}
+            {#        </div>#}
+            <div class="caption">
+                <h1 class="vc-page-title"><a href="">{{ post.title }}</a></h1>
+                <p class="vc-author-info">
+                    <time>{{ post.created_time }}</time> &bull; <span>{{ post.owner.username }}</span> &bull; <span><a
+                        href="">27条评论</a></span>
+                </p>
+                <p class="hidden-xs">{{ post.desc }}</p>
+                <p class="clearfix">
+                    <a class="hidden-xs pull-right vc-more-link" href="" role="button">继续阅读 &raquo;</a>
+                    <span class="vc-tags">
+                        {% for tag in post.tags.all %}
+                            <a href="">{{ tag }}</a>
+                        {% endfor %}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+    {% endfor %}
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a href="#"><i class="fa fa-angle-left"></i> Older</a>
+            </li>
+            <li class="next"><a href="#">Newer <i class="fa fa-angle-right"></i></a>
+            </li>
+        </ul>
+    </nav>
+
+
+{% endblock %}
+
+{% block pagination %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">首页</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">尾页</a>
+        {% endif %}
+    </span>
+    </div>
+{% endblock %}

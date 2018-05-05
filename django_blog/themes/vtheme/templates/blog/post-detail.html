@@ -1,0 +1,39 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock %}
+{% block title %}<title>{{ post.title }}</title>{% endblock %}
+{% block main_content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'blog:index' %}">首页</a></li>
+            <li class="breadcrumb-item"><a
+                    href="{% url 'blog:category' post.category.id %}">{{ post.category.name }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">正文</li>
+        </ol>
+    </nav>
+    <div class="under-line">
+        <h1>{{ post.title }}</h1>
+    </div>
+    <div class="info">
+        作者：{{ post.owner.username }} | 标签：<a href="">{{ post.tags.name }}</a> | 发布：{{ post.created_time }} | 阅读：3000
+    </div>
+    <div class="content" id="article">
+        {{ post.content }}
+    </div>
+    <div class="row">
+        <div class="bs-callout bs-callout-info">
+            分享到：
+            <ul class="nav nav-pills">
+                <li><a href="">新浪微博</a></li>
+                <li><a href="">qq</a></li>
+                <li><a href="">微信</a></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

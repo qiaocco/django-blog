@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <title>Jason's Blog</title>
+    <meta name="keywords" content="bootstrap主题,Wordpress主题,vicchen的博客">
+    <meta name="description" content="这是一个基于bootstrap框架的Wordpress主题，是一款私有主题，个人偏好简洁，萌发开发理念，如果您不小心使用了该主题，请注明版权，禁止商业行为。">
+    <link rel="Bookmark" href="favicon.ico">
+    <link rel="Shortcut Icon" href="favicon.ico"/>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/font-awesome.min.cs' %}s" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/rewrite-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5.js"></script>
+    <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<header class="vc-header">
+    <nav class="navbar navbar-default" data-spy="affix" data-offset-top="80">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#vmenu">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <h1 class="vc-logo">Vicchen.me</h1>
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="vmenu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="index.html">首页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li><a href="#">作品</a>
+                    </li>
+                    <li><a href="#">关于</a>
+                    </li>
+                    <li><a href="#">GitHub</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">更多可能
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">执行力</a>
+                            </li>
+                            <li><a href="#">实验室</a>
+                            </li>
+                            <li><a href="#">一些其它的</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#">简历</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#">这里可能是多的</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container vc-container">
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            {% block main_content %}
+            {% endblock %}
+        </div>
+        <div class="visible-lg visible-md col-md-3">
+            {% block sidebar %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form role="search">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <input type="text" class="form-control" placeholder="善于搜索...">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <h4 class="vc-widget-title">公告</h4>
+                    <div class="panel-body">
+                        <p style="text-indent:2rem;word-break:break-all;">
+                            这里是我的个人博客，欢迎骚扰
+                        </p>
+                    </div>
+                </div>
+
+                <div id="recent-comments-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">近期评论</h4>
+                    <ul id="recentcomments">
+                        <li class="recentcomments"><span class="comment-author-link">imvicchen</span>发表在《<a
+                                href="http://www.vicchen.me/atom-tab/#comment-1196">Atom编辑器某些情况下Tab键失效的解决方法</a>》
+                        </li>
+                        <li class="recentcomments"><span class="comment-author-link">毛毛</span>发表在《<a
+                                href="http://www.vicchen.me/atom-tab/#comment-1193">Atom编辑器某些情况下Tab键失效的解决方法</a>》
+                        </li>
+                        <li class="recentcomments"><span class="comment-author-link">毛毛</span>发表在《<a
+                                href="http://www.vicchen.me/atom-tab/#comment-1192">Atom编辑器某些情况下Tab键失效的解决方法</a>》
+                        </li>
+                        <li class="recentcomments"><span class="comment-author-link">imvicchen</span>发表在《<a
+                                href="http://www.vicchen.me/giveup_wordpress_and_rewrite_my_blog/#comment-1157">放弃WordPress？重构博客！</a>》
+                        </li>
+                        <li class="recentcomments"><span class="comment-author-link">2333</span>发表在《<a
+                                href="http://www.vicchen.me/giveup_wordpress_and_rewrite_my_blog/#comment-1125">放弃WordPress？重构博客！</a>》
+                        </li>
+                    </ul>
+                </div>
+                {% for sidebar in sidebars %}
+                    {% if sidebar.display_type == 1 %}
+                        <h4 class="vc-widget-title">近期文章</h4>
+                        <div class="panel-body">
+                        <div class="row text-center">
+                            {% for post in recently_posts %}
+                                <a href="" class="col-md-6 vc-a">{{ post.title }}</a>
+                            {% endfor %}
+                        </div>
+
+                    {% elif sidebar.display_type == 2 %}
+                        <h4 class="vc-widget-title">最热文章</h4>
+                        <div class="panel-body">
+                        <div class="row text-center">
+                        {% for post in recently_posts %}
+
+                            <a href="" class="col-md-6 vc-a">{{ post.title }}</a>
+                        {% endfor %}
+
+                    {% elif sidebar.display_type == 3 %}
+                        <h4 class="vc-widget-title">最近评论</h4>
+                        <div class="panel-body">
+                        <div class="row text-center">
+                        {% for comment in recently_comments %}
+
+                            <a href="" class="col-md-6 vc-a">{{ comment.content }}</a>
+                        {% endfor %}
+
+                    {% endif %}
+                {% endfor %}
+
+            <ul class="list-unstyled">
+                <li><a href=""></a>
+                </li>
+                <li><a href="">重游潘家园，会老友...</a>
+                </li>
+                <li class="text-right"><a href="#!">更多 >></a>
+                </li>
+            </ul>
+            </div>
+            </div>
+                <div class="panel panel-default">
+                    <h4 class="vc-widget-title">友情链接</h4>
+                    <div class="panel-body">
+                        <div class="row text-center">
+                            <a href="http://www.itlipeng.cn" class="col-md-6 vc-a">IT蜗牛</a>
+                            <a href="#!" class="col-md-6 vc-a">VicTheme</a>
+                            <a href="#!" class="col-md-6 vc-a">岁寒的博客</a>
+                            <a href="#!" class="col-md-6 vc-a">前端鹏红</a>
+                            <a href="#!" class="col-md-6 vc-a">石头记</a>
+                            <a href="#!" class="col-md-6 vc-a">艳军博客</a>
+                            <a href="#!" class="col-md-6 vc-a">申请友链</a>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+            </div>
+            </div>
+            </div>
+            <footer class="vc-footer">
+                <div class="vc-footer-info">
+                    <ul class="vc-footer-menu">
+                        <li><a class="vc-a" href="#!"><i class="fa fa-weixin"></i></a>
+                        </li>
+                        <li><a class="vc-a" href="#!"><i class="fa fa-weibo"></i></a>
+                        </li>
+                        <li><a class="vc-a" href="#!"><i class="fa fa-rss"></i></a>
+                        </li>
+                        <li><a class="vc-a" href="#!"><i class="fa fa-github"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="vc-footer-copyright">
+                    <div> vicchen.me Copyright © 2015 <a class="vc-a" href="#!">Vic Theme</a>
+                    </div>
+                    Powered by <a class="vc-a" href="#!">Vic Chen</a>
+                </div>
+            </footer>
+            <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+            <script src="http://cdn.bootcss.com/holder/2.6.0/holder.min.js"></script>
+</body>
+
+</html>
