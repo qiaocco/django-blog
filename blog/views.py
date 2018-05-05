@@ -48,6 +48,17 @@ class IndexView(BasePostsView):
     paginate_by = 10
     allow_empty = True
 
+    def get_queryset(self):
+        query = self.request.GET.get('query')
+        qs = super().get_queryset()
+        if not query:
+            return qs
+        return qs.filter(title__icontains=query)
+
+    def get_context_data(self, **kwargs):
+        query = self.request.GET.get('query')
+        return super(IndexView, self).get_context_data(query=query)
+
 
 class CategoryView(BasePostsView):
     def get_queryset(self):
