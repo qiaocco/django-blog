@@ -1,0 +1,107 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block stylesheet %}
+        <!-- Bootstrap CSS -->
+        <link href="//cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
+        <!-- FontAwesome CSS -->
+        <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock %}
+    {% block title %}
+        <title>Jason's Blog</title>
+    {% endblock %}
+<body>
+<header class="fixed-top">
+    <div class="container">
+        <nav class="nav category">
+            <a class="logo" href="{% url 'blog:index' %}">Blog</a>
+            <a class="index" href="{% url 'blog:index' %}">首页</a>
+            <a class="archive" href="">归档</a>
+            <a class="archive" href="">关于</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container main">
+    <div class="row">
+        <div class="col-md-8 post-items">
+            <div class="inner">
+                {% block main_content %}{% endblock %}
+            </div>
+        </div>
+        <div class="col-md-4" id="sidebar">
+            <div class="inner">
+                {% block sidebar %}
+                    {% for sidebar in sidebars %}
+                        {% if sidebar.display_type == 1 %}
+                            <div class="content" id="recent-posts">
+                                <h5 class="panel-heading widget-title">最近文章</h5>
+                                <ul>
+                                    {% for post in recently_posts %}
+                                        <li>
+                                            <a class="text-muted"
+                                               href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% elif sidebar.display_type == 2 %}
+                            <div class="content" id="recent-posts">
+                                <h5 class="panel-heading widget-title">最热文章</h5>
+                                <ul>
+                                    {% for post in recently_posts %}
+                                        <li>
+                                            <a class="text-muted"
+                                               href="https://51.ruyo.net/8613.html">{{ post.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% elif sidebar.display_type == 3 %}
+                            <div class="content" id="recent-posts">
+                                <h5 class="panel-heading widget-title">最近评论</h5>
+                                <ul>
+                                    {% for comment in recently_comments %}
+                                        <li>
+                                            <a class="text-muted"
+                                               href="">{{ comment.content }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="content" id="category">
+                        <h5 class="panel-heading widget-title">分类</h5>
+                        <ul>
+                            {% for cate in nav_cates %}
+                                <li>
+                                    <a class="text-muted" href="{% url 'blog:category' cate.id %}">{{ cate.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+        {% block pagination %}{% endblock %}
+    </div>
+</div>
+<footer class="footer">
+    <div class="container power">
+        <hr/>
+        <span class="text-muted">blog by jason.</span>
+    </div>
+</footer>
+<!-- Optional JavaScript -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>
