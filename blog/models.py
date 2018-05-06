@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+import markdown
+
 
 class Post(models.Model):
     STATUS_ITEMS = (
@@ -14,6 +16,8 @@ class Post(models.Model):
     tags = models.ManyToManyField('Tag', verbose_name='标签')
     desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')
     content = models.TextField(verbose_name='正文', help_text='正文仅支持Markdown语法')
+    html = models.TextField(verbose_name='渲染后的内容', default='', help_text='正文仅支持Markdown语法')
+    is_markdown = models.BooleanField(verbose_name='使用Markdown格式', default=True)
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
@@ -24,6 +28,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.is_markdown:
+            self.html = markdown.markdown(self.content)
+        return super(Post, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = verbose_name_plural = '  文章'

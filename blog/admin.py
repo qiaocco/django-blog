@@ -18,16 +18,13 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_time'
 
     # 编辑界面
-    fieldsets = (
-        ('基础配置', {
-            'fields': (('title', 'category'), 'content', 'desc')
-        }),
-        ('高级配置', {
-            'classes': ('collapse', 'addon'),
-            'fields': ('tags',)
-        })
+    fields = (
+        ('title', 'category'),
+        'desc',
+        'status',
+        ('content', 'is_markdown'),
+        'tags',
     )
-    filter_horizontal = ('tags',)
 
     def operator(self, obj):
         return format_html(
