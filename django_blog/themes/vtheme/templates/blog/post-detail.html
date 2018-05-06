@@ -21,7 +21,7 @@
             </div>
             <span class="vc-tags">
                 {% for tag in post.tags.all %}
-                    <a href="{% url 'blog:tag' tag.id %}">{{ tag.name }}</a>
+                    <a href="{% url 'tag' tag.id %}">{{ tag.name }}</a>
                 {% endfor %}
             </span>
             <div class="vc-copyright">
@@ -124,28 +124,29 @@
             <h3 id="reply-title" class="comment-reply-title">发表评论
                 <small><a rel="nofollow" id="cancel-comment-reply-link" href="">取消回复</a></small>
             </h3>
-            <form action="http://vicchen.me/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+            <form action="{% url 'comment' %}" method="post" id="commentform" class="comment-form">
+                {% csrf_token %}
                 <p class="comment-notes"><span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用<span class="required">*</span>标注
                 </p>
                 <p class="comment-form-author">
-                    <label for="author">姓名 <span class="required">*</span>
+                    <label for="nickname">姓名 <span class="required">*</span>
                     </label>
-                    <input id="author" name="author" type="text" value="" size="30" aria-required="true"
+                    <input id="nickname" name="nickname" type="text" value="" size="30" aria-required="true"
                            required="required">
                 </p>
                 <p class="comment-form-email">
                     <label for="email">电子邮件 <span class="required">*</span>
                     </label>
-                    <input id="email" name="email" type="text" value="@" size="30" aria-describedby="email-notes"
+                    <input id="email" name="email" type="email" value="" size="30" aria-describedby="email-notes"
                            aria-required="true" required="required">
                 </p>
                 <p class="comment-form-url">
-                    <label for="url">站点</label>
-                    <input id="url" name="url" type="text" value="http://" size="30">
+                    <label for="website">站点</label>
+                    <input id="website" name="website" type="url" value="http://" size="30">
                 </p>
                 <p class="comment-form-comment">
-                    <label for="comment">评论</label>
-                    <textarea id="comment" name="comment" rows="5" aria-describedby="form-allowed-tags"
+                    <label for="content">评论</label>
+                    <textarea id="content" name="content" rows="5" aria-describedby="form-allowed-tags"
                               aria-required="true" required="required"></textarea>
                 </p>
                 <p class="form-submit">

@@ -13,18 +13,18 @@
             {#            </a>#}
             {#        </div>#}
             <div class="caption">
-                <h1 class="vc-page-title"><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h1>
+                <h1 class="vc-page-title"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
                 <p class="vc-author-info">
                     <time>{{ post.created_time|date:'Y年n月d日' }}</time> &bull; <span>{{ post.owner.username }}</span> &bull; <span><a
                         href="">27条评论</a></span>
                 </p>
                 <p class="hidden-xs">{{ post.desc }}</p>
                 <p class="clearfix">
-                    <a class="hidden-xs pull-right vc-more-link" href="{% url 'blog:post_detail' post.id %}"
+                    <a class="hidden-xs pull-right vc-more-link" href="{% url 'post_detail' post.id %}"
                        role="button">继续阅读 &raquo;</a>
                     <span class="vc-tags">
                         {% for tag in post.tags.all %}
-                            <a href="{% url 'blog:tag' tag.id %}">{{ tag }}</a>
+                            <a href="{% url 'tag' tag.id %}">{{ tag }}</a>
                         {% endfor %}
                     </span>
                 </p>

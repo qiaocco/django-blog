@@ -17,9 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 from .custom_site import custom_site
+from blog.views import CategoryView, PostView, TagView, IndexView
+from comment.views import CommentView
 
 urlpatterns = [
-    path('', include('blog.urls')),
+    path('', IndexView.as_view(), name='index'),
+    path('<int:pk>', PostView.as_view(), name='post_detail'),
+    path('category/<int:category_id>', CategoryView.as_view(), name='category'),
+    path('tag/<int:tag_id>', TagView.as_view(), name='tag'),
+    path('comment/', CommentView.as_view(), name='comment'),
     path('cus_admin/', custom_site.urls),
 
     path('admin/', admin.site.urls),

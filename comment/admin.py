@@ -9,8 +9,8 @@ from .models import Comment
 
 @admin.register(Comment, site=custom_site)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post', 'nickname', 'email', 'created_time', 'operator')
-    list_filter = ('post', 'created_time')
+    list_display = ('target', 'nickname', 'email', 'created_time', 'operator')
+    list_filter = ('target', 'created_time')
     search_fields = ('content', 'post__title')
 
     def operator(self, obj):

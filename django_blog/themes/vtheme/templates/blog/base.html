@@ -31,17 +31,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{% url 'blog:index' %}">
+                <a class="navbar-brand" href="{% url 'index' %}">
                     <h1 class="vc-logo">Jasonqiao</h1>
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="vmenu">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{% url 'blog:index' %}">首页 <span class="sr-only">(current)</span></a>
+                    <li><a href="{% url 'index' %}">首页 <span class="sr-only">(current)</span></a>
                     </li>
                     {% for cate in nav_cates %}
-                        <li><a href="{% url 'blog:category' cate.id %}">{{ cate.name }}</a>
+                        <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
                         </li>
                     {% endfor %}
                     <li class="dropdown">
@@ -49,7 +49,7 @@
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             {% for cate in cates %}
-                                <li><a href="{% url 'blog:category' cate.id %}">{{ cate.name }}</a>
+                                <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>

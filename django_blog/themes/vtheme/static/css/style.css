@@ -234,7 +234,7 @@ a:hover {
     display: block
 }
 
-#commentform input[type="text"], #commentform textarea {
+#commentform input, #commentform textarea {
     padding: 5px 1.8%;
     width: 95%;
     border: 1px solid #eee;

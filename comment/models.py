@@ -9,7 +9,7 @@ class Comment(models.Model):
         (2, '删除'),
     )
 
-    post = models.ForeignKey(Post, verbose_name='文章', on_delete=models.PROTECT)
+    target = models.CharField(max_length=200, null=True, verbose_name='评论目标')
     nickname = models.CharField(max_length=64, verbose_name='用户名')
     email = models.EmailField(verbose_name='邮箱')
     website = models.URLField(verbose_name='网站地址')

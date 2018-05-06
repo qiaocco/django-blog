@@ -87,3 +87,6 @@ class PostView(CommonMixin, DetailView):
     model = Post
     template_name = 'blog/post-detail.html'
     context_object_name = 'post'
+
+    def post(self):
+        pass
