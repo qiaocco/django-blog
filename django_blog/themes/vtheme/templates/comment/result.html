@@ -1,0 +1,16 @@
+{% extends '../blog/base.html' %}
+
+{% block main_content %}
+    <div class="alert alert-success comment-alert" role="alert">
+        <h4 class="alert-heading">出错啦!</h4>
+        <ul>
+            {% for field, message in form.errors.items %}
+                {{ field }}字段：{{ message }}
+            {% endfor %}
+        </ul>
+        <a href="javascript:window.history.back();" class="comment-back">返回</a>
+    </div>
+    <div class="black">
+
+    </div>
+{% endblock %}

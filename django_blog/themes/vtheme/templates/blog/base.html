@@ -113,10 +113,9 @@
                         <div id="recent-comments-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
                             近期评论</h4>
                             <ul id="recentcomments">
-                                {% for post in recently_posts %}
+                                {% for comment in recently_comments %}
                                     <li class="recentcomments"><span
-                                            class="comment-author-link">{{ post.owner.username }}</span>发表在《<a
-                                            href="">{{ post.title }}</a>》
+                                            class="comment-author-link">{{ comment.nickname }}</span>发表了 {{ comment.content }}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -127,7 +126,8 @@
                             <div class="panel-body">
                                 <div class="row text-center">
                                     {% for link in links %}
-                                        <a href="{{ link.url }}" target="_blank" class="col-md-6 vc-a">{{ link.title }}</a>
+                                        <a href="{{ link.url }}" target="_blank"
+                                           class="col-md-6 vc-a">{{ link.title }}</a>
                                     {% endfor %}
                                 </div>
                             </div>

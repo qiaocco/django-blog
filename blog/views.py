@@ -1,9 +1,9 @@
 from django.views.generic import ListView, DetailView
 
 from .models import Post, Tag, Category
-from config.models import SideBar
+from config.models import SideBar, Link
 from comment.models import Comment
-from config.models import Link
+from comment.views import CommentShowMixin
 
 
 class CommonMixin(object):
@@ -83,10 +83,7 @@ class TagView(BasePostsView):
         return posts
 
 
-class PostView(CommonMixin, DetailView):
+class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/post-detail.html'
     context_object_name = 'post'
-
-    def post(self):
-        pass
