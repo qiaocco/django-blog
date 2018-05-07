@@ -1,5 +1,4 @@
 from django.views.generic import ListView, DetailView
-from django.db.models import F
 from django.core.cache import cache
 
 from .models import Post, Tag, Category

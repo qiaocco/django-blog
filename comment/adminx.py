@@ -1,14 +1,12 @@
-from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+from django_blog.adminx import BaseOwnerAdmin
 
-from django_blog.custom_site import custom_site
-
+import xadmin
 from .models import Comment
 
 
-@admin.register(Comment, site=custom_site)
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(BaseOwnerAdmin):
     list_display = ('target', 'nickname', 'email', 'created_time', 'operator')
     list_filter = ('target', 'created_time')
     search_fields = ('content', 'post__title')
@@ -20,3 +18,6 @@ class CommentAdmin(admin.ModelAdmin):
         )
 
     operator.short_description = '操作'
+
+
+xadmin.site.register(Comment, CommentAdmin)

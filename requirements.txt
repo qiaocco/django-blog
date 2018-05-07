@@ -1,3 +1,4 @@
 Django==2.0.5
 markdown==2.6.11
 pytz==2018.4
+-e git+git://github.com/sshwsfc/xadmin.git@django2

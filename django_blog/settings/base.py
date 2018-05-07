@@ -34,6 +34,10 @@ INSTALLED_APPS = [
     'config',
     'django_blog',
 
+    'xadmin',
+    'crispy_forms',
+    'reversion',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
