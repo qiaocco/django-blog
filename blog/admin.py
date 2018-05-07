@@ -18,11 +18,13 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_time'
 
     # 编辑界面
+    save_on_top = True
     fields = (
         ('title', 'category'),
         'desc',
         'status',
         ('content', 'is_markdown'),
+        'html',
         'tags',
     )
 

@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/desert.css' %}">
 {% endblock %}
 {% block title %}<title>{{ post.title }}</title>{% endblock %}
 {% block main_content %}
@@ -13,7 +12,7 @@
             <h1 class="vc-blog-title">{{ post.title }}</h1>
             <p class="vc-author-info">
                 <time>{{ post.created_time|date:'Y年n月d日' }}</time> &bull; <span>{{ post.title }}</span> &bull; <span><a
-                    href="">27条评论</a></span>
+                    href="">{{ comment_list|length }}条评论</a></span>
             </p>
             <div class="vc-blog-content">
                 <img src="img/demo01.jpg" alt="">
@@ -111,4 +110,13 @@
         </div>
     </section>
     <!-- CODE END -->
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/prettify.js' %}"></script>
+    <script>
+        window.onload = function () {
+            PR.prettyPrint();
+        }
+    </script>
 {% endblock %}
