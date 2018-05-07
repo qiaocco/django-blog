@@ -12,7 +12,7 @@ from .models import Category, Post, Tag
 class PostAdmin(admin.ModelAdmin):
     form = PostAdminForm
 
-    list_display = ('title', 'owner', 'category', 'desc', 'status_show', 'created_time', 'operator')
+    list_display = ('title', 'category', 'status_show', 'pv', 'uv', 'created_time', 'operator')
     list_filter = ('owner', 'category', 'status', 'created_time')
     search_fields = ('title', 'owner__username', 'category__name', 'desc')
     date_hierarchy = 'created_time'
