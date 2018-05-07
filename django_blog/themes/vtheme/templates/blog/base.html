@@ -75,17 +75,20 @@
                         </form>
                     </div>
                 </div>
-                <div class="panel panel-default vc-panel">
-                    <h4 class="vc-widget-title">公告</h4>
-                    <div class="panel-body">
-                        <p style="text-indent:2rem;word-break:break-all;">
-                            这里是我的个人博客，欢迎骚扰
-                        </p>
-                    </div>
-                </div>
 
                 {% for sidebar in sidebars %}
                     {% if sidebar.display_type == 1 %}
+                        <div class="panel panel-default vc-panel">
+                            <h4 class="vc-widget-title">公告</h4>
+                            <div class="panel-body">
+                                {% for html in htmls %}
+                                    {% autoescape off %}
+                                        {{ html.content }}
+                                    {% endautoescape %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% elif sidebar.display_type == 2 %}
                         <div id="recent-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
                             近期文章</h4>
                             <ul>
@@ -96,18 +99,18 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                    {% elif sidebar.display_type == 2 %}
-                        <div id="recent-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                    {% elif sidebar.display_type == 3 %}
+                        <div id="hot-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
                             最热文章</h4>
                             <ul>
-                                {% for post in recently_posts %}
+                                {% for post in hot_posts %}
                                     <li>
                                         <a href="">{{ post.title }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
                         </div>
-                    {% elif sidebar.display_type == 3 %}
+                    {% elif sidebar.display_type == 4 %}
                         <div id="recent-comments-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
                             近期评论</h4>
                             <ul id="recentcomments">

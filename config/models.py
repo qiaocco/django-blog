@@ -30,10 +30,11 @@ class SideBar(models.Model):
     )
 
     DISPLAY_ITEMS = (
-        (1, '最新文章'),
-        (2, '最热文章'),
-        (3, '最近评论'),
-        (4, '内容'),
+        (1, 'HTML'),
+        (2, '最新文章'),
+        (3, '最热文章'),
+        (4, '最近评论'),
+        (5, '友链'),
     )
     title = models.CharField(max_length=64, verbose_name='标题')
     display_type = models.PositiveIntegerField(default=1, choices=DISPLAY_ITEMS, verbose_name='展示类型')
@@ -47,3 +48,4 @@ class SideBar(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '侧边栏'
+        ordering = ('display_type',)

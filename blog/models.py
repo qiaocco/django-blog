@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.db.models import F
+
 from django.db import models
 
 import markdown
@@ -12,13 +14,15 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=255, verbose_name='标题')
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
-    category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.PROTECT)
-    tags = models.ManyToManyField('Tag', verbose_name='标签')
-    desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')
     content = models.TextField(verbose_name='正文', help_text='正文仅支持Markdown语法')
     html = models.TextField(verbose_name='渲染后的内容', default='', help_text='正文仅支持Markdown语法')
     is_markdown = models.BooleanField(verbose_name='使用Markdown格式', default=True)
+    category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.PROTECT)
+    tags = models.ManyToManyField('Tag', verbose_name='标签')
+    desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
+    pv = models.PositiveIntegerField(default=0, verbose_name='pv')
+    uv = models.PositiveIntegerField(default=0, verbose_name='uv')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def status_show(self):
@@ -28,6 +32,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def increase_pv(self):
+        return type(self).objects.filter(id=self.id).update(pv=F('pv') + 1)
+
+    def increase_uv(self):
+        return type(self).objects.filter(id=self.id).update(uv=F('uv') + 1)
 
     def save(self, *args, **kwargs):
         if self.is_markdown:

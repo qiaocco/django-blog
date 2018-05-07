@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView
+from django.db.models import F
+from django.core.cache import cache
 
 from .models import Post, Tag, Category
 from config.models import SideBar, Link
@@ -26,15 +28,18 @@ class CommonMixin(object):
         sidebars = SideBar.objects.filter(status=1)
 
         recently_posts = Post.objects.filter(status=1)[:10]
-        # hot_posts = Post.objects.filter(status=1)[:10]
+        hot_posts = Post.objects.filter(status=1).order_by('-pv')[:10]
         recently_comments = Comment.objects.filter(status=1)[:10]
         links = Link.objects.filter(status=1)
+        htmls = SideBar.objects.filter(status=1).filter(display_type=1)
 
         kwargs.update({
             'sidebars': sidebars,
             'recently_posts': recently_posts,
+            'hot_posts': hot_posts,
             'recently_comments': recently_comments,
             'links': links,
+            'htmls': htmls,
         })
         kwargs.update(self.get_category_context())
         return super(CommonMixin, self).get_context_data(**kwargs)
@@ -87,3 +92,29 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/post-detail.html'
     context_object_name = 'post'
+
+    def get(self, request, *args, **kwargs):
+        response = super(PostView, self).get(request, *args, **kwargs)
+        self.pv_uv()
+        return response
+
+    def pv_uv(self):
+        # TODO 判断用户是否在24h内访问过
+        sessionid = self.request.COOKIES.get('sessionid')
+        if not sessionid:
+            return
+
+        pv_key = 'uv:{}:{}'.format(sessionid, self.request.path)
+        if not cache.get(pv_key):
+            self.object.increase_pv()
+            cache.set(pv_key, 1, 30)
+
+        uv_key = 'uv:{}:{}'.format(sessionid, self.request.path)
+        if not cache.get(uv_key):
+            self.object.increase_uv()
+            cache.set(uv_key, 1, 60 * 60 * 24)
+        # self.model.objects.filter(id=self.instance.id).update(pv=F('pv') + 1)
+        # self.model.objects.filter(id=self.instance.id).update(uv=F('pv') + 1)
+        # self.object.pv += 1
+        # self.object.uv += 1
+        # self.object.save()

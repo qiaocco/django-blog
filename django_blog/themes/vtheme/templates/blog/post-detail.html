@@ -11,8 +11,9 @@
         <article class="vc-blog">
             <h1 class="vc-blog-title">{{ post.title }}</h1>
             <p class="vc-author-info">
-                <time>{{ post.created_time|date:'Y年n月d日' }}</time> &bull; <span>{{ post.title }}</span> &bull; <span><a
-                    href="">{{ comment_list|length }}条评论</a></span>
+                <span>作者：{{ post.owner.username }}</span>
+                <time>发布：{{ post.created_time|date:'Y年n月d日' }}</time> &bull;
+                <span>阅读量：{{ post.pv }}, {{ post.uv }}</span>
             </p>
             <div class="vc-blog-content">
                 <img src="img/demo01.jpg" alt="">
