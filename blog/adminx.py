@@ -1,6 +1,6 @@
+import xadmin
 from django.urls import reverse
 from django.utils.html import format_html
-import xadmin
 from xadmin.layout import Fieldset, Row
 from xadmin.plugins.inline import Inline
 
@@ -42,18 +42,17 @@ class PostAdmin(BaseOwnerAdmin):
     operator.short_description = '操作'
 
 
-#
-# class PostInline:
-#     fields = ('title', 'status')
-#     extra = 1
-#     model = Post
+class PostInline:
+    fields = ('title', 'status')
+    extra = 1
+    model = Post
 
 
 class CategoryAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time', 'is_nav', 'operator')
     list_filter = ('status', 'is_nav')
     search_fields = ('name',)
-    # inlines = (PostInline,)
+    inlines = (PostInline,)
     exclude = ('owner',)
 
     def operator(self, obj):
@@ -63,10 +62,6 @@ class CategoryAdmin(BaseOwnerAdmin):
         )
 
     operator.short_description = '操作'
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        super().save_model(request, obj, form, change)
 
 
 class TagAdmin(BaseOwnerAdmin):
@@ -82,10 +77,6 @@ class TagAdmin(BaseOwnerAdmin):
         )
 
     operator.short_description = '操作'
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        super().save_model(request, obj, form, change)
 
 
 xadmin.site.register(Post, PostAdmin)

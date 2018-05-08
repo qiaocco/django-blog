@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'config',
     'django_blog',
 
+    'dal',
+    'dal_select2',
+
     'xadmin',
     'crispy_forms',
     'reversion',

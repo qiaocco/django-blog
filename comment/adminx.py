@@ -1,8 +1,9 @@
+import xadmin
 from django.urls import reverse
 from django.utils.html import format_html
+
 from django_blog.adminx import BaseOwnerAdmin
 
-import xadmin
 from .models import Comment
 
 

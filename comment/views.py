@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
-from .models import Comment
 from .forms import CommentForm
+from .models import Comment
 
 
 class CommentShowMixin:

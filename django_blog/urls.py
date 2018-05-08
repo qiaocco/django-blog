@@ -14,17 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import xadmin
-
-xadmin.autodiscover()
+from django.urls import path
 from xadmin.plugins import xversion
 
-xversion.register_models()
-
-from django.urls import path
-
-from blog.views import CategoryView, PostView, TagView, IndexView
+from blog.views import CategoryView, IndexView, PostView, TagView
 from comment.views import CommentView
 from django_blog import adminx
+
+from .autocomplete import CategoryAutocomplete, TagAutocomplete
+
+xadmin.autodiscover()
+
+xversion.register_models()
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -34,4 +35,6 @@ urlpatterns = [
     path('comment/', CommentView.as_view(), name='comment'),
 
     path('admin/', xadmin.site.urls),
+    path('category-autocomplete', CategoryAutocomplete.as_view(), name='category_autocomplete'),
+    path('tag-autocomplete', TagAutocomplete.as_view(), name='tag_autocomplete'),
 ]

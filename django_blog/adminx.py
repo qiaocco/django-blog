@@ -11,7 +11,6 @@ class BaseOwnerAdmin:
         return qs.filter(owner=request.user)
 
     def save_models(self):
-        # import pdb;pdb.set_trace()
         if not self.org_obj:
             self.new_obj.owner = self.request.user
         return super(BaseOwnerAdmin, self).save_models()
@@ -19,7 +18,7 @@ class BaseOwnerAdmin:
 
 class GlobalSetting(CommAdminView):
     site_title = '博客后台'
-    site_footer = '@ pwer by jasonqiao36.cc'
+    site_footer = 'power by jasonqiao36.cc'
 
 
 xadmin.site.register(CommAdminView, GlobalSetting)

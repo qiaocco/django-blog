@@ -1,10 +1,11 @@
-from django.views.generic import ListView, DetailView
 from django.core.cache import cache
+from django.views.generic import DetailView, ListView
 
-from .models import Post, Tag, Category
-from config.models import SideBar, Link
 from comment.models import Comment
 from comment.views import CommentShowMixin
+from config.models import Link, SideBar
+
+from .models import Category, Post, Tag
 
 
 class CommonMixin(object):

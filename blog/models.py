@@ -1,9 +1,7 @@
-from django.contrib.auth.models import User
-from django.db.models import F
-
-from django.db import models
-
 import markdown
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import F
 
 
 class Post(models.Model):
