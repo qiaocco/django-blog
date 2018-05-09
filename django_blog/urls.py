@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import xadmin
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
+from rest_framework.documentation import include_docs_urls
 from xadmin.plugins import xversion
 
+from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
 from blog.views import CategoryView, IndexView, PostView, TagView
 from comment.views import CommentView
-from django_blog import adminx
 
 from .autocomplete import CategoryAutocomplete, TagAutocomplete
 
@@ -27,14 +29,22 @@ xadmin.autodiscover()
 
 xversion.register_models()
 
+router = routers.DefaultRouter()
+router.register(r'post', PostViewSet)
+router.register(r'category', CategoryViewSet)
+router.register(r'tag', TagViewSet)
+router.register(r'user', UserViewSet)
+
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('<int:pk>', PostView.as_view(), name='post_detail'),
-    path('category/<int:category_id>', CategoryView.as_view(), name='category'),
-    path('tag/<int:tag_id>', TagView.as_view(), name='tag'),
+    path('<int:pk>/', PostView.as_view(), name='post_detail'),
+    path('category/<int:category_id>/', CategoryView.as_view(), name='category'),
+    path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
     path('comment/', CommentView.as_view(), name='comment'),
 
     path('admin/', xadmin.site.urls),
-    path('category-autocomplete', CategoryAutocomplete.as_view(), name='category_autocomplete'),
-    path('tag-autocomplete', TagAutocomplete.as_view(), name='tag_autocomplete'),
+    path('category-autocomplete/', CategoryAutocomplete.as_view(), name='category_autocomplete'),
+    path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag_autocomplete'),
+    path('api/docs/', include_docs_urls(title='My blog api docs')),
+    path('api/', include(router.urls)),
 ]

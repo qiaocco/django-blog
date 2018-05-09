@@ -1,5 +1,7 @@
-django-autocomplete-light=3.2.10
+coreapi==2.3.3
 Django==2.0.5
-markdown==2.6.11
+django-autocomplete-light=3.2.10
+django-rest-framework==0.1.0
+Markdown==2.6.11
 pytz==2018.4
 -e git+git://github.com/sshwsfc/xadmin.git@django2
