@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from django.views.generic import DetailView, ListView
+from silk.profiling.profiler import silk_profile
 
 from comment.models import Comment
 from comment.views import CommentShowMixin
@@ -9,6 +10,7 @@ from .models import Category, Post, Tag
 
 
 class CommonMixin(object):
+    @silk_profile(name='get_category_context')
     def get_category_context(self):
         categories = Category.objects.filter(status=1)
 

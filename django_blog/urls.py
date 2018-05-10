@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import xadmin
+from django.conf import settings
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
@@ -48,3 +49,12 @@ urlpatterns = [
     path('api/docs/', include_docs_urls(title='My blog api docs')),
     path('api/', include(router.urls)),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [
+                      path(r'__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
+    urlpatterns += [path(r'silk/', include('silk.urls', namespace='silk'))]
+
