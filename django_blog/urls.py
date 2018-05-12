@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import re
+
 import xadmin
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from xadmin.plugins import xversion
@@ -36,19 +39,26 @@ router.register(r'category', CategoryViewSet)
 router.register(r'tag', TagViewSet)
 router.register(r'user', UserViewSet)
 
-urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('<int:pk>/', PostView.as_view(), name='post_detail'),
-    path('category/<int:category_id>/', CategoryView.as_view(), name='category'),
-    path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
-    path('comment/', CommentView.as_view(), name='comment'),
 
-    path('admin/', xadmin.site.urls),
-    path('category-autocomplete/', CategoryAutocomplete.as_view(), name='category_autocomplete'),
-    path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag_autocomplete'),
-    path('api/docs/', include_docs_urls(title='My blog api docs')),
-    path('api/', include(router.urls)),
-]
+def static(prefix, **kwargs):
+    return [
+        re_path(r'^%s(?P<path>.*)$' % re.escape(prefix.lstrip('/')), serve, kwargs=kwargs),
+    ]
+
+
+urlpatterns = [
+                  path('', IndexView.as_view(), name='index'),
+                  path('<int:pk>/', PostView.as_view(), name='post_detail'),
+                  path('category/<int:category_id>/', CategoryView.as_view(), name='category'),
+                  path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
+                  path('comment/', CommentView.as_view(), name='comment'),
+
+                  path('admin/', xadmin.site.urls),
+                  path('category-autocomplete/', CategoryAutocomplete.as_view(), name='category_autocomplete'),
+                  path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag_autocomplete'),
+                  path('api/docs/', include_docs_urls(title='My blog api docs')),
+                  path('api/', include(router.urls)),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
@@ -57,4 +67,3 @@ if settings.DEBUG:
                       path(r'__debug__/', include(debug_toolbar.urls)),
                   ] + urlpatterns
     urlpatterns += [path(r'silk/', include('silk.urls', namespace='silk'))]
-
