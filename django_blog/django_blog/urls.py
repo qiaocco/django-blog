@@ -19,6 +19,7 @@ import xadmin
 from django.conf import settings
 from django.urls import include, path, re_path
 from django.views.static import serve
+from django.views.decorators.cache import cache_page
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from xadmin.plugins import xversion
@@ -49,7 +50,7 @@ def static(prefix, **kwargs):
 urlpatterns = [
                   path('', IndexView.as_view(), name='index'),
                   path('<int:pk>/', PostView.as_view(), name='post_detail'),
-                  path('category/<int:category_id>/', CategoryView.as_view(), name='category'),
+                  path('category/<int:category_id>/', cache_page(60 * 10)(CategoryView.as_view()), name='category'),
                   path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
                   path('comment/', CommentView.as_view(), name='comment'),
 
@@ -66,4 +67,3 @@ if settings.DEBUG:
     urlpatterns = [
                       path(r'__debug__/', include(debug_toolbar.urls)),
                   ] + urlpatterns
-    urlpatterns += [path(r'silk/', include('silk.urls', namespace='silk'))]

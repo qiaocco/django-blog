@@ -6,4 +6,3 @@ django-rest-framework==0.1.0
 Markdown==2.6.11
 PyMySQL==0.8.1
 pytz==2018.4
--e git+git://github.com/sshwsfc/xadmin.git@django2#egg=django2-xadmin
