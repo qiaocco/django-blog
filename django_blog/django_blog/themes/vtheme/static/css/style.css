@@ -46,7 +46,7 @@ a:hover {
 .vc-header .vc-logo {
     margin: 0;
     padding: 0;
-    width: 150px;
+    width: 220px;
     height: 40px;
     text-indent: -999px;
     background: url(../img/logo.png) no-repeat;
@@ -59,7 +59,7 @@ a:hover {
         width: 150px;
         height: 40px;
         text-indent: -999px;
-        background: url(img/logo@2x.png) no-repeat;
+        background: url(../img/logo@2x.png) no-repeat;
         -webkit-background-size: 150px 40px;
         background-size: 150px 40px;
     }
