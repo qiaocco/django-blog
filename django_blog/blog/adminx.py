@@ -26,6 +26,7 @@ class PostAdmin(BaseOwnerAdmin):
         Fieldset(
             '基础信息',
             'title',
+            'slug',
             'desc',
             Row('category', 'status', 'is_markdown'),
             'content',

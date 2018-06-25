@@ -1,5 +1,6 @@
 import markdown
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 from django.db import models
 from django.db.models import F
 
@@ -10,11 +11,12 @@ class Post(models.Model):
         (2, '删除'),
         (3, '草稿'),
     )
-    title = models.CharField(max_length=255, verbose_name='标题')
+    title = models.CharField(max_length=255, verbose_name='标题', db_index=True)
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
     content = models.TextField(verbose_name='正文', help_text='正文仅支持Markdown语法')
     html = models.TextField(verbose_name='渲染后的内容', default='', help_text='正文仅支持Markdown语法')
     is_markdown = models.BooleanField(verbose_name='使用Markdown格式', default=True)
+    slug = models.SlugField(max_length=255, verbose_name='Slug')
     category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.PROTECT)
     tags = models.ManyToManyField('Tag', verbose_name='标签')
     desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')
@@ -38,6 +40,8 @@ class Post(models.Model):
         return type(self).objects.filter(id=self.id).update(uv=F('uv') + 1)
 
     def save(self, *args, **kwargs):
+        self.desc = self.desc or self.content[:140]
+        self.slug = slugify(self.slug)
         if self.is_markdown:
             config = {
                 'codehilite': {
