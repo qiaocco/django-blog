@@ -21,7 +21,7 @@ class Post(models.Model):
     content = models.TextField(verbose_name='正文', help_text='正文仅支持Markdown语法')
     html = models.TextField(verbose_name='渲染后的内容', default='', help_text='正文仅支持Markdown语法')
     is_markdown = models.BooleanField(verbose_name='使用Markdown格式', default=True)
-    slug = models.SlugField(max_length=255, verbose_name='Slug')
+    slug = models.SlugField(max_length=255, unique=True, verbose_name='Slug')
     category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.PROTECT)
     tags = models.ManyToManyField('Tag', verbose_name='标签')
     desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')

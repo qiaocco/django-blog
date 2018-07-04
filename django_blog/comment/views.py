@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import TemplateView
 
 from .forms import CommentForm
@@ -7,8 +8,8 @@ from .models import Comment
 
 class CommentShowMixin:
     def get_comments(self):
-        target = self.request.path
-        comments = Comment.objects.filter(target=target).filter(status=1)
+        target = self.object.slug
+        comments = Comment.objects.filter(target=target).all()
         return comments
 
     def get_context_data(self, **kwargs):
@@ -29,7 +30,7 @@ class CommentView(TemplateView):
 
         if comment_form.is_valid():
             comment_form.save()
-            return redirect(target)
+            return redirect(reverse('post_detail', args=(target,)))
         else:
             context = {
                 'form': comment_form,

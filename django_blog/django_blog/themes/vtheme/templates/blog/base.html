@@ -94,7 +94,7 @@
                             <ul>
                                 {% for post in recently_posts %}
                                     <li>
-                                        <a href="">{{ post.title }}</a>
+                                        <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -105,7 +105,7 @@
                             <ul>
                                 {% for post in hot_posts %}
                                     <li>
-                                        <a href="">{{ post.title }}</a>
+                                        <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>

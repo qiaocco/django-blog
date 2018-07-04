@@ -34,7 +34,6 @@ def static(prefix, **kwargs):
 
 urlpatterns = [
                   path('', IndexView.as_view(), name='index'),
-                  path('<int:pk>/', PostView.as_view(), name='post_detail'),
                   path('category/<int:category_id>/', cache_page(60 * 10)(CategoryView.as_view()), name='category'),
                   path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
                   path('comment/', CommentView.as_view(), name='comment'),
@@ -44,6 +43,9 @@ urlpatterns = [
                   path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag_autocomplete'),
                   path('api/docs/', include_docs_urls(title='My blog api docs')),
                   path('api/', include(router.urls)),
+
+                  # 放到最后, 防止匹配到其他url
+                  path('<slug:slug>/', PostView.as_view(), name='post_detail'),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
