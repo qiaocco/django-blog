@@ -1,5 +1,4 @@
 import xadmin
-
 from django_blog.adminx import BaseOwnerAdmin
 
 from .models import Link, SideBar

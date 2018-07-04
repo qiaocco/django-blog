@@ -1,6 +1,6 @@
 from django.db import models
 
-from blog.models import Post
+from blog.models import BaseManager
 
 
 class Comment(models.Model):
@@ -16,6 +16,8 @@ class Comment(models.Model):
     content = models.CharField(max_length=2000, verbose_name='内容')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    objects = BaseManager()
 
     def __str__(self):
         return '评论：{}'.format(self.nickname)

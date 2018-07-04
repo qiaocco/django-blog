@@ -1,8 +1,13 @@
 import markdown
 from django.contrib.auth.models import User
-from django.template.defaultfilters import slugify
 from django.db import models
 from django.db.models import F
+from django.template.defaultfilters import slugify
+
+
+class BaseManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=1)
 
 
 class Post(models.Model):
@@ -24,6 +29,8 @@ class Post(models.Model):
     pv = models.PositiveIntegerField(default=0, verbose_name='pv')
     uv = models.PositiveIntegerField(default=0, verbose_name='uv')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    objects = BaseManager()
 
     def status_show(self):
         return '当前状态：{}'.format(self.get_status_display())
@@ -69,6 +76,8 @@ class Category(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     is_nav = models.BooleanField(default=0, verbose_name='是否置顶导航')
 
+    objects = BaseManager()
+
     def __str__(self):
         return self.name
 
@@ -86,6 +95,8 @@ class Tag(models.Model):
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    objects = BaseManager()
 
     def __str__(self):
         return self.name

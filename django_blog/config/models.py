@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from blog.models import BaseManager
+
 
 class Link(models.Model):
     STATUS_ITEMS = (
@@ -15,6 +17,8 @@ class Link(models.Model):
     weigh = models.PositiveIntegerField(default=1, choices=zip(range(1, 6), range(1, 6)),
                                         verbose_name='权重',
                                         help_text='权重越高，展示顺序越靠前')
+
+    objects = BaseManager()
 
     def __str__(self):
         return self.title
@@ -42,6 +46,8 @@ class SideBar(models.Model):
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
+
+    objects = BaseManager()
 
     def __str__(self):
         return self.title

@@ -8,9 +8,9 @@ from config.models import Link, SideBar
 from .models import Category, Post, Tag
 
 
-class CommonMixin(object):
+class CommonMixin:
     def get_category_context(self):
-        categories = Category.objects.filter(status=1)
+        categories = Category.objects.all()
 
         nav_cates = []
         cates = []
@@ -25,13 +25,13 @@ class CommonMixin(object):
         }
 
     def get_context_data(self, **kwargs):
-        sidebars = SideBar.objects.filter(status=1)
+        sidebars = SideBar.objects.all()
 
-        recently_posts = Post.objects.filter(status=1)[:10]
-        hot_posts = Post.objects.filter(status=1).order_by('-pv')[:10]
-        recently_comments = Comment.objects.filter(status=1)[:10]
-        links = Link.objects.filter(status=1)
-        htmls = SideBar.objects.filter(status=1).filter(display_type=1)
+        recently_posts = Post.objects.all()[:10]
+        hot_posts = Post.objects.order_by('-pv')[:10]
+        recently_comments = Comment.objects.all()[:10]
+        links = Link.objects.all()
+        htmls = SideBar.objects.filter(display_type=1)
 
         kwargs.update({
             'sidebars': sidebars,
@@ -42,7 +42,7 @@ class CommonMixin(object):
             'htmls': htmls,
         })
         kwargs.update(self.get_category_context())
-        return super(CommonMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
 
 class BasePostsView(CommonMixin, ListView):
@@ -65,7 +65,7 @@ class IndexView(BasePostsView):
 
     def get_context_data(self, **kwargs):
         query = self.request.GET.get('query')
-        return super(IndexView, self).get_context_data(query=query)
+        return super().get_context_data(query=query)
 
 
 class CategoryView(BasePostsView):

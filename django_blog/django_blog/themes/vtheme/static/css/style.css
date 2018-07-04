@@ -25,12 +25,16 @@ embed {
 }
 
 a {
-    color: #797979;
+    color: #1abc9c;
 }
 
 a:hover {
     color: #1abc9c;
     text-decoration: none;
+}
+
+.vc-desc {
+    margin: 20px 0 0 0;
 }
 
 .vc-pt15 {
@@ -88,13 +92,6 @@ a:hover {
     line-height: 18px;
 }
 
-.vc-author-info a {
-    color: #aaa;
-}
-
-.vc-author-info a:hover {
-    color: #1abc9c;
-}
 
 .vc-author-info > time,
 .vc-author-info > span {
