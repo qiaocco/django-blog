@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/desert.css' %}">
+    <link rel="stylesheet" href="{% static 'css/monokai.css' %}">
 {% endblock %}
 {% block title %}<title>{{ post.title }}</title>{% endblock %}
 {% block main_content %}
@@ -27,18 +27,9 @@
                 {% endfor %}
             </span>
             <div class="vc-copyright">
-                本站文章除注明转载外，均为原创文章。转载请注明：文章转载自：JASONQIAO36.CC（<a href="http://jasonqiao36.cc/">http://jasonqiao36.cc/</a>）
+                本站文章除注明转载外，均为原创文章。转载请注明：文章转载自：http://blog.jasonqiao36.cc/
             </div>
         </article>
-        <!--
-    <ol class="breadcrumb">
-        <li><a href="#">首页</a>
-        </li>
-        <li><a href="#">平凡之路</a>
-        </li>
-        <li class="active">胡同里的小太子</li>
-    </ol>
--->
     </div>
     <nav>
         <ul class="pager">
@@ -111,13 +102,4 @@
         </div>
     </section>
     <!-- CODE END -->
-{% endblock %}
-
-{% block js %}
-    <script src="{% static 'js/prettify.js' %}"></script>
-    <script>
-        window.onload = function () {
-            PR.prettyPrint();
-        }
-    </script>
 {% endblock %}

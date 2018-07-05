@@ -106,4 +106,5 @@ ENV/
 # db
 *.sqlite3
 
-product.py
+migrations/
+!migrations/__init__.py

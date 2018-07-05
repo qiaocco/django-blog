@@ -1,8 +1,10 @@
-import markdown
+import mistune
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import slugify
+
+from django_blog.utils import HighlightRenderer
 
 
 class BaseManager(models.Manager):
@@ -50,13 +52,8 @@ class Post(models.Model):
         self.desc = self.desc or self.content[:140]
         self.slug = slugify(self.slug)
         if self.is_markdown:
-            config = {
-                'codehilite': {
-                    'use_pygments': False,
-                    'css_class': 'prettyprint linenums',
-                }
-            }
-            self.html = markdown.markdown(self.content, extensions=["codehilite"], extension_configs=config)
+            renderer = HighlightRenderer()
+            self.html = mistune.markdown(self.content, renderer=renderer)
         return super(Post, self).save(*args, **kwargs)
 
     class Meta:
