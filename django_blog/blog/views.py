@@ -110,7 +110,7 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         if not sessionid:
             return
 
-        pv_key = 'uv:{}:{}'.format(sessionid, self.request.path)
+        pv_key = 'pv:{}:{}'.format(sessionid, self.request.path)
         if not cache.get(pv_key):
             self.object.increase_pv()
             cache.set(pv_key, 1, 30)
