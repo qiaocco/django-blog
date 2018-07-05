@@ -98,6 +98,13 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         self.pv_uv()
         return response
 
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'prev_post': self.object.prev_post,
+            'next_post': self.object.next_post,
+        })
+        return super().get_context_data(**kwargs)
+
     def pv_uv(self):
         sessionid = self.request.COOKIES.get('sessionid')
         if not sessionid:

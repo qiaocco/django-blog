@@ -33,10 +33,14 @@
     </div>
     <nav>
         <ul class="pager">
-            <li class="previous"><a href="#"><i class="fa fa-angle-left"></i> 上一篇</a>
-            </li>
-            <li class="next"><a href="#">下一篇 <i class="fa fa-angle-right"></i></a>
-            </li>
+            {% if prev_post %}
+                <li class="previous"><a href="{% url 'post_detail' prev_post.slug %}"><i class="fa fa-angle-left"></i> 上一篇</a>
+                </li>
+            {% endif %}
+            {% if next_post %}
+                <li class="next"><a href="{% url 'post_detail' next_post.slug %}">下一篇 <i class="fa fa-angle-right"></i></a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
     <section id="comments">

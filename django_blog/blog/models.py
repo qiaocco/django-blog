@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import slugify
+from django.utils.functional import cached_property
 
 from django_blog.utils import HighlightRenderer
 
@@ -55,6 +56,14 @@ class Post(models.Model):
             renderer = HighlightRenderer()
             self.html = mistune.markdown(self.content, renderer=renderer)
         return super(Post, self).save(*args, **kwargs)
+
+    @cached_property
+    def prev_post(self):
+        return Post.objects.filter(id__gt=self.id, status=1).order_by('id').first()
+
+    @cached_property
+    def next_post(self):
+        return Post.objects.filter(id__lt=self.id, status=1).order_by('id').first()
 
     class Meta:
         verbose_name = verbose_name_plural = '  文章'
