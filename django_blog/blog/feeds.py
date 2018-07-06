@@ -15,4 +15,4 @@ class LatestPostFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        return 'desc'
+        return item.desc

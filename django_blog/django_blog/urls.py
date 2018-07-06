@@ -52,7 +52,7 @@ urlpatterns = [
                   path('api/docs/', include_docs_urls(title='My blog api docs')),
                   path('api/', include(router.urls)),
                   path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-                  path('latest/feed', LatestPostFeed()),
+                  path('latest/feed', LatestPostFeed(), name='feed'),
 
                   # 放到最后, 防止匹配到其他url
                   path('<slug:slug>/', PostView.as_view(), name='post_detail'),
