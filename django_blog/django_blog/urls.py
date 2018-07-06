@@ -10,6 +10,7 @@ from rest_framework.documentation import include_docs_urls
 
 import xadmin
 from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
+from blog.feeds import LatestPostFeed
 from blog.sitemaps import CategorySitemap, PostSitemap, TagSitemap
 from blog.views import CategoryView, IndexView, PostView, TagView
 from comment.views import CommentView
@@ -51,6 +52,7 @@ urlpatterns = [
                   path('api/docs/', include_docs_urls(title='My blog api docs')),
                   path('api/', include(router.urls)),
                   path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+                  path('latest/feed', LatestPostFeed()),
 
                   # 放到最后, 防止匹配到其他url
                   path('<slug:slug>/', PostView.as_view(), name='post_detail'),
