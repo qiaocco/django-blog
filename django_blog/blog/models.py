@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 from django.utils.functional import cached_property
 
 from django_blog.utils import HighlightRenderer
@@ -13,7 +14,17 @@ class BaseManager(models.Manager):
         return super().get_queryset().filter(status=1)
 
 
-class Post(models.Model):
+class BaseModel(models.Model):
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    updated_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    objects = BaseManager()
+
+    class Meta:
+        abstract = True
+
+
+class Post(BaseModel):
     STATUS_ITEMS = (
         (1, '正常'),
         (2, '删除'),
@@ -31,9 +42,6 @@ class Post(models.Model):
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     pv = models.PositiveIntegerField(default=0, verbose_name='pv')
     uv = models.PositiveIntegerField(default=0, verbose_name='uv')
-    created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-
-    objects = BaseManager()
 
     def status_show(self):
         return '当前状态：{}'.format(self.get_status_display())
@@ -42,6 +50,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=(self.slug,))
 
     def increase_pv(self):
         return type(self).objects.filter(id=self.id).update(pv=F('pv') + 1)
@@ -70,7 +81,7 @@ class Post(models.Model):
         ordering = ('-id',)
 
 
-class Category(models.Model):
+class Category(BaseModel):
     STATUS_ITEMS = (
         (1, '正常'),
         (2, '删除'),
@@ -79,19 +90,19 @@ class Category(models.Model):
     name = models.CharField(max_length=64, verbose_name='名称')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
-    created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     is_nav = models.BooleanField(default=0, verbose_name='是否置顶导航')
-
-    objects = BaseManager()
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('category', args=(self.id,))
 
     class Meta:
         verbose_name = verbose_name_plural = ' 分类'
 
 
-class Tag(models.Model):
+class Tag(BaseModel):
     STATUS_ITEMS = (
         (1, '正常'),
         (2, '删除'),
@@ -100,12 +111,12 @@ class Tag(models.Model):
     name = models.CharField(max_length=64, verbose_name='名称')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.PROTECT)
-    created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-
-    objects = BaseManager()
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('tag', args=(self.id,))
 
     class Meta:
         verbose_name = verbose_name_plural = '标签'

@@ -1,6 +1,7 @@
 import re
 
 from django.conf import settings
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_page
 from django.views.static import serve
@@ -9,6 +10,7 @@ from rest_framework.documentation import include_docs_urls
 
 import xadmin
 from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
+from blog.sitemaps import CategorySitemap, PostSitemap, TagSitemap
 from blog.views import CategoryView, IndexView, PostView, TagView
 from comment.views import CommentView
 from xadmin.plugins import xversion
@@ -32,6 +34,11 @@ def static(prefix, **kwargs):
     ]
 
 
+sitemaps = {
+    'posts': PostSitemap,
+    'categories': CategorySitemap,
+    'tags': TagSitemap,
+}
 urlpatterns = [
                   path('', IndexView.as_view(), name='index'),
                   path('category/<int:category_id>/', cache_page(60 * 10)(CategoryView.as_view()), name='category'),
@@ -43,6 +50,7 @@ urlpatterns = [
                   path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag_autocomplete'),
                   path('api/docs/', include_docs_urls(title='My blog api docs')),
                   path('api/', include(router.urls)),
+                  path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
                   # 放到最后, 防止匹配到其他url
                   path('<slug:slug>/', PostView.as_view(), name='post_detail'),
