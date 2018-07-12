@@ -7,8 +7,8 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
-    <meta name="baidu-site-verification" content="m15sm6udEK" />
-    <meta name="google-site-verification" content="pfj7qm3LvD-pjPf-Xp1a2rEr-OfpmDNwo6saWuNgSg0" />
+    <meta name="baidu-site-verification" content="m15sm6udEK"/>
+    <meta name="google-site-verification" content="pfj7qm3LvD-pjPf-Xp1a2rEr-OfpmDNwo6saWuNgSg0"/>
     <title>Jason's Blog</title>
     <link rel="Bookmark" href="{% static 'img/favicon.ico' %}">
     <link rel="Shortcut Icon" href="{% static 'img/favicon.ico' %}"/>
@@ -16,6 +16,32 @@
     <link href="{% static 'css/font-awesome.min.cs' %}s" rel="stylesheet" type="text/css">
     <link href="{% static 'css/rewrite-bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?c3751920a705dbf3d958561494b7f094";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122242571-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-122242571-1');
+    </script>
+
     {% block stylesheet %}
     {% endblock %}
 </head>
