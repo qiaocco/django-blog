@@ -131,3 +131,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 3
 }
+
+BAIDU_NOTIFY_URL = 'http://data.zz.baidu.com/urls?site=https://blog.jasonqiao36.cc&token=MvcReG9f4qdOLbv4'
+
+SITE_ID = 1
