@@ -5,7 +5,7 @@ packages = find_packages('django_blog')
 setup(
     name='django_blog',
     version=0.1,
-    url='https://www.jasonqiao36.cc/',
+    url='https://blog.jasonqiao36.cc/',
     author='Jason Qiao',
     author_email='jasonqiao36@gmail.com',
     description='Blog system based on Django',

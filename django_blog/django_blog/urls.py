@@ -16,7 +16,6 @@ from blog.views import CategoryView, IndexView, PostView, TagView
 from comment.views import CommentView
 from xadmin.plugins import xversion
 
-from .autocomplete import CategoryAutocomplete, TagAutocomplete
 
 xadmin.autodiscover()
 
@@ -47,8 +46,6 @@ urlpatterns = [
                   path('comment/', CommentView.as_view(), name='comment'),
 
                   path('admin/', xadmin.site.urls),
-                  path('category-autocomplete/', CategoryAutocomplete.as_view(), name='category_autocomplete'),
-                  path('tag-autocomplete/', TagAutocomplete.as_view(), name='tag_autocomplete'),
                   path('api/docs/', include_docs_urls(title='My blog api docs')),
                   path('api/', include(router.urls)),
                   path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

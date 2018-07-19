@@ -1,5 +1,6 @@
 import mistune
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import slugify
@@ -7,6 +8,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 
 from django_blog.utils import HighlightRenderer
+from django_blog.signals import post_save_signal
 
 
 class BaseManager(models.Manager):
@@ -19,6 +21,11 @@ class BaseModel(models.Model):
     updated_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     objects = BaseManager()
+
+    def get_full_url(self):
+        site = Site.objects.get_current().domain
+        url = f'https://{site}{self.get_absolute_url()}'
+        return url
 
     class Meta:
         abstract = True
@@ -66,6 +73,7 @@ class Post(BaseModel):
         if self.is_markdown:
             renderer = HighlightRenderer()
             self.html = mistune.markdown(self.content, renderer=renderer)
+        post_save_signal.send(sender=self.__class__, id=self.id)
         return super(Post, self).save(*args, **kwargs)
 
     @cached_property

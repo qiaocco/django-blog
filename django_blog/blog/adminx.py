@@ -17,6 +17,7 @@ class PostAdmin(BaseOwnerAdmin):
     search_fields = ('title', 'owner__username', 'category__name', 'desc')
     date_hierarchy = 'created_time'
     exclude = ('html', 'owner', 'pv', 'uv')
+    autocomplete_fields = ('category', 'tags',)
 
     # 编辑界面
     save_on_top = True

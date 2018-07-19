@@ -13,7 +13,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# 最近的一级django_blog所在的目录
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 项目根目录
+PROJECT_ROOT = os.path.dirname(os.path.dirname(BASE_DIR))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -34,9 +38,6 @@ INSTALLED_APPS = [
     'config',
     'django_blog',
 
-    'dal',
-    'dal_select2',
-
     'rest_framework',
 
     'xadmin',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'reversion',
 
     'django.contrib.sitemaps',
+    'django.contrib.sites',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -103,7 +105,7 @@ USE_TZ = True
 THEME = 'themes/vtheme'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '../static_files/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static_files')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, THEME, 'static'),
