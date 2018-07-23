@@ -53,6 +53,7 @@ class BasePostsView(CommonMixin, ListView):
 
 
 class IndexView(BasePostsView):
+    queryset = Post.objects.select_related('category').prefetch_related('tags')
     paginate_by = 10
     allow_empty = True
 
@@ -89,7 +90,7 @@ class TagView(BasePostsView):
 
 
 class PostView(CommonMixin, CommentShowMixin, DetailView):
-    model = Post
+    queryset = Post.objects.select_related('owner')
     template_name = 'blog/post-detail.html'
     context_object_name = 'post'
 
