@@ -1,2 +1,3 @@
-# django_blog
-my blog based on Python3 & Django2.0
+# DjangoBlog
+
+Django blog based on Python3 & Django2
