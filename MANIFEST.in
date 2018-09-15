@@ -1,1 +1,4 @@
-recursive-include django_blog *.py *.html *.js *.css
+include setup.py README.md MANIFEST.in LICENSE
+recursive-include django_blog *.py
+recursive-include django_blog/static *
+recursive-include django_blog/templates *

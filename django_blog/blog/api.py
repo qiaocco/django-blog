@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework import pagination, serializers, viewsets
 
 from .models import Category, Post, Tag
@@ -93,7 +94,7 @@ class TagViewSet(viewsets.ModelViewSet):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = settings.AUTH_USER_MODEL
         fields = ('url', 'id', 'username')
 
 
@@ -101,12 +102,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
     post_set = PostSerializer(many=True, read_only=True)
 
     class Meta:
-        model = User
+        model = settings.AUTH_USER_MODEL
         fields = ('url', 'id', 'username', 'post_set')
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.filter(is_staff=True)
+    queryset = get_user_model().objects.filter(is_staff=True)
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):

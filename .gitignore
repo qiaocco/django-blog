@@ -81,6 +81,7 @@ celerybeat-schedule
 
 # dotenv
 .env
+.envs/
 
 # virtualenv
 .venv
@@ -106,6 +107,7 @@ ENV/
 # db
 *.sqlite3
 
+# migrations
 migrations/
 !migrations/__init__.py
 fabfile.py

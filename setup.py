@@ -1,6 +1,15 @@
 from setuptools import find_packages, setup
 
-packages = find_packages('django_blog')
+
+def get_requirements(env):
+    with open(f'requirements/{env}.txt', 'r') as fp:
+        return [x.strip() for x in fp.read().split('\n') if
+                x and not x.startswith('#') and not x.startswith('-r ./base')]
+
+
+install_requires = get_requirements('base')
+develop_requires = get_requirements('develop')
+product_requires = get_requirements('product')
 
 setup(
     name='django_blog',
@@ -9,19 +18,20 @@ setup(
     author='Jason Qiao',
     author_email='jasonqiao36@gmail.com',
     description='Blog system based on Django',
-    packages=packages,
     package_dir={'': 'django_blog'},
-    include_package_data=True,
-    scripts=['django_blog/manage.py'],
-    install_requires=[
-        'django==2.0.5',
-        'coreapi==2.3.3',
-        'Django==2.0.5',
-        'django-autocomplete-light==3.2.10',
-        'django-redis==4.9.0',
-        'django-rest-framework==0.1.0',
-        'Markdown==2.6.11',
-        'PyMySQL==0.8.1',
-    ],
+    packages=find_packages('django_blog'),
     zip_safe=False,
+    include_package_data=True,
+    scripts=['manage.py'],
+    install_requires=install_requires,
+    extras_require={
+        'develop': develop_requires,
+        'product': product_requires,
+    },
+    classifiers=[
+        'Framework :: Django',
+        'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python :: 3',
+        'Topic :: Software Development'
+    ],
 )

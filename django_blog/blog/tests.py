@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import connection
-from django.db.models.functions import Lower
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from .models import Category, Post
+from .models import Category
 
 
 class TestCategory(TestCase):
@@ -16,7 +15,6 @@ class TestCategory(TestCase):
 
     @override_settings(DEBUG=True)
     def test_filter(self):
-        from django.db.models import Max, Count
         categories = Category.objects.defer('name')
         print(categories)
         print(connection.queries)
