@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from .forms import CommentForm
 from .models import Comment
+from common.blog_signals import comment_save_signal
 
 
 class CommentShowMixin:
@@ -30,6 +31,13 @@ class CommentView(TemplateView):
 
         if comment_form.is_valid():
             comment_form.save()
+            comment_save_signal.send(
+                sender=self.__class__,
+                comment_id='',
+                nickname=request.POST.get('nickname'),
+                content=request.POST.get('content'),
+                email=request.POST.get('email')
+            )
             return redirect(reverse('post_detail', args=(target,)))
         else:
             context = {

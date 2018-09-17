@@ -41,3 +41,5 @@ services:
     ports:
     - "8000:8000"
     env_file: .envs/.env
+    stdin_open: true
+    tty: true

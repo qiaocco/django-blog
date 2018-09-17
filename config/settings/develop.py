@@ -3,13 +3,13 @@ import socket
 
 from .base import *
 
-# general
+# GENERAL
 # ------------------------------------------------------------------------------
 
 DEBUG = True
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
-# db
+# DB
 # ------------------------------------------------------------------------------
 DATABASES = {
     'default': {
@@ -23,7 +23,7 @@ DATABASES = {
     }
 }
 
-# caching
+# CACHING
 # ------------------------------------------------------------------------------
 CACHES = {
     'default': {
@@ -56,3 +56,14 @@ ip = socket.gethostbyname(socket.gethostname())
 INTERNAL_IPS += [ip[:-1] + '1']
 
 # ========== END debug-toolbar
+
+# EMAIL CONFIGURATION
+# TODO 监控.env。当.env变化时，django reload
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIME_LIMIT = 300
