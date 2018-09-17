@@ -8,6 +8,12 @@ django-build-up: ## build and compose up
 django-down: ## build and compose up
 	docker-compose -f develop.yml down
 
+django-before-up: ## some deamons
+	docker-compose -f develop.yml up -d redis mysql
+
+django-runserver: ## runserver
+	docker-compose -f develop.yml up django
+
 shell: ## Enter Shell
 	$(DJANGO_DOCKER_RUN) /bin/bash
 

@@ -3,7 +3,11 @@ import socket
 
 from .base import *
 
+# general
+# ------------------------------------------------------------------------------
+
 DEBUG = True
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
 # db
 # ------------------------------------------------------------------------------
@@ -46,7 +50,6 @@ MIDDLEWARE += [
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
 
 # tricks to have debug toolbar when developing with docker
 ip = socket.gethostbyname(socket.gethostname())
