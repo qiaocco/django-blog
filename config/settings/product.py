@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from .base import *  # noqa
 
-dotenv_path = os.path.join(BASE_DIR, '.envs', '.env')
+dotenv_path = os.path.join(BASE_DIR, '.envs', '.env.product')
 
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
@@ -21,7 +21,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_blog',
+        'NAME': os.getenv('MYSQL_DB'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
         'HOST': os.getenv('MYSQL_HOST'),

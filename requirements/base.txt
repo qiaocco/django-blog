@@ -10,4 +10,4 @@ python-dotenv==0.9.1
 
 # xadmin
 # install manually
-# git+https://codeload.github.com/sshwsfc/xadmin/zip/django2
+# https://codeload.github.com/sshwsfc/xadmin/zip/django2

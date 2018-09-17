@@ -14,7 +14,8 @@ def post_save_callback(sender, **kwargs):
     from blog.models import Post
 
     id = kwargs.get('id')
-    obj = Post.objects.get(pk=id)
+    # TODO 查看信号机制
+    obj = Post.objects.filter(pk=id).first()
     if obj:
         try:
             notify_url = obj.get_full_url()

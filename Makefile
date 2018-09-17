@@ -1,6 +1,22 @@
+DJANGO_DOCKER_RUN := docker exec -i -t django-blog_django_1
+
+sep--sep-a: ## ========== 开发时命令 ==============
+
+django-build-up: ## build and compose up
+	docker-compose -f develop.yml up --build
+
+django-down: ## build and compose up
+	docker-compose -f develop.yml down
+
+shell: ## Enter Shell
+	$(DJANGO_DOCKER_RUN) /bin/bash
+
+sep--sep-b: ## ========== 测试与代码质量 ==============
+	echo "## ========== 本行只是优雅的分割线  ==============="
+
 lint: ## check style with flake8
 	@echo "--> Linting python"
-	flake8 django_blog tests
+	flake8 django_blog
 	@echo ""
 
 sort: # sort import with isort
@@ -8,12 +24,28 @@ sort: # sort import with isort
 	isort -rc .
 	@echo ""
 
-package:
+sep--sep-c: ## ========== 程序发布相关 ==============
+	echo "## ========== 本行只是优雅的分割线  ==============="
+
+dist: # builds source and wheel package
 	python setup.py sdist bdist_wheel
 
-clean:
-	@echo "--> Cleaning package data"
-	rm -rf dist/* build/*
-	@echo "--> Cleaning pyc files"
-	find . -name "*.pyc" -delete
+sep--sep-d: ## ========== 文件清理相关 ==============
+
+clean: clean-build clean-pyc ## remove all build, test, coverage and Python artifacts
+
+clean-build: ## remove build artifacts
+	@echo "--> Cleaning build artifacts"
+	rm -rf build/
+	rm -rf dist/
+	rm -rf .eggs/
+	find . -name '*.egg-info' -exec rm -rf {} +
+	find . -name '*.egg' -exec rm -f {} +
 	@echo ""
+
+clean-pyc: ## remove Python file artifacts
+	@echo "--> Cleaning pyc"
+	find . -name '*.pyc' -exec rm -f {} +
+	find . -name '*.pyo' -exec rm -f {} +
+	find . -name '*~' -exec rm -f {} +
+	find . -name '__pycache__' -exec rm -fr {} +
