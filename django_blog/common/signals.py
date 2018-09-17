@@ -14,12 +14,11 @@ def post_save_callback(sender, **kwargs):
     from blog.models import Post
 
     id = kwargs.get('id')
-    # TODO 查看信号机制
     obj = Post.objects.filter(pk=id).first()
     if obj:
         try:
             notify_url = obj.get_full_url()
-            SpiderNotify.notify_baidu([notify_url])
-            # SpiderNotify.notify_google('blog.jasonqiao36.cc/sitemap.xml')
+            SpiderNotify.notify_baidu(notify_url)
+            # SpiderNotify.notify_google()
         except Exception as e:
             logger.error('spider notify', e)

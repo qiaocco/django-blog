@@ -40,8 +40,8 @@ class Post(BaseModel):
         if self.is_markdown:
             renderer = HighlightRenderer()
             self.html = mistune.markdown(self.content, renderer=renderer)
+        super().save(*args, **kwargs)
         post_save_signal.send(sender=self.__class__, id=self.id)
-        return super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('post_detail', args=(self.slug,))
