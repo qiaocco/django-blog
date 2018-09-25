@@ -14,7 +14,7 @@ if not settings.configured:
 app = Celery('django_blog')
 
 
-class CeleryConfig(AppConfig):
+class CeleryAppConfig(AppConfig):
     name = 'django_blog.taskapp'
     verbose_name = 'Celery Config'
 

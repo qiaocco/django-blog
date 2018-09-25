@@ -15,7 +15,7 @@ import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# sys.path.append(os.path.join(BASE_DIR, 'django_blog'))
+sys.path.append(os.path.join(BASE_DIR, 'django_blog'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -144,14 +144,3 @@ SITE_ID = 1
 
 # 自定义用户模型
 AUTH_USER_MODEL = 'user.UserProfile'
-
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-# http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-task_always_eager
-# CELERY_TASK_ALWAYS_EAGER = True
-CELERY_IMPORTS = ("tasks",)
-
-# ========== END CELERY

@@ -72,6 +72,7 @@ EMAIL_TIME_LIMIT = 300
 
 # Celery
 # ------------------------------------------------------------------------------
+INSTALLED_APPS += ['django_blog.taskapp.celery.CeleryAppConfig']
 CELERY_BROKER_URL = "redis://:{password}@{host}:{port}/1".format(
     password=parse.quote(os.getenv("REDIS_PASSWORD")),
     host=os.getenv("REDIS_HOST", ),
