@@ -1,13 +1,14 @@
 import mistune
-from common.models import BaseModel
-from common.signals import post_save_signal
-from common.utils import HighlightRenderer
 from django.conf import settings
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils.functional import cached_property
+
+from common.models import BaseModel
+from common.signals import post_save_signal
+from common.utils import HighlightRenderer
 
 
 class Post(BaseModel):

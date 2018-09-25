@@ -1,4 +1,5 @@
 import xadmin
+
 from common.adminx import BaseOwnerAdmin
 
 from .models import Link, SideBar

@@ -1,5 +1,6 @@
-import raven
 from dotenv import load_dotenv
+
+import raven
 
 from .base import *  # noqa
 

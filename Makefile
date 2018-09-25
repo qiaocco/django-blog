@@ -1,4 +1,6 @@
 DJANGO_DOCKER_RUN := docker exec -i -t django-blog_django_1
+MYSQL_DOCKER_RUN := docker exec -i -t django-blog_mysql_1
+
 
 sep--sep-a: ## ========== 开发时命令 ==============
 
@@ -14,8 +16,17 @@ django-before-up: ## some deamons
 django-runserver: ## runserver
 	docker-compose -f develop.yml up django
 
+django-celeryworker: ## celeryworker
+	docker-compose -f develop.yml up celeryworker
+
 shell: ## Enter Shell
 	$(DJANGO_DOCKER_RUN) /bin/bash
+
+dbshell: ## Enter mysql
+	$(MYSQL_DOCKER_RUN) sh -c 'exec mysql -ujason -p123'
+
+tmuxp: ## start tmuxp
+	tmuxp load tmuxp.yml
 
 sep--sep-b: ## ========== 测试与代码质量 ==============
 	echo "## ========== 本行只是优雅的分割线  ==============="
@@ -30,13 +41,28 @@ sort: # sort import with isort
 	isort -rc .
 	@echo ""
 
+
 sep--sep-c: ## ========== 程序发布相关 ==============
 	echo "## ========== 本行只是优雅的分割线  ==============="
 
 dist: # builds source and wheel package
 	python setup.py sdist bdist_wheel
 
-sep--sep-d: ## ========== 文件清理相关 ==============
+
+sep--sep-d: ## ========== Docker 镜像相关 ==============
+	echo "## ========== 本行只是优雅的分割线  ==============="
+
+build-django: ## > base django
+	docker build -t 'base-django:1.0' -f 'compose/django/Dockerfile' .
+
+force-build-django: ## > base django
+	docker build -t 'base-django:1.0' -f 'compose/django/Dockerfile' --no-cache .
+
+build-all: build-django ## > build 所需所有镜像
+
+
+sep--sep-e: ## ========== 文件清理相关 ==============
+	echo "## ========== 本行只是优雅的分割线  ==============="
 
 clean: clean-build clean-pyc ## remove all build, test, coverage and Python artifacts
 

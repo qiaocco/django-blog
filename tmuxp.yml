@@ -1,13 +1,13 @@
 session_name: django-blog
 start_directory: ~/workspace/code/django-blog
 windows:
-- layout: main-vertical
+- window_name: "后端-Django 及其服务"
   panes:
   - make django-before-up && make django-runserver
-  start_directory: ~/workspace/code/django-blog
-  window_name: "后端-Django 及其服务"
-- layout: main-vertical
+- window_name: "后端-数据库相关"
   panes:
-  - sleep 20 && make shell
-  start_directory: ~/workspace/code/django-blog
-  window_name: "后端-数据库相关"
+  - sleep 30 && make dbshell
+  - sleep 30 && make shell
+- window_name: "后端-Celery"
+  panes:
+  - sleep 20 && make django-celeryworker

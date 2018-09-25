@@ -1,7 +1,8 @@
-from comment.models import Comment
-from comment.views import CommentShowMixin
 from django.core.cache import cache
 from django.views.generic import DetailView, ListView
+
+from comment.models import Comment
+from comment.views import CommentShowMixin
 from pageconfig.models import Link, SideBar
 
 from .models import Category, Post, Tag

@@ -1,5 +1,6 @@
 # DOCKER TRICK
 import socket
+from urllib import parse
 
 from .base import *
 
@@ -20,6 +21,7 @@ DATABASES = {
         'HOST': os.getenv('MYSQL_HOST'),
         'PORT': os.getenv('MYSQL_PORT'),
         'CONN_MAX_AGE': 60,
+        'ATOMIC_REQUESTS': True,
     }
 }
 
@@ -67,3 +69,20 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_TIME_LIMIT = 300
+
+# Celery
+# ------------------------------------------------------------------------------
+CELERY_BROKER_URL = "redis://:{password}@{host}:{port}/1".format(
+    password=parse.quote(os.getenv("REDIS_PASSWORD")),
+    host=os.getenv("REDIS_HOST", ),
+    port=os.getenv("REDIS_PORT"),
+)
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+# http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-task_always_eager
+# CELERY_TASK_ALWAYS_EAGER = True
+CELERY_IMPORTS = ("tasks",)
+
+# ========== END CELERY

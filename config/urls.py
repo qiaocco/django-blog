@@ -1,11 +1,6 @@
 import re
 
 import xadmin
-from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
-from blog.feeds import LatestPostFeed
-from blog.sitemaps import CategorySitemap, PostSitemap, TagSitemap
-from blog.views import CategoryView, IndexView, PostView, TagView
-from comment.views import CommentView
 from django.conf import settings
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path, re_path
@@ -14,6 +9,12 @@ from django.views.static import serve
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from xadmin.plugins import xversion
+
+from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
+from blog.feeds import LatestPostFeed
+from blog.sitemaps import CategorySitemap, PostSitemap, TagSitemap
+from blog.views import CategoryView, IndexView, PostView, TagView
+from comment.views import CommentView
 
 xadmin.autodiscover()
 
