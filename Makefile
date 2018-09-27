@@ -22,13 +22,13 @@ django-celeryworker: ## celeryworker
 django-celeryflower: ## celeryflower
 	docker-compose -f develop.yml up celeryflower
 
-django-mysql: ## mysql
+mysql-up: ## mysql
 	docker-compose -f develop.yml up mysql
 
 redis-up: ## redis
 	docker-compose -f develop.yml up redis
 
-rabbitmq-up: ## redis
+rabbitmq-up: ## rabbitmq
 	docker-compose -f develop.yml up rabbitmq
 
 shell: ## Enter Shell
