@@ -13,15 +13,21 @@ RUN pip install -r /requirements/base.txt -i https://pypi.doubanio.com/simple
 RUN pip install -r /requirements/develop.txt -i https://pypi.doubanio.com/simple
 RUN pip install https://codeload.github.com/sshwsfc/xadmin/zip/django2
 
+# 检查mysql是否可用
 COPY ./compose/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# celery
 COPY ./compose/django/celery/worker/start.sh /start-celeryworker.sh
 RUN sed -i 's/\r//' /start-celeryworker.sh
 RUN chmod +x /start-celeryworker.sh
 
-# 去除windows系统换行符
+COPY ./compose/django/celery/flower/start.sh /start-celeryflower.sh
+RUN sed -i 's/\r//' /start-celeryflower.sh
+RUN chmod +x /start-celeryflower.sh
+
+# 运行
 COPY ./compose/django/start-dev.sh /start-dev.sh
 RUN sed -i 's/\r//' /start-dev.sh
 RUN chmod +x /start-dev.sh
