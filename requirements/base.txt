@@ -14,3 +14,4 @@ python-dotenv==0.9.1
 
 # 消息队列
 celery[librabbitmq,redis]
+flower

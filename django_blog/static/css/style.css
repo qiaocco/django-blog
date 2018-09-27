@@ -92,7 +92,6 @@ a:hover {
     line-height: 18px;
 }
 
-
 .vc-author-info > time,
 .vc-author-info > span {
     margin: 0 .3em 0;
@@ -149,6 +148,18 @@ a:hover {
     text-align: center;
     overflow: hidden;
     margin: 10px auto 10px;
+}
+
+.vc-blog-content h1 {
+    font-size: 30px;
+}
+
+.vc-blog-content h2 {
+    font-size: 25px;
+}
+
+.vc-blog-content h3 {
+    font-size: 20px;
 }
 
 .panel.panel-default .vc-copyright {

@@ -11,13 +11,25 @@ django-down: ## build and compose up
 	docker-compose -f develop.yml down
 
 django-before-up: ## some deamons
-	docker-compose -f develop.yml up -d redis mysql
+	docker-compose -f develop.yml up -d redis mysql rabbitmq celeryflower
 
 django-runserver: ## runserver
 	docker-compose -f develop.yml up django
 
 django-celeryworker: ## celeryworker
 	docker-compose -f develop.yml up celeryworker
+
+django-celeryflower: ## celeryflower
+	docker-compose -f develop.yml up celeryflower
+
+django-mysql: ## mysql
+	docker-compose -f develop.yml up mysql
+
+redis-up: ## redis
+	docker-compose -f develop.yml up redis
+
+rabbitmq-up: ## redis
+	docker-compose -f develop.yml up rabbitmq
 
 shell: ## Enter Shell
 	$(DJANGO_DOCKER_RUN) /bin/bash

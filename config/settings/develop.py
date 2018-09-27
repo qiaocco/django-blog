@@ -2,12 +2,19 @@
 import socket
 from urllib import parse
 
+from dotenv import load_dotenv
+
 from .base import *
+
+dotenv_path = os.path.join(BASE_DIR, '.envs', '.env')
+
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 # GENERAL
 # ------------------------------------------------------------------------------
-
 DEBUG = True
+
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
 # DB
@@ -75,7 +82,7 @@ EMAIL_TIME_LIMIT = 300
 INSTALLED_APPS += ['django_blog.taskapp.celery.CeleryAppConfig']
 CELERY_BROKER_URL = "redis://:{password}@{host}:{port}/1".format(
     password=parse.quote(os.getenv("REDIS_PASSWORD")),
-    host=os.getenv("REDIS_HOST", ),
+    host=os.getenv("REDIS_HOST"),
     port=os.getenv("REDIS_PORT"),
 )
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
@@ -84,6 +91,9 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-task_always_eager
 # CELERY_TASK_ALWAYS_EAGER = True
-CELERY_IMPORTS = ("tasks",)
+# CELERY_IMPORTS = ("tasks",)
+
+# http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-eager-propagates
+# CELERY_TASK_EAGER_PROPAGATES = True
 
 # ========== END CELERY

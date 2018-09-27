@@ -11,3 +11,4 @@ windows:
 - window_name: "后端-Celery"
   panes:
   - sleep 20 && make django-celeryworker
+  - sleep 20 && make django-celeryflower

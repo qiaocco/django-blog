@@ -23,9 +23,7 @@ class CeleryAppConfig(AppConfig):
         # pickle the object when using Windows.
         # - namespace='CELERY' means all celery-related configuration keys
         #   should have a `CELERY_` prefix.
-        # import pdb;pdb.set_trace()
         app.config_from_object('django.conf:settings', namespace='CELERY')
-
         installed_apps = [app_config.name for app_config in apps.get_app_configs()]
         app.autodiscover_tasks(lambda: installed_apps, force=True)
 
