@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE HTML>
 <html lang="zh_CN">
 
 <head>
@@ -67,16 +66,16 @@
                     <li><a href="{% url 'index' %}">首页 <span class="sr-only">(current)</span></a>
                     </li>
                     {% for cate in nav_cates %}
-                        <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
-                        </li>
+                    <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
+                    </li>
                     {% endfor %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">更多可能
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             {% for cate in cates %}
-                                <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
-                                </li>
+                            <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
+                            </li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -94,75 +93,75 @@
         </div>
         <div class="visible-lg visible-md col-md-3">
             {% block sidebar %}
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form role="search" action="/" method="GET">
-                            <div class="form-group" style="margin-bottom:0;">
-                                <input type="text" class="form-control" name="query" placeholder="善于搜索...">
-                            </div>
-                        </form>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form role="search" action="/" method="GET">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <input type="text" class="form-control" name="query" placeholder="善于搜索...">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% for sidebar in sidebars %}
+            {% if sidebar.display_type == 1 %}
+            <div class="panel panel-default vc-panel">
+                <h4 class="vc-widget-title">公告</h4>
+                <div class="panel-body">
+                    {% for html in htmls %}
+                    {% autoescape off %}
+                    {{ html.content }}
+                    {% endautoescape %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% elif sidebar.display_type == 2 %}
+            <div id="recent-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                近期文章</h4>
+                <ul>
+                    {% for post in recently_posts %}
+                    <li>
+                        <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% elif sidebar.display_type == 3 %}
+            <div id="hot-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                最热文章</h4>
+                <ul>
+                    {% for post in hot_posts %}
+                    <li>
+                        <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% elif sidebar.display_type == 4 %}
+            <div id="recent-comments-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
+                近期评论</h4>
+                <ul id="recentcomments">
+                    {% for comment in recently_comments %}
+                    <li class="recentcomments"><span
+                            class="comment-author-link">{{ comment.nickname }}</span>发表了 {{ comment.content }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% elif sidebar.display_type == 5 %}
+            <div class="panel panel-default vc-panel">
+                <h4 class="vc-widget-title">友情链接</h4>
+                <div class="panel-body">
+                    <div class="row text-center">
+                        {% for link in links %}
+                        <a href="{{ link.url }}" target="_blank"
+                           class="col-md-6 vc-a">{{ link.title }}</a>
+                        {% endfor %}
                     </div>
                 </div>
-
-                {% for sidebar in sidebars %}
-                    {% if sidebar.display_type == 1 %}
-                        <div class="panel panel-default vc-panel">
-                            <h4 class="vc-widget-title">公告</h4>
-                            <div class="panel-body">
-                                {% for html in htmls %}
-                                    {% autoescape off %}
-                                        {{ html.content }}
-                                    {% endautoescape %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% elif sidebar.display_type == 2 %}
-                        <div id="recent-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
-                            近期文章</h4>
-                            <ul>
-                                {% for post in recently_posts %}
-                                    <li>
-                                        <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% elif sidebar.display_type == 3 %}
-                        <div id="hot-posts-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
-                            最热文章</h4>
-                            <ul>
-                                {% for post in hot_posts %}
-                                    <li>
-                                        <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% elif sidebar.display_type == 4 %}
-                        <div id="recent-comments-2" class="panel panel-default vc-panel"><h4 class="vc-widget-title">
-                            近期评论</h4>
-                            <ul id="recentcomments">
-                                {% for comment in recently_comments %}
-                                    <li class="recentcomments"><span
-                                            class="comment-author-link">{{ comment.nickname }}</span>发表了 {{ comment.content }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% elif sidebar.display_type == 5 %}
-                        <div class="panel panel-default vc-panel">
-                            <h4 class="vc-widget-title">友情链接</h4>
-                            <div class="panel-body">
-                                <div class="row text-center">
-                                    {% for link in links %}
-                                        <a href="{{ link.url }}" target="_blank"
-                                           class="col-md-6 vc-a">{{ link.title }}</a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+            </div>
+            {% endif %}
+            {% endfor %}
             {% endblock %}
         </div>
     </div>
@@ -177,9 +176,8 @@
         </ul>
     </div>
     <div class="vc-footer-copyright">
-        <div> Theme: <a class="vc-a" href="https://github.com/imvicchen/vTheme">Vic Theme</a> by Vic chen
-        </div>
-        <a class="vc-a" href="http://jasonqiao36.cc">power by jasonqiao36.cc</a>
+        <div> Theme: <a class="vc-a" href="https://github.com/imvicchen/vTheme">Vic theme</a></div>
+        power by <a class="vc-a" href="https://github.com/jasonqiao36">JasonQiao</a>
     </div>
     <div class="backtop" title="返回顶部"></div>
 </footer>

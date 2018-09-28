@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ConfigConfig(AppConfig):
-    name = 'pageconfig'
+class PageConfigConfig(AppConfig):
+    name = 'django_blog.pageconfig'

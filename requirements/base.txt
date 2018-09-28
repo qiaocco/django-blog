@@ -11,3 +11,7 @@ python-dotenv==0.9.1
 # xadmin
 # install manually
 # https://codeload.github.com/sshwsfc/xadmin/zip/django2
+
+# 消息队列
+celery[librabbitmq,redis]
+flower

@@ -2,13 +2,13 @@ version: '3'
 
 services:
   mysql:
-    image: mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    image: mysql:5.7
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-    - MYSQL_ROOT_PASSWORD 123
-    - MYSQL_USER jason
-    - MYSQL_PASSWORD 123
-    - MYSQL_DATABASE django_blog
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: jason
+      MYSQL_PASSWORD: 123
+      MYSQL_DATABASE: django_blog
     volumes:
     - /home/jason/workspace/code/DockerVolume/django_blog/MySQL/data:/var/lib/mysql
     - ./compose/mysql/my.cnf:/etc/mysql/my.cnf
@@ -18,7 +18,7 @@ services:
     - "3306"
 
   redis:
-    image: redis:3.2.0
+    image: redis:4.0
     command: redis-server --requirepass 123
     ports:
     - '6379:6379'
@@ -28,18 +28,11 @@ services:
     - /home/jason/workspace/code/DockerVolume/django_blog/Redis/data:/data
     env_file: .envs/.env
 
-  django:
-    build:
-      context: .
-      dockerfile: ./compose/django/Dockerfile
-    command: /start-dev.sh
-    depends_on:
-    - redis
-    - mysql
-    volumes:
-    - .:/webapp
-    ports:
-    - "8000:8000"
+  rabbitmq:
+    image: rabbitmq:3.6.7
     env_file: .envs/.env
-    stdin_open: true
-    tty: true
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "25672:25672"

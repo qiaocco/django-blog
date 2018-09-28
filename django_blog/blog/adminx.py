@@ -1,8 +1,9 @@
 import xadmin
-from common.adminx import BaseOwnerAdmin
 from django.urls import reverse
 from django.utils.html import format_html
 from xadmin.layout import Fieldset, Row
+
+from common.adminx import BaseOwnerAdmin
 
 from .adminforms import PostAdminForm
 from .models import Category, Post, Tag
