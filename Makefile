@@ -17,10 +17,10 @@ django-runserver: ## runserver
 	docker-compose -f develop.yml up django
 
 django-celeryworker: ## celeryworker
-	docker-compose -f develop.yml up celeryworker
+	celery -A django_blog.taskapp worker --loglevel INFO
 
 django-celeryflower: ## celeryflower
-	docker-compose -f develop.yml up celeryflower
+	celery -A django_blog.taskapp flower --port=5555
 
 mysql-up: ## mysql
 	docker-compose -f develop.yml up mysql

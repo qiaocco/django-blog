@@ -4,7 +4,7 @@ from urllib import parse
 
 from dotenv import load_dotenv
 
-from .base import *
+from .base import *  # NOQA
 
 dotenv_path = os.path.join(BASE_DIR, '.envs', '.env')
 

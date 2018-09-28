@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
+from urllib import parse
 
 import raven
+from dotenv import load_dotenv
 
 from .base import *  # noqa
 
@@ -9,16 +10,16 @@ dotenv_path = os.path.join(BASE_DIR, '.envs', '.env.product')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
-# general
-
+# GENERAL
+# ------------------------------------------------------------------------------
 DEBUG = False
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
-# db
-
+# DB
+# ------------------------------------------------------------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -31,12 +32,14 @@ DATABASES = {
     }
 }
 
-# cache
-
+# CACHING
+# ------------------------------------------------------------------------------
 CACHES = {
     'default': {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv('REDIS_LOCATION'),
+        "LOCATION": "redis://{host}:{port}/1"
+            .format(host=os.getenv("REDIS_HOST", "redis"),
+                    port=os.getenv("REDIS_PORT", "6379")),
         "OPTIONS": {
             "PARSER_CLASS": "redis.connection.HiredisParser",
             "PASSWORD": os.getenv('REDIS_PASSWORD'),
@@ -44,9 +47,9 @@ CACHES = {
     }
 }
 
-# raven
+# RAVEN
 # https://docs.sentry.io/clients/python/integrations/django/
-
+# ------------------------------------------------------------------------------
 INSTALLED_APPS += [
     'raven.contrib.django.raven_compat',
 ]
@@ -58,7 +61,7 @@ MIDDLEWARE = [
              ] + MIDDLEWARE
 
 RAVEN_CONFIG = {
-    'dsn': os.getenv('DSN'),
+    'dsn': os.getenv('SENTRY_DSN'),
     'release': raven.fetch_git_sha(BASE_DIR),
 }
 
@@ -105,3 +108,30 @@ LOGGING = {
         },
     },
 }
+# ========== END RAVEN
+
+# EMAIL CONFIGURATION
+# TODO 监控.env。当.env变化时，django reload
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIME_LIMIT = 300
+
+# Celery
+# ------------------------------------------------------------------------------
+INSTALLED_APPS += ['django_blog.taskapp.celery.CeleryAppConfig']
+CELERY_BROKER_URL = "redis://:{password}@{host}:{port}/1".format(
+    password=parse.quote(os.getenv("REDIS_PASSWORD")),
+    host=os.getenv("REDIS_HOST"),
+    port=os.getenv("REDIS_PORT"),
+)
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+
+# ========== END CELERY
