@@ -28,20 +28,6 @@ services:
     - /home/jason/workspace/code/DockerVolume/django_blog/Redis/data:/data
     env_file: .envs/.env
 
-  django:
-    image: base-django:1.0
-    command: /start-dev.sh
-    depends_on:
-    - redis
-    - mysql
-    volumes:
-    - .:/webapp
-    ports:
-    - "5000:5000"
-    env_file: .envs/.env
-    stdin_open: true
-    tty: true
-
   rabbitmq:
     image: rabbitmq:3.6.7
     env_file: .envs/.env
@@ -50,34 +36,3 @@ services:
     - "5671:5671"
     - "5672:5672"
     - "25672:25672"
-
-  celeryworker:
-    image: base-django:1.0
-    command: /start-celeryworker.sh
-    depends_on:
-    - redis
-    volumes:
-    - .:/webapp
-    env_file: .envs/.env
-
-  pycharm:
-    image: base-django:1.0
-    depends_on:
-    - rabbitmq
-    - redis
-    - mysql
-    volumes:
-    - .:/webapp
-    env_file: .envs/.env
-
-  celeryflower:
-    image: base-django:1.0
-    command: /start-celeryflower.sh
-    volumes:
-    - .:/webapp
-    depends_on:
-    - rabbitmq
-    - redis
-    env_file: .envs/.env
-    ports:
-    - "5555:5555"
