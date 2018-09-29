@@ -108,7 +108,4 @@ ENV/
 *.sqlite3
 compose/mysql/data/
 
-# migrations
-migrations/
-!migrations/__init__.py
 fabfile.py
