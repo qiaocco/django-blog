@@ -31,11 +31,11 @@ services:
     - "6379"
     volumes:
     - production_redis_data:/data
-    env_file: .envs/.env
+    env_file: .envs/.env.product
 
   rabbitmq:
     image: rabbitmq:3.6.7
-    env_file: .envs/.env
+    env_file: .envs/.env.product
     ports:
     - "4369:4369"
     - "5671:5671"
