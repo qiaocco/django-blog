@@ -1,3 +1,5 @@
+from urllib import parse
+
 import raven
 from dotenv import load_dotenv
 
