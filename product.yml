@@ -14,6 +14,7 @@ services:
       MYSQL_USER: jason
       MYSQL_PASSWORD: 123
       MYSQL_DATABASE: django_blog
+    restart: unless-stopped
     volumes:
     - production_mysql_data:/var/lib/mysql
     - ./compose/mysql/my.cnf:/etc/mysql/my.cnf
@@ -25,17 +26,19 @@ services:
   redis:
     image: redis:4.0
     command: redis-server --requirepass 123
+    restart: unless-stopped
     ports:
     - '6379:6379'
     expose:
     - "6379"
     volumes:
     - production_redis_data:/data
-    env_file: .envs/.env
+    env_file: .envs/.env.product
 
   rabbitmq:
     image: rabbitmq:3.6.7
-    env_file: .envs/.env
+    restart: unless-stopped
+    env_file: .envs/.env.product
     ports:
     - "4369:4369"
     - "5671:5671"
