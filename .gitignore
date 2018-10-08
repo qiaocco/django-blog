@@ -107,5 +107,3 @@ ENV/
 # db
 *.sqlite3
 compose/mysql/data/
-
-fabfile.py
