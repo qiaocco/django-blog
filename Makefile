@@ -93,3 +93,9 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
+
+
+sep--sep-a: ## ========== 部署命令 ==============
+deploy:	## deploy project
+	@echo "--> Deploy project"
+	fab -H tx -S ~/.ssh/config deploy
