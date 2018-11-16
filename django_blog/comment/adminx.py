@@ -8,17 +8,17 @@ from .models import Comment
 
 
 class CommentAdmin(BaseOwnerAdmin):
-    list_display = ('target', 'nickname', 'email', 'created_time', 'operator')
-    list_filter = ('target', 'created_time')
-    search_fields = ('content', 'post__title')
+    list_display = ("target", "nickname", "email", "created_time", "operator")
+    list_filter = ("target", "created_time")
+    search_fields = ("content", "post__title")
 
     def operator(self, obj):
         return format_html(
-            '<a href={}>编辑</a>',
-            reverse('cus_admin:comment_comment_change', args=(obj.id,))
+            "<a href={}>编辑</a>",
+            reverse("cus_admin:comment_comment_change", args=(obj.id,)),
         )
 
-    operator.short_description = '操作'
+    operator.short_description = "操作"
 
 
 xadmin.site.register(Comment, CommentAdmin)

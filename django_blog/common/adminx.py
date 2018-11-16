@@ -17,8 +17,8 @@ class BaseOwnerAdmin:
 
 
 class GlobalSetting(CommAdminView):
-    site_title = '博客后台'
-    site_footer = 'power by jasonqiao36.cc'
+    site_title = "博客后台"
+    site_footer = "power by jasonqiao36.cc"
 
 
 xadmin.site.register(CommAdminView, GlobalSetting)

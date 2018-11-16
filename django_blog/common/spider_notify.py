@@ -14,6 +14,6 @@ class SpiderNotify:
     @staticmethod
     def notify_google():
         try:
-            ping_google(sitemap_url='/sitemap.xml')
+            ping_google(sitemap_url="/sitemap.xml")
         except Exception as e:
             print(e)

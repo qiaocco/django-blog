@@ -1,0 +1,12 @@
+# https://github.com/ambv/black#what-on-earth-is-a-pyprojecttoml-file
+
+[build-system]
+requires = ["setuptools", "wheel"]
+
+
+[tool.black]
+exclude = '''
+/(
+  | migrations
+)/
+'''

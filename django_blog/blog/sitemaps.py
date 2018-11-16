@@ -15,7 +15,7 @@ class PostSitemap(Sitemap):
 
 
 class CategorySitemap(Sitemap):
-    changefreq = 'weekly'
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -26,7 +26,7 @@ class CategorySitemap(Sitemap):
 
 
 class TagSitemap(Sitemap):
-    changefreq = 'weekly'
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):

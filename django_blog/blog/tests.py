@@ -8,14 +8,14 @@ from blog.models import Category
 
 class TestCategory(TestCase):
     def setUp(self):
-        user = User.objects.create_user('jason', 'wuxia64@qq.com', 'password')
+        user = User.objects.create_user("jason", "wuxia64@qq.com", "password")
         for i in range(10):
-            category_name = 'Cat_{}'.format(i)
+            category_name = "Cat_{}".format(i)
             Category.objects.create(name=category_name, owner=user)
 
     @override_settings(DEBUG=True)
     def test_filter(self):
-        categories = Category.objects.defer('name')
+        categories = Category.objects.defer("name")
         print(categories)
         print(connection.queries)
 
@@ -29,9 +29,8 @@ class PostTest(TestCase):
         from django.contrib.auth import get_user_model
 
         get_user_model().objects.get_or_create(
-            username='jason',
-            email='jasonqiao36@gmail.com'
+            username="jason", email="jasonqiao36@gmail.com"
         )
         user = get_user_model().objects.first()
-        assert user.username == 'jason'
+        assert user.username == "jason"
         # category = Category.objects.all()

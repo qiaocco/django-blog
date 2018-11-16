@@ -6,21 +6,31 @@ from .models import Category, Post, Tag
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
-    created_time = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+    created_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Post
-        fields = ('url', 'id', 'title', 'desc', 'pv', 'created_time')
+        fields = ("url", "id", "title", "desc", "pv", "created_time")
 
 
 class PostDetailSerializer(serializers.HyperlinkedModelSerializer):
-    category = serializers.SlugRelatedField(read_only=True, slug_field='name')
-    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
-    owner = serializers.SlugRelatedField(read_only=True, slug_field='username')
+    category = serializers.SlugRelatedField(read_only=True, slug_field="name")
+    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
+    owner = serializers.SlugRelatedField(read_only=True, slug_field="username")
 
     class Meta:
         model = Post
-        fields = ('url', 'id', 'owner', 'title', 'desc', 'category', 'tags', 'pv', 'created_time')
+        fields = (
+            "url",
+            "id",
+            "owner",
+            "title",
+            "desc",
+            "category",
+            "tags",
+            "pv",
+            "created_time",
+        )
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -29,7 +39,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super(PostViewSet, self).get_queryset()
-        category_id = self.request.GET.get('category')
+        category_id = self.request.GET.get("category")
         if category_id:
             qs = qs.filter(category_id=category_id)
         return qs
@@ -42,7 +52,7 @@ class PostViewSet(viewsets.ModelViewSet):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('url', 'id', 'name', 'is_nav', 'created_time')
+        fields = ("url", "id", "name", "is_nav", "created_time")
 
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
@@ -50,7 +60,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('url', 'id', 'name', 'is_nav', 'created_time', 'post_set')
+        fields = ("url", "id", "name", "is_nav", "created_time", "post_set")
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -65,22 +75,24 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('url', 'id', 'name', 'created_time')
+        fields = ("url", "id", "name", "created_time")
 
 
 class TagDetailSerializer(serializers.ModelSerializer):
-    post_set = serializers.SerializerMethodField('paginated_posts')
+    post_set = serializers.SerializerMethodField("paginated_posts")
 
     def paginated_posts(self, obj):
         posts = obj.post_set.all()
         paginator = pagination.PageNumberPagination()
-        page = paginator.paginate_queryset(posts, self.context['request'])
-        serializer = PostSerializer(page, many=True, context={'request': self.context['request']})
+        page = paginator.paginate_queryset(posts, self.context["request"])
+        serializer = PostSerializer(
+            page, many=True, context={"request": self.context["request"]}
+        )
         return serializer.data
 
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'created_time', 'post_set')
+        fields = ("id", "name", "created_time", "post_set")
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -95,7 +107,7 @@ class TagViewSet(viewsets.ModelViewSet):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = settings.AUTH_USER_MODEL
-        fields = ('url', 'id', 'username')
+        fields = ("url", "id", "username")
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -103,7 +115,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = settings.AUTH_USER_MODEL
-        fields = ('url', 'id', 'username', 'post_set')
+        fields = ("url", "id", "username", "post_set")
 
 
 class UserViewSet(viewsets.ModelViewSet):
