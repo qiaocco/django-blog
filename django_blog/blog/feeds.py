@@ -4,9 +4,9 @@ from .models import Post
 
 
 class LatestPostFeed(Feed):
-    title = '最新文章'
-    link = '/latest/feed'
-    description = '展示5篇最新文章'
+    title = "最新文章"
+    link = "/latest/feed"
+    description = "展示5篇最新文章"
 
     def items(self):
         return Post.objects.all()[:5]
