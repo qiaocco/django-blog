@@ -1,7 +1,11 @@
+import logging
 from urllib import parse
 
 import raven
+import sentry_sdk
 from dotenv import load_dotenv
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 
 from .base import *  # noqa
 
@@ -47,23 +51,19 @@ CACHES = {
     }
 }
 
-# RAVEN
-# https://docs.sentry.io/clients/python/integrations/django/
+# SENTRY
+# https://docs.sentry.io/platforms/python/django/
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += [
-    'raven.contrib.django.raven_compat',
-]
+SENTRY_DSN = os.getenv('SENTRY_DSN')
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration()]
+)
 
-# put the middleware at the top, so that only 404s that bubbled all the way up get logged.
-MIDDLEWARE = [
-                 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-                 'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
-             ] + MIDDLEWARE
-
-RAVEN_CONFIG = {
-    'dsn': os.getenv('SENTRY_DSN'),
-    'release': raven.fetch_git_sha(BASE_DIR),
-}
+sentry_logging = LoggingIntegration(
+    level=logging.INFO,  # Capture info and above as breadcrumbs
+    event_level=None  # Send no events from log messages
+)
 
 LOGGING = {
     'version': 1,
