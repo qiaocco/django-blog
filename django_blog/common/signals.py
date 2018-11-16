@@ -6,7 +6,7 @@ from taskapp.celery import send_mail
 
 from .spider_notify import SpiderNotify
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 post_save_signal = Signal(providing_args=['id'])
 comment_save_signal = Signal(providing_args=['id'])
@@ -29,6 +29,7 @@ def post_save_callback(sender, **kwargs):
 
 @receiver(signal=comment_save_signal)
 def comment_save_callback(sender, **kwargs):
+    logger.debug(f'comment_save_callback, from:{sender}, kwargs:{kwargs}')
     send_mail.delay(
         subject='有人评论啦',
         body='有人评论啦！用户：{nickname}, 内容:{content}'.format(
