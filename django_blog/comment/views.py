@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
-from common.blog_signals import comment_save_signal
+from common.signals import comment_save_signal
 
 from .forms import CommentForm
 from .models import Comment

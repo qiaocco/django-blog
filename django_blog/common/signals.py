@@ -2,11 +2,14 @@ import logging
 
 from django.dispatch import Signal, receiver
 
+from taskapp.celery import send_mail
+
 from .spider_notify import SpiderNotify
 
 logger = logging.getLogger(__name__)
 
 post_save_signal = Signal(providing_args=['id'])
+comment_save_signal = Signal(providing_args=['id'])
 
 
 @receiver(post_save_signal)
@@ -22,3 +25,14 @@ def post_save_callback(sender, **kwargs):
             # SpiderNotify.notify_google()
         except Exception as e:
             logger.error('spider notify', e)
+
+
+@receiver(signal=comment_save_signal)
+def comment_save_callback(sender, **kwargs):
+    send_mail.delay(
+        subject='有人评论啦',
+        body='有人评论啦！用户：{nickname}, 内容:{content}'.format(
+            nickname=kwargs.get("nickname"),
+            content=kwargs.get("content")),
+        to=[kwargs.get('email')],
+    )
