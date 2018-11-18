@@ -1,11 +1,8 @@
-import re
-
 import xadmin
 from django.conf import settings
 from django.contrib.sitemaps.views import sitemap
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views.decorators.cache import cache_page
-from django.views.static import serve
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from xadmin.plugins import xversion
@@ -26,16 +23,8 @@ router.register(r"category", CategoryViewSet)
 router.register(r"tag", TagViewSet)
 router.register(r"user", UserViewSet)
 
-
-def static(prefix, **kwargs):
-    return [
-        re_path(
-            r"^%s(?P<path>.*)$" % re.escape(prefix.lstrip("/")), serve, kwargs=kwargs
-        )
-    ]
-
-
 sitemaps = {"posts": PostSitemap, "categories": CategorySitemap, "tags": TagSitemap}
+
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path(
@@ -57,7 +46,7 @@ urlpatterns = [
     path("latest/feed", LatestPostFeed(), name="feed"),
     # 放到最后, 防止匹配到其他url
     path("<slug:slug>/", PostView.as_view(), name="post_detail"),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
 
 if settings.DEBUG:
     import debug_toolbar

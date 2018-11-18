@@ -1,6 +1,9 @@
+import datetime
 import os
+import subprocess
 
 from celery import Celery, shared_task
+from celery.schedules import crontab
 from celery.utils.log import get_task_logger
 from django.apps import AppConfig, apps
 from django.conf import settings
@@ -51,7 +54,7 @@ def send_mail(subject, body, to, attachments=None):
     )
     if attachments:
         for attachment in attachments:
-            email.attach_file(attachment)
+            email.attach(*attachment)
     try:
         email.send(fail_silently=False)
     except Exception as exc:
@@ -61,11 +64,38 @@ def send_mail(subject, body, to, attachments=None):
 
 
 @app.task
-def test(arg):
-    print(arg)
+def test():
+    with open("/tmp/data.txt", "w") as f:
+        f.write(f"{datetime.datetime.now()}")
+
+
+@app.task
+def mysql_backup():
+    BACKUP_DIR_NAME = "/tmp"
+    FILE_PREFIX = "db_backup_"
+    FILE_SUFFIX_DATE_FORMAT = "%Y%m%d%H%M%S"
+    MYSQL_CONTAINER_NAME = "django-blog_mysql_1"
+
+    timestamp = datetime.datetime.now().strftime(FILE_SUFFIX_DATE_FORMAT)
+    backup_filename = BACKUP_DIR_NAME + "/" + FILE_PREFIX + timestamp + ".sql"
+    backup_file = open(backup_filename, "w")
+    print(backup_filename)
+
+    backup_command = f"docker exec -it {MYSQL_CONTAINER_NAME} /usr/bin/mysqldump -uroot -p123 django_blog"
+    subprocess.call(backup_command.split(), stdout=backup_file)
+    backup_file.close()
+    send_mail.delay(
+        subject=f"数据库备份-{datetime.date.today()}",
+        body="备份好啦！",
+        to=[settings.EMAIL_HOST_USER],
+        attachments=[
+            (backup_filename, open(backup_filename, "r").read(), "text/plain")
+        ],
+    )
 
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Calls test_beat every 10 seconds
-    sender.add_periodic_task(10.0, test.s("hello"), name="add every 10 seconds")
+    # sender.add_periodic_task(3.0, test, name="add every 10 seconds")
+    sender.add_periodic_task(crontab(hour=9), mysql_backup)
