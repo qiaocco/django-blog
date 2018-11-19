@@ -79,7 +79,6 @@ def mysql_backup():
     timestamp = datetime.datetime.now().strftime(FILE_SUFFIX_DATE_FORMAT)
     backup_filename = BACKUP_DIR_NAME + "/" + FILE_PREFIX + timestamp + ".sql"
     backup_file = open(backup_filename, "w")
-    print(backup_filename)
 
     backup_command = f"docker exec -it {MYSQL_CONTAINER_NAME} /usr/bin/mysqldump -uroot -p123 django_blog"
     subprocess.call(backup_command.split(), stdout=backup_file)
@@ -98,4 +97,4 @@ def mysql_backup():
 def setup_periodic_tasks(sender, **kwargs):
     # Calls test_beat every 10 seconds
     # sender.add_periodic_task(3.0, test, name="add every 10 seconds")
-    sender.add_periodic_task(crontab(hour=9), mysql_backup)
+    sender.add_periodic_task(crontab(hour=18), mysql_backup)
