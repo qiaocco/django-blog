@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+from django.conf import settings
 
 from common.signals import comment_save_signal
 
@@ -33,10 +34,10 @@ class CommentView(TemplateView):
             comment_form.save()
             comment_save_signal.send(
                 sender=self.__class__,
-                comment_id="",
                 nickname=request.POST.get("nickname"),
                 content=request.POST.get("content"),
-                email=request.POST.get("email"),
+                email=settings.EMAIL_HOST_USER,
+                link="https://blog.jasonqiao36.cc/{}".format(target),
             )
             return redirect(reverse("post_detail", args=(target,)))
         else:
