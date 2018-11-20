@@ -6,13 +6,13 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
 from .base import *  # noqa
-from .common import *  # NOQA
 
 dotenv_path = os.path.join(BASE_DIR, ".envs", ".env.product")
 
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
+from .common import *  # NOQA
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -44,8 +44,8 @@ LOGGING = {
     "formatters": {  # 日志格式
         "standard": {
             "format": "%(asctime)s [%(threadName)s:%(thread)d] "
-            "[%(name)s:%(lineno)d] [%(module)s:%(funcName)s] "
-            "[%(levelname)s]- %(message)s"
+                      "[%(name)s:%(lineno)d] [%(module)s:%(funcName)s] "
+                      "[%(levelname)s]- %(message)s"
         }
     },
     "filters": {  # 过滤器

@@ -4,13 +4,13 @@ from urllib import parse
 from dotenv import load_dotenv
 
 from .base import *  # NOQA
-from .common import *  # NOQA
 
 dotenv_path = os.path.join(BASE_DIR, ".envs", ".env")
 
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
+from .common import *  # NOQA
 
 # GENERAL
 # ------------------------------------------------------------------------------
