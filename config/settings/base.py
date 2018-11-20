@@ -88,7 +88,7 @@ TIME_ZONE = "Asia/Shanghai"
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -131,3 +131,5 @@ SITE_ID = 1
 
 # 自定义用户模型
 AUTH_USER_MODEL = "user.UserProfile"
+
+DATETIME_FORMAT = 'Y年n月d日'
