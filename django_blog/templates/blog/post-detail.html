@@ -50,10 +50,13 @@
                 <li class="comment even thread-even depth-1 parent" id="comment-1">
                 <div id="div-comment-1" class="comment-body">
                     <div class="comment-author vcard">
-                        <img alt="" src="http://2.gravatar.com/avatar/?s=50&amp;d=mm&amp;r=g"
-                             srcset="http://2.gravatar.com/avatar/?s=100&amp;d=mm&amp;r=g 2x"
-                             class="avatar avatar-50 photo avatar-default" height="50" width="50"> <cite class="fn"><a
-                            href="https://wordpress.org/" rel="external nofollow" class="url">{{ comment.nickname }}</a></cite>
+                        <img alt="" src="{% static 'img/avatar.png' %}" class="avatar avatar-50 photo avatar-default"
+                             height="50" width="50">
+                        <cite class="fn">
+                            <a
+                                    href="https://wordpress.org/" rel="external nofollow"
+                                    class="url">{{ comment.nickname }}</a>
+                        </cite>
 
                         <time>
                             {{ comment.created_time }}
