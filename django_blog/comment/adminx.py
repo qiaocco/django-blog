@@ -13,10 +13,7 @@ class CommentAdmin(BaseOwnerAdmin):
     search_fields = ("content", "post__title")
 
     def operator(self, obj):
-        return format_html(
-            "<a href={}>编辑</a>",
-            reverse("cus_admin:comment_comment_change", args=(obj.id,)),
-        )
+        return format_html("<a href={}>编辑</a>", reverse("cus_admin:comment_comment_change", args=(obj.id,)))
 
     operator.short_description = "操作"
 

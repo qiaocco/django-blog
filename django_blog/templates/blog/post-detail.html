@@ -11,8 +11,7 @@
         <article class="vc-blog">
             <h1 class="vc-blog-title">{{ post.title }}</h1>
             <p class="vc-author-info">
-                <span>作者：{{ post.owner.username }}</span>
-                <time>发布：{{ post.created_time|date:'Y年n月d日' }}</time> &bull;
+                <time>发布：{{ post.created_time }}</time> &bull;
                 <span>阅读量：{{ post.pv }}, {{ post.uv }}</span>
             </p>
             <div class="vc-blog-content">
@@ -34,7 +33,8 @@
     <nav>
         <ul class="pager">
             {% if prev_post %}
-                <li class="previous"><a href="{% url 'post_detail' prev_post.slug %}"><i class="fa fa-angle-left"></i> 上一篇</a>
+                <li class="previous"><a href="{% url 'post_detail' prev_post.slug %}"><i class="fa fa-angle-left"></i>
+                    上一篇</a>
                 </li>
             {% endif %}
             {% if next_post %}
@@ -73,15 +73,13 @@
             {% endfor %}
         </ol>
         <div id="respond" class="comment-respond">
-            <h3 id="reply-title" class="comment-reply-title">发表评论
-                <small><a rel="nofollow" id="cancel-comment-reply-link" href="">取消回复</a></small>
-            </h3>
+            <h3 id="reply-title" class="comment-reply-title">发表评论</h3>
             <form action="{% url 'comment' %}" method="post" id="commentform" class="comment-form">
                 {% csrf_token %}
                 <p class="comment-notes"><span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用<span class="required">*</span>标注
                 </p>
                 <p class="comment-form-author">
-                    <label for="nickname">姓名 <span class="required">*</span>
+                    <label for="nickname">昵称 <span class="required">*</span>
                     </label>
                     <input id="nickname" name="nickname" type="text" value="" size="30" aria-required="true"
                            required="required">
@@ -94,7 +92,7 @@
                 </p>
                 <p class="comment-form-url">
                     <label for="website">站点</label>
-                    <input id="website" name="website" type="url" value="http://" size="30">
+                    <input id="website" name="website" type="text" value="" size="30">
                 </p>
                 <p class="comment-form-comment">
                     <label for="content">评论</label>

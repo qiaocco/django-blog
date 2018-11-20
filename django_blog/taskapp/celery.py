@@ -31,14 +31,18 @@ class CeleryAppConfig(AppConfig):
         # - namespace='CELERY' means all celery-related configuration keys
         #   should have a `CELERY_` prefix.
         app.config_from_object("django.conf:settings", namespace="CELERY")
-        installed_apps = [app_config.name for app_config in apps.get_app_configs()]
+        installed_apps = [
+            app_config.name for app_config in apps.get_app_configs()
+        ]
         app.autodiscover_tasks(lambda: installed_apps, force=True)
 
     if os.environ.get("DJANGO_BLOG_PROFILE") == "production":
         import sentry_sdk
         from sentry_sdk.integrations.celery import CeleryIntegration
 
-        sentry_sdk.init(dsn=settings.SENTRY_DSN, integrations=[CeleryIntegration()])
+        sentry_sdk.init(
+            dsn=settings.SENTRY_DSN, integrations=[CeleryIntegration()]
+        )
 
 
 @app.task(bind=True)
@@ -96,8 +100,7 @@ def mysql_backup():
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Calls test_beat every 10 seconds
-    sender.add_periodic_task(3.0, test, name="add every 10 seconds")
+    # sender.add_periodic_task(3.0, test, name="add every 10 seconds")
     sender.add_periodic_task(
-        crontab(hour=18, minute=30, day_of_week='mon, wed, fri'),
-        mysql_backup
+        crontab(hour=18, minute=30, day_of_week="mon,wed,fri"), mysql_backup
     )

@@ -15,7 +15,9 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
 class PostDetailSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.SlugRelatedField(read_only=True, slug_field="name")
-    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
+    tags = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="name"
+    )
     owner = serializers.SlugRelatedField(read_only=True, slug_field="username")
 
     class Meta:

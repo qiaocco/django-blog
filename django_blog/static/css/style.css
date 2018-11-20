@@ -26,11 +26,11 @@ embed {
 
 a {
     color: #1abc9c;
+    text-decoration: none !important;
 }
 
 a:hover {
     color: #1abc9c;
-    text-decoration: none;
 }
 
 .vc-desc {

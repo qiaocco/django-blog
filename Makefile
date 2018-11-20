@@ -1,6 +1,5 @@
-DJANGO_DOCKER_RUN := docker exec -i -t django-blog_django_1
 MYSQL_DOCKER_RUN := docker exec -i -t django-blog_mysql_1
-
+REDIS_DOCKER_RUN := docker exec -i -t django-blog_redis_1
 
 sep--sep-a: ## ========== 开发时命令 ==============
 
@@ -11,16 +10,19 @@ django-down: ## build and compose up
 	docker-compose -f develop.yml down
 
 django-before-up: ## some deamons
-	docker-compose -f develop.yml up -d redis mysql rabbitmq celeryflower
+	docker-compose -f develop.yml up -d redis mysql
 
 django-runserver: ## runserver
-	docker-compose -f develop.yml up django
+	python manage.py runserver
 
 django-celeryworker: ## celeryworker
 	celery -A django_blog.taskapp worker --loglevel INFO
 
 django-celeryflower: ## celeryflower
 	celery -A django_blog.taskapp flower --port=5555
+
+django-celerybeat: ## celerybeat
+	celery -A django_blog.taskapp beat -s celerybeat-schedule
 
 mysql-up: ## mysql
 	docker-compose -f develop.yml up mysql
@@ -32,10 +34,13 @@ rabbitmq-up: ## rabbitmq
 	docker-compose -f develop.yml up rabbitmq
 
 shell: ## Enter Shell
-	$(DJANGO_DOCKER_RUN) /bin/bash
+	./manage.py shell
 
 dbshell: ## Enter mysql
 	$(MYSQL_DOCKER_RUN) sh -c 'exec mysql -ujason -p123'
+
+redis-cli: ## Enter mysql
+	$(REDIS_DOCKER_RUN) sh -c 'redis-cli -a 123'
 
 tmuxp: ## start tmuxp
 	tmuxp load tmuxp.yml
@@ -53,27 +58,7 @@ sort: # sort import with isort
 	isort -rc .
 	@echo ""
 
-
-sep--sep-c: ## ========== 程序发布相关 ==============
-	echo "## ========== 本行只是优雅的分割线  ==============="
-
-dist: # builds source and wheel package
-	python setup.py sdist bdist_wheel
-
-
-sep--sep-d: ## ========== Docker 镜像相关 ==============
-	echo "## ========== 本行只是优雅的分割线  ==============="
-
-build-django: ## > base django
-	docker build -t 'base-django:1.0' -f 'compose/django/Dockerfile' .
-
-force-build-django: ## > base django
-	docker build -t 'base-django:1.0' -f 'compose/django/Dockerfile' --no-cache .
-
-build-all: build-django ## > build 所需所有镜像
-
-
-sep--sep-e: ## ========== 文件清理相关 ==============
+sep--sep-b: ## ========== 文件清理相关 ==============
 	echo "## ========== 本行只是优雅的分割线  ==============="
 
 clean: clean-build clean-pyc ## remove all build, test, coverage and Python artifacts

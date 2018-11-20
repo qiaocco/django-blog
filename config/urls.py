@@ -23,26 +23,21 @@ router.register(r"category", CategoryViewSet)
 router.register(r"tag", TagViewSet)
 router.register(r"user", UserViewSet)
 
-sitemaps = {"posts": PostSitemap, "categories": CategorySitemap, "tags": TagSitemap}
+sitemaps = {
+    "posts": PostSitemap,
+    "categories": CategorySitemap,
+    "tags": TagSitemap,
+}
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
-    path(
-        "category/<int:category_id>/",
-        cache_page(60 * 10)(CategoryView.as_view()),
-        name="category",
-    ),
+    path("category/<int:category_id>/", cache_page(60 * 10)(CategoryView.as_view()), name="category"),
     path("tag/<int:tag_id>/", TagView.as_view(), name="tag"),
     path("comment/", CommentView.as_view(), name="comment"),
     path("admin/", xadmin.site.urls),
     path("api/docs/", include_docs_urls(title="My blog api docs")),
     path("api/", include(router.urls)),
-    path(
-        "sitemap.xml",
-        sitemap,
-        {"sitemaps": sitemaps},
-        name="django.contrib.sitemaps.views.sitemap",
-    ),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
     path("latest/feed", LatestPostFeed(), name="feed"),
     # 放到最后, 防止匹配到其他url
     path("<slug:slug>/", PostView.as_view(), name="post_detail"),
