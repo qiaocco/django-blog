@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.db.models import F
 from django.views.generic import DetailView, ListView
 
 from comment.models import Comment
@@ -30,16 +31,14 @@ class CommonMixin:
         links = Link.objects.all()
         htmls = SideBar.objects.filter(display_type=1)
 
-        kwargs.update(
-            {
-                "sidebars": sidebars,
-                "recently_posts": recently_posts,
-                "hot_posts": hot_posts,
-                "recently_comments": recently_comments,
-                "links": links,
-                "htmls": htmls,
-            }
-        )
+        kwargs.update({
+            "sidebars": sidebars,
+            "recently_posts": recently_posts,
+            "hot_posts": hot_posts,
+            "recently_comments": recently_comments,
+            "links": links,
+            "htmls": htmls,
+        })
         kwargs.update(self.get_category_context())
         return super().get_context_data(**kwargs)
 
@@ -99,22 +98,32 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         return response
 
     def get_context_data(self, **kwargs):
-        kwargs.update(
-            {"prev_post": self.object.prev_post, "next_post": self.object.next_post}
-        )
+        kwargs.update({
+            "prev_post": self.object.prev_post,
+            "next_post": self.object.next_post,
+        })
         return super().get_context_data(**kwargs)
 
     def pv_uv(self):
-        sessionid = self.request.COOKIES.get("sessionid")
-        if not sessionid:
-            return
+        increase_pv = False
+        increase_uv = False
+        uid = self.request.uid
 
-        pv_key = "pv:{}:{}".format(sessionid, self.request.path)
+        pv_key = "pv:{}:{}".format(uid, self.request.path)
         if not cache.get(pv_key):
-            self.object.increase_pv()
-            cache.set(pv_key, 1, 30)
+            increase_pv = True
+            cache.set(pv_key, 1, 1 * 1)  # 1min有效
 
-        uv_key = "uv:{}:{}".format(sessionid, self.request.path)
+        uv_key = "uv:{}:{}".format(uid, self.request.path)
         if not cache.get(uv_key):
-            self.object.increase_uv()
-            cache.set(uv_key, 1, 60 * 60 * 24)
+            increase_uv = True
+            cache.set(uv_key, 1, 24 * 60 * 60)  # 24h有效
+
+        if increase_pv and increase_uv:
+            Post.objects.filter(pk=self.object.id).update(
+                pv=F("pv") + 1, uv=F("uv") + 1
+            )
+        elif increase_pv:
+            Post.objects.filter(pk=self.object.id).update(pv=F("pv") + 1)
+        elif increase_uv:
+            Post.objects.filter(pk=self.object.id).update(uv=F("uv") + 1)
