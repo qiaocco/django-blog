@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
-from django.conf import settings
 
 from common.signals import comment_save_signal
 
