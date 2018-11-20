@@ -17,7 +17,10 @@ def block_code(text, lang, inlinestyles=False, linenos=False):
             return '<div class="highlight-wrapper">%s</div>\n' % code
         return code
     except Exception:
-        return '<pre class="%s"><code>%s</code></pre>\n' % (lang, mistune.escape(text))
+        return '<pre class="%s"><code>%s</code></pre>\n' % (
+            lang,
+            mistune.escape(text),
+        )
 
 
 class HighlightRenderer(mistune.Renderer):

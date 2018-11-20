@@ -42,7 +42,8 @@ class PostAdmin(BaseOwnerAdmin):
 
     def operator(self, obj):
         return format_html(
-            "<a href={}>编辑</a>", reverse("cus_admin:blog_post_change", args=(obj.id,))
+            "<a href={}>编辑</a>",
+            reverse("cus_admin:blog_post_change", args=(obj.id,)),
         )
 
     operator.short_description = "操作"
@@ -78,7 +79,8 @@ class TagAdmin(BaseOwnerAdmin):
 
     def operator(self, obj):
         return format_html(
-            "<a href={}>编辑</a>", reverse("cus_admin:blog_tag_change", args=(obj.id,))
+            "<a href={}>编辑</a>",
+            reverse("cus_admin:blog_tag_change", args=(obj.id,)),
         )
 
     operator.short_description = "操作"
