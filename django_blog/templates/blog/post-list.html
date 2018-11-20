@@ -13,8 +13,8 @@
                 <p class="vc-author-info">
                     <span>分类：<a href="">{{ post.category }}</a></span> |
                     <time>标签：{% for tag in post.tags.all %}<a href="{% url 'tag' tag.id %}">{{ tag }} </a>{% endfor %}</time> |
-                    <time>发布：{{ post.created_time|date:'Y年n月d日' }}</time> |
-                    <span>阅读量： {{ post.pv }}</span>
+                    <time>发布：{{ post.created_time }}</time> |
+                    <span>阅读量：{{ post.pv }}</span>
                 </p>
                 <p class="hidden-xs vc-desc">{{ post.desc }}</p>
                 <p class="clearfix">
