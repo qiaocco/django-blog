@@ -43,6 +43,8 @@ CELERY_BROKER_URL = "redis://:{password}@{host}:{port}/1".format(
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"
+CELERY_ENABLE_UTC = False
+CELERY_TIMEZONE = 'Asia/Shanghai'
 
 # django-celery-results
 # https://github.com/celery/django-celery-results
