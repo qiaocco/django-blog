@@ -14,5 +14,6 @@ python-dotenv==0.9.1
 # https://codeload.github.com/sshwsfc/xadmin/zip/django2
 
 # 消息队列
-celery[librabbitmq,redis]
+celery[redis]==4.2.1    # https://github.com/celery/celery
 flower
+django-celery-results==1.0.4
