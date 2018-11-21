@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
-from .common import *  # NOQA
+from .base import os, BASE_DIR
 
 dotenv_path = os.path.join(BASE_DIR, ".envs", ".env.product")
 
