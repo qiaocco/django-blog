@@ -1,6 +1,7 @@
 from django.db.models import F
 
 from django_blog import celery_app
+
 from .models import Post
 
 
