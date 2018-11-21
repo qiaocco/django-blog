@@ -1,5 +1,4 @@
 from django.core.cache import cache
-from django.db.models import F
 from django.views.generic import DetailView, ListView
 
 from comment.models import Comment
@@ -7,6 +6,7 @@ from comment.views import CommentShowMixin
 from pageconfig.models import Link, SideBar
 
 from .models import Category, Post, Tag
+from .tasks import increase_pv, increase_pv_uv, increase_uv
 
 
 class CommonMixin:
@@ -105,23 +105,23 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         return super().get_context_data(**kwargs)
 
     def pv_uv(self):
-        increase_pv = False
-        increase_uv = False
+        need_increase_pv = False
+        need_increase_uv = False
         uid = self.request.uid
 
         pv_key = "pv:{}:{}".format(uid, self.request.path)
         if not cache.get(pv_key):
-            increase_pv = True
-            cache.set(pv_key, 1, 1 * 60)  # 1min有效
+            need_increase_pv = True
+            cache.set(pv_key, 1, 1 * 1)  # 1min有效
 
         uv_key = "uv:{}:{}".format(uid, self.request.path)
         if not cache.get(uv_key):
-            increase_uv = True
+            need_increase_uv = True
             cache.set(uv_key, 1, 24 * 60 * 60)  # 24h有效
 
-        if increase_pv and increase_uv:
-            Post.objects.filter(pk=self.object.id).update(pv=F("pv") + 1, uv=F("uv") + 1)
-        elif increase_pv:
-            Post.objects.filter(pk=self.object.id).update(pv=F("pv") + 1)
-        elif increase_uv:
-            Post.objects.filter(pk=self.object.id).update(uv=F("uv") + 1)
+        if need_increase_pv and need_increase_uv:
+            increase_pv_uv.delay(self.object.id)
+        elif need_increase_pv:
+            increase_pv.delay(self.object.id)
+        elif need_increase_uv:
+            increase_uv.delay(self.object.id)

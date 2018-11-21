@@ -2,7 +2,7 @@ import logging
 
 from django.dispatch import Signal, receiver
 
-from taskapp.celery import send_mail
+from taskapp.tasks import send_mail
 
 from .spider_notify import SpiderNotify
 

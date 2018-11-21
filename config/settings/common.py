@@ -40,10 +40,16 @@ CELERY_BROKER_URL = "redis://:{password}@{host}:{port}/1".format(
     host=os.getenv("REDIS_HOST"),
     port=os.getenv("REDIS_PORT"),
 )
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"
+CELERY_ENABLE_UTC = False
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
+# django-celery-results
+# https://github.com/celery/django-celery-results
+CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # ========== END CELERY
 

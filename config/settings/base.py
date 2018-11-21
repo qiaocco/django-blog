@@ -42,9 +42,20 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "xadmin", "crispy_forms", "reversion"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "xadmin",
+    "crispy_forms",
+    "reversion",
+    'django_celery_results',
+]
 
-LOCAL_APPS = ["blog", "comment", "pageconfig", "user"]
+LOCAL_APPS = [
+    "blog",
+    "comment",
+    "pageconfig",
+    "user",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -90,7 +101,7 @@ USE_I18N = True
 
 USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

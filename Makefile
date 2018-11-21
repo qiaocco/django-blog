@@ -1,7 +1,8 @@
 MYSQL_DOCKER_RUN := docker exec -i -t django-blog_mysql_1
 REDIS_DOCKER_RUN := docker exec -i -t django-blog_redis_1
+WATCHDOG_RELOAD := watchmedo auto-restart --recursive -d . -p '*.py' --
 
-sep--sep-a: ## ========== 开发时命令 ==============
+## ========== 开发时命令 ==============
 
 django-build-up: ## build and compose up
 	docker-compose -f develop.yml up --build
@@ -16,13 +17,13 @@ django-runserver: ## runserver
 	python manage.py runserver
 
 django-celeryworker: ## celeryworker
-	celery -A django_blog.taskapp worker --loglevel INFO
+	 $(WATCHDOG_RELOAD) celery -A django_blog.taskapp worker -l info
 
 django-celeryflower: ## celeryflower
 	celery -A django_blog.taskapp flower --port=5555
 
 django-celerybeat: ## celerybeat
-	celery -A django_blog.taskapp beat -s celerybeat-schedule
+	$(WATCHDOG_RELOAD) celery -A django_blog.taskapp beat -s celerybeat-schedule
 
 mysql-up: ## mysql
 	docker-compose -f develop.yml up mysql
@@ -45,8 +46,7 @@ redis-cli: ## Enter mysql
 tmuxp: ## start tmuxp
 	tmuxp load tmuxp.yml
 
-sep--sep-b: ## ========== 测试与代码质量 ==============
-	echo "## ========== 本行只是优雅的分割线  ==============="
+## ========== 测试与代码质量 ==============
 
 lint: ## check style with flake8
 	@echo "--> Linting python"

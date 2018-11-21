@@ -108,3 +108,5 @@ ENV/
 *.sqlite3
 compose/mysql/data/
 *.db
+celerybeat-schedule.db
+celerybeat.pid
