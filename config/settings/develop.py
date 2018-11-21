@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-from .base import *  # NOQA
+from .base import os, BASE_DIR  # NOQA
 
 dotenv_path = os.path.join(BASE_DIR, ".envs", ".env")
 
