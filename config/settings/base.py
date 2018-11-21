@@ -42,7 +42,13 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "xadmin", "crispy_forms", "reversion"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "xadmin",
+    "crispy_forms",
+    "reversion",
+    'django_celery_results',
+]
 
 LOCAL_APPS = ["blog", "comment", "pageconfig", "user"]
 
