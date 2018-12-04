@@ -22,7 +22,7 @@ class Post(BaseModel):
     is_markdown = models.BooleanField(verbose_name="使用Markdown格式", default=True)
     slug = models.SlugField(max_length=255, unique=True, verbose_name="Slug")
     category = models.ForeignKey("Category", verbose_name="分类", on_delete=models.PROTECT)
-    tags = models.ManyToManyField("Tag", verbose_name="标签")
+    tag = models.ManyToManyField("Tag", verbose_name="标签")
     desc = models.CharField(max_length=1024, blank=True, verbose_name="摘要")
     pv = models.PositiveIntegerField(default=0, verbose_name="pv")
     uv = models.PositiveIntegerField(default=0, verbose_name="uv")

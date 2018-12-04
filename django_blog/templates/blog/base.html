@@ -98,7 +98,7 @@
             {% block sidebar %}
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form role="search" action="/" method="GET">
+                        <form role="search" action="{% url 'search' %}" method="GET">
                             <div class="form-group" style="margin-bottom:0;">
                                 <input type="text" class="form-control" name="query" placeholder="善于搜索...">
                             </div>
