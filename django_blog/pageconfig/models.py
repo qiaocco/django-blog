@@ -26,13 +26,15 @@ class Link(BaseModel):
 
 class SideBar(BaseModel):
     """侧边栏"""
-
+    DISPLAY_HTML = 1
+    DISPLAY_LATEST = 2
+    DISPLAY_HOT = 3
+    DISPLAY_COMMENT = 4
     DISPLAY_ITEMS = (
-        (1, "HTML"),
-        (2, "最新文章"),
-        (3, "最热文章"),
-        (4, "最近评论"),
-        (5, "友链"),
+        (DISPLAY_HTML, "HTML"),
+        (DISPLAY_LATEST, "最新文章"),
+        (DISPLAY_HOT, "最热文章"),
+        (DISPLAY_COMMENT, "最近评论"),
     )
     title = models.CharField(max_length=64, verbose_name="标题")
     display_type = models.PositiveIntegerField(default=1, choices=DISPLAY_ITEMS, verbose_name="展示类型")

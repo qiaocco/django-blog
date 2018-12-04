@@ -30,7 +30,7 @@ class CommonViewMixin:
         hot_posts = Post.objects.order_by("-pv")[:10]
         recently_comments = Comment.objects.all()[:10]
         links = Link.objects.all()
-        htmls = SideBar.objects.filter(display_type=1)
+        htmls = SideBar.objects.filter(display_type=SideBar.DISPLAY_HTML)
 
         return {
             "sidebars": sidebars,
