@@ -39,17 +39,16 @@ def mysql_backup():
     BACKUP_DIR_NAME = "/tmp"
     FILE_PREFIX = "db_backup_"
     FILE_SUFFIX_DATE_FORMAT = "%Y%m%d"
-    MYSQL_CONTAINER_NAME = "django-blog_mysql_1"
+    PYTHON_PATH = '/home/jason/.venv/blog_py3.6_env/bin/python'
 
     timestamp = datetime.date.today().strftime(FILE_SUFFIX_DATE_FORMAT)
     backup_filename = BACKUP_DIR_NAME + "/" + FILE_PREFIX + timestamp + ".sql"
-    backup_file = open(backup_filename, "w")
 
-    backup_command = f"docker exec -it {MYSQL_CONTAINER_NAME} /usr/bin/mysqldump -uroot -p123 django_blog"
-    subprocess.call(backup_command.split(), stdout=backup_file)
-    backup_file.close()
+    backup_command = f"{PYTHON_PATH} manage.py dumpdata --exclude auth.permission --exclude contenttypes " \
+        f"-o {backup_filename}"
+    subprocess.call(backup_command.split())
     send_mail.delay(
-        subject=f"数据库备份-{datetime.date.today()}",
+        subject=f"数据库备份-{timestamp}",
         body="备份好啦！",
         to=[settings.EMAIL_HOST_USER],
         attachments=[
