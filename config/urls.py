@@ -10,7 +10,7 @@ from xadmin.plugins import xversion
 from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
 from blog.feeds import LatestPostFeed
 from blog.sitemaps import CategorySitemap, PostSitemap, TagSitemap
-from blog.views import CategoryView, IndexView, PostView, TagView
+from blog.views import CategoryView, IndexView, PostView, SearchView, TagView
 from comment.views import CommentView
 
 xadmin.autodiscover()
@@ -34,6 +34,8 @@ urlpatterns = [
     path("category/<int:category_id>/", cache_page(60 * 10)(CategoryView.as_view()), name="category"),
     path("tag/<int:tag_id>/", TagView.as_view(), name="tag"),
     path("comment/", CommentView.as_view(), name="comment"),
+    path('search/', SearchView.as_view(), name='search'),
+
     path("admin/", xadmin.site.urls),
     path("api/docs/", include_docs_urls(title="My blog api docs")),
     path("api/", include(router.urls)),

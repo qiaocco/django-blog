@@ -21,7 +21,7 @@
                 {% endautoescape %}
             </div>
             <span class="vc-tags">
-                {% for tag in post.tags.all %}
+                {% for tag in post.tag.all %}
                     <a href="{% url 'tag' tag.id %}">{{ tag.name }}</a>
                 {% endfor %}
             </span>

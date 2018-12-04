@@ -1,16 +1,17 @@
 from django.core.cache import cache
+from django.db.models import Q
 from django.views.generic import DetailView, ListView
 
 from comment.models import Comment
 from comment.views import CommentShowMixin
 from pageconfig.models import Link, SideBar
 
-from .models import Category, Post, Tag
+from .models import Category, Post
 from .tasks import increase_pv, increase_pv_uv, increase_uv
 
 
-class CommonMixin:
-    def get_category_context(self):
+class CommonViewMixin:
+    def get_navs(self):
         categories = Category.objects.all()
 
         nav_cates = []
@@ -22,72 +23,53 @@ class CommonMixin:
                 cates.append(cate)
         return {"nav_cates": nav_cates, "cates": cates}
 
-    def get_context_data(self, **kwargs):
+    def get_sidebars(self):
         sidebars = SideBar.objects.all()
 
         recently_posts = Post.objects.all()[:10]
         hot_posts = Post.objects.order_by("-pv")[:10]
         recently_comments = Comment.objects.all()[:10]
         links = Link.objects.all()
-        htmls = SideBar.objects.filter(display_type=1)
+        htmls = SideBar.objects.filter(display_type=SideBar.DISPLAY_HTML)
 
-        kwargs.update({
+        return {
             "sidebars": sidebars,
             "recently_posts": recently_posts,
             "hot_posts": hot_posts,
             "recently_comments": recently_comments,
             "links": links,
             "htmls": htmls,
-        })
-        kwargs.update(self.get_category_context())
-        return super().get_context_data(**kwargs)
-
-
-class BasePostsView(CommonMixin, ListView):
-    model = Post
-    template_name = "blog/post-list.html"
-    context_object_name = "posts"
-    paginate_by = 3
-
-
-class IndexView(BasePostsView):
-    queryset = Post.objects.select_related("category").prefetch_related("tags")
-    paginate_by = 10
-    allow_empty = True
-
-    def get_queryset(self):
-        query = self.request.GET.get("query")
-        qs = super().get_queryset()
-        if not query:
-            return qs
-        return qs.filter(title__icontains=query)
+        }
 
     def get_context_data(self, **kwargs):
-        query = self.request.GET.get("query")
-        return super().get_context_data(query=query)
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_navs())
+        context.update(self.get_sidebars())
+        return context
 
 
-class CategoryView(BasePostsView):
+class IndexView(CommonViewMixin, ListView):
+    queryset = Post.objects.select_related("category").prefetch_related("tag")
+    paginate_by = 10
+    template_name = "blog/post-list.html"
+    context_object_name = "posts"
+
+
+class CategoryView(IndexView):
     def get_queryset(self):
-        qs = super().get_queryset()
-        cat_id = self.kwargs.get("category_id")
-        qs = qs.filter(category_id=cat_id)
-        return qs
+        queryset = super().get_queryset()
+        category_id = self.kwargs.get("category_id")
+        return queryset.filter(category_id=category_id)
 
 
-class TagView(BasePostsView):
+class TagView(IndexView):
     def get_queryset(self):
+        queryset = super().get_queryset()
         tag_id = self.kwargs.get("tag_id")
-        try:
-            tag = Tag.objects.get(pk=tag_id)
-        except Tag.DoesNotExist:
-            return []
-
-        posts = tag.post_set.all()
-        return posts
+        return queryset.filter(tag__id=tag_id)
 
 
-class PostView(CommonMixin, CommentShowMixin, DetailView):
+class PostView(CommonViewMixin, CommentShowMixin, DetailView):
     queryset = Post.objects.select_related("owner")
     template_name = "blog/post-detail.html"
     context_object_name = "post"
@@ -125,3 +107,19 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
             increase_pv.delay(self.object.id)
         elif need_increase_uv:
             increase_uv.delay(self.object.id)
+
+
+class SearchView(IndexView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'query': self.request.GET.get('query', '')
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('query')
+        if not query:
+            return queryset
+        return queryset.filter(Q(title__icontains=query) | Q(desc__icontains=query))

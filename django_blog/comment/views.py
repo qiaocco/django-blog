@@ -28,10 +28,12 @@ class CommentView(TemplateView):
     def post(self, request, *args, **kwargs):
         target = self.request.POST.get("target")
         comment_form = CommentForm(request.POST)
-        comment_form.target = target
 
         if comment_form.is_valid():
+            comment_form.save(commit=False)
+            comment_form.target = target
             comment_form.save()
+
             comment_save_signal.send(
                 sender=self.__class__,
                 nickname=request.POST.get("nickname"),
