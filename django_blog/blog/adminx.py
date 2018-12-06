@@ -25,7 +25,7 @@ class PostAdmin(BaseOwnerAdmin):
     search_fields = ("title", "owner__username", "category__name", "desc")
     date_hierarchy = "created_time"
     exclude = ("html", "owner", "pv", "uv")
-    autocomplete_fields = ("category", "tags")
+    autocomplete_fields = ("category", "tag")
 
     # 编辑界面
     save_on_top = True
@@ -37,7 +37,7 @@ class PostAdmin(BaseOwnerAdmin):
         "desc",
         Row("category", "status", "is_markdown"),
         "content",
-        "tags",
+        "tag",
     )
 
     def operator(self, obj):
