@@ -14,6 +14,7 @@ python-dotenv==0.9.1
 # https://codeload.github.com/sshwsfc/xadmin/zip/django2
 
 # 消息队列
-celery[redis]==4.2.1    # https://github.com/celery/celery
+celery==4.2.1    # https://github.com/celery/celery
+redis==2.10.6   # https://github.com/celery/celery/issues/5175
 flower
 django-celery-results==1.0.4
