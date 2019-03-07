@@ -47,6 +47,4 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # Calls test_beat every 10 seconds
     # sender.add_periodic_task(3.0, debug_task, name="add every 10 seconds")
-    sender.add_periodic_task(
-        crontab(hour=18, minute=30, day_of_week="mon,wed,fri"), mysql_backup
-    )
+    sender.add_periodic_task(crontab(hour=18, minute=30, day_of_week="fri"), mysql_backup)
