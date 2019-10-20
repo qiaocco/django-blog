@@ -8,4 +8,4 @@ watchdog
 flake8
 
 # deploy
-fabric==2.4.0
+fabric
