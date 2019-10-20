@@ -1,20 +1,16 @@
 coreapi==2.3.3
-Django==2.1.7
-django-redis==4.10.0    # https://github.com/niwinz/django-redis
-hiredis==1.0.0  # https://github.com/redis/hiredis-py c实现的redis解析器，更快
-djangorestframework==3.9.2
-Markdown==3.0.1
+Django==2.2.6
+django-redis==4.10.0
+hiredis==1.0.0
+djangorestframework==3.10.3
+Markdown==3.1.1
 pygments==2.3.1
 mistune==0.8.4
-mysqlclient==1.4.2.post1
-python-dotenv==0.10.1
+mysqlclient==1.4.4
+python-dotenv==0.10.3
 
-# xadmin
-# install manually
-# https://codeload.github.com/sshwsfc/xadmin/zip/django2
-
-# 消息队列
-celery==4.3.0rc2    # https://github.com/celery/celery
-redis==3.2.0   # https://github.com/celery/celery/issues/5175
+# queue
+celery==4.3.0
+redis==3.3.11
 flower
-django-celery-results==1.0.4
+django-celery-results==1.1.2

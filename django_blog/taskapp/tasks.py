@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 
 @celery_app.task(bind=True)
 def debug_task(self):
-    print("Request: {0!r}".format(self.request))  # pragma: no cover
+    print(f"Request: {self.request!r}")  # pragma: no cover
 
 
 @shared_task(bind=True)
@@ -39,13 +39,15 @@ def mysql_backup():
     BACKUP_DIR_NAME = "/tmp"
     FILE_PREFIX = "db_backup_"
     FILE_SUFFIX_DATE_FORMAT = "%Y%m%d"
-    PYTHON_PATH = '/home/jason/.venv/blog_py3.6_env/bin/python'
+    PYTHON_PATH = "/home/jason/.venv/blog_py3.6_env/bin/python"
 
     timestamp = datetime.date.today().strftime(FILE_SUFFIX_DATE_FORMAT)
     backup_filename = BACKUP_DIR_NAME + "/" + FILE_PREFIX + timestamp + ".sql"
 
-    backup_command = f"{PYTHON_PATH} manage.py dumpdata --exclude auth.permission --exclude contenttypes " \
+    backup_command = (
+        f"{PYTHON_PATH} manage.py dumpdata --exclude auth.permission --exclude contenttypes "
         f"-o {backup_filename}"
+    )
     subprocess.call(backup_command.split())
     send_mail.delay(
         subject=f"数据库备份-{timestamp}",

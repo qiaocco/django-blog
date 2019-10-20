@@ -45,6 +45,7 @@ class CommonViewMixin:
         context = super().get_context_data(**kwargs)
         context.update(self.get_navs())
         context.update(self.get_sidebars())
+        context.update({"query": self.request.GET.get("query")})
         return context
 
 
@@ -70,20 +71,19 @@ class TagView(IndexView):
 
 
 class PostView(CommonViewMixin, CommentShowMixin, DetailView):
-    queryset = Post.objects.select_related("owner")
+    model = Post
     template_name = "blog/post-detail.html"
     context_object_name = "post"
 
     def get(self, request, *args, **kwargs):
-        response = super(PostView, self).get(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
         self.pv_uv()
         return response
 
     def get_context_data(self, **kwargs):
-        kwargs.update({
-            "prev_post": self.object.prev_post,
-            "next_post": self.object.next_post,
-        })
+        kwargs.update(
+            {"prev_post": self.object.prev_post, "next_post": self.object.next_post}
+        )
         return super().get_context_data(**kwargs)
 
     def pv_uv(self):
@@ -91,12 +91,12 @@ class PostView(CommonViewMixin, CommentShowMixin, DetailView):
         need_increase_uv = False
         uid = self.request.uid
 
-        pv_key = "pv:{}:{}".format(uid, self.request.path)
+        pv_key = f"pv:{uid}:{self.request.path}"
         if not cache.get(pv_key):
             need_increase_pv = True
             cache.set(pv_key, 1, 1 * 1)  # 1min有效
 
-        uv_key = "uv:{}:{}".format(uid, self.request.path)
+        uv_key = f"uv:{uid}:{self.request.path}"
         if not cache.get(uv_key):
             need_increase_uv = True
             cache.set(uv_key, 1, 24 * 60 * 60)  # 24h有效
@@ -112,14 +112,12 @@ class PostView(CommonViewMixin, CommentShowMixin, DetailView):
 class SearchView(IndexView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({
-            'query': self.request.GET.get('query', '')
-        })
+        context.update({"query": self.request.GET.get("query", "")})
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        query = self.request.GET.get('query')
+        query = self.request.GET.get("query")
         if not query:
             return queryset
         return queryset.filter(Q(title__icontains=query) | Q(desc__icontains=query))

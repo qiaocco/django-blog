@@ -12,12 +12,14 @@ logger = get_task_logger(__name__)
 
 class MyRequest(Request):
     def on_success(self, failed__retval__runtime, **kwargs):
-        super(MyRequest, self).on_success(failed__retval__runtime, **kwargs)
-        logger.info(f'Execute success: {self.task.name}')
+        super().on_success(failed__retval__runtime, **kwargs)
+        logger.info(f"Execute success: {self.task.name}")
 
     def on_failure(self, exc_info, send_failed_event=True, return_ok=False):
-        super(MyRequest, self).on_failure(exc_info, send_failed_event=send_failed_event, return_ok=return_ok)
-        logger.info(f'Execute fail: {self.task.name}')
+        super().on_failure(
+            exc_info, send_failed_event=send_failed_event, return_ok=return_ok
+        )
+        logger.info(f"Execute fail: {self.task.name}")
 
 
 class MyTask(Task):

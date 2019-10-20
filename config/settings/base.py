@@ -14,9 +14,7 @@ import os
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(os.path.join(BASE_DIR, "django_blog"))
 
 # Quick-start development settings - unsuitable for production
@@ -42,20 +40,9 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = [
-    "rest_framework",
-    "xadmin",
-    "crispy_forms",
-    "reversion",
-    'django_celery_results',
-]
+THIRD_PARTY_APPS = ["rest_framework", "django_celery_results"]
 
-LOCAL_APPS = [
-    "blog",
-    "comment",
-    "pageconfig",
-    "user",
-]
+LOCAL_APPS = ["blog", "comment", "pageconfig"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -82,12 +69,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
-    },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 # Internationalization
@@ -140,7 +123,4 @@ BAIDU_NOTIFY_URL = "http://data.zz.baidu.com/urls?site=https://blog.jasonqiao36.
 
 SITE_ID = 1
 
-# 自定义用户模型
-AUTH_USER_MODEL = "user.UserProfile"
-
-DATETIME_FORMAT = 'Y年n月d日'
+DATETIME_FORMAT = "Y年n月d日"
