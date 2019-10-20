@@ -11,11 +11,7 @@ class BaseModel(models.Model):
     STATUS_DELETE = 0
     STATUS_NORMAL = 1
     STATUS_DRAFT = 2
-    STATUS_ITEMS = (
-        (STATUS_DELETE, "删除"),
-        (STATUS_NORMAL, "正常"),
-        (STATUS_DRAFT, "草稿"),
-    )
+    STATUS_ITEMS = ((STATUS_DELETE, "删除"), (STATUS_NORMAL, "正常"), (STATUS_DRAFT, "草稿"))
 
     status = models.PositiveIntegerField(
         choices=STATUS_ITEMS, default=STATUS_NORMAL, verbose_name="状态"
@@ -27,7 +23,9 @@ class BaseModel(models.Model):
 
     def get_full_url(self):
         site = Site.objects.get_current().domain
-        url = "https://{site}{obsolute_url}".format(site=site, obsolute_url=self.get_absolute_url())
+        url = "https://{site}{obsolute_url}".format(
+            site=site, obsolute_url=self.get_absolute_url()
+        )
         return url
 
     class Meta:

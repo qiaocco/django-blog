@@ -15,9 +15,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
 class PostDetailSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.SlugRelatedField(read_only=True, slug_field="name")
-    tags = serializers.SlugRelatedField(
-        many=True, read_only=True, slug_field="name"
-    )
+    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
     owner = serializers.SlugRelatedField(read_only=True, slug_field="username")
 
     class Meta:
@@ -40,7 +38,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        qs = super(PostViewSet, self).get_queryset()
+        qs = super().get_queryset()
         category_id = self.request.GET.get("category")
         if category_id:
             qs = qs.filter(category_id=category_id)
@@ -48,7 +46,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = PostDetailSerializer
-        return super(PostViewSet, self).retrieve(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -71,7 +69,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = CategoryDetailSerializer
-        return super(CategoryViewSet, self).retrieve(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs)
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -103,7 +101,7 @@ class TagViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = TagDetailSerializer
-        return super(TagViewSet, self).retrieve(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -126,4 +124,4 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = UserDetailSerializer
-        return super(UserViewSet, self).retrieve(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs)

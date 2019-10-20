@@ -8,14 +8,14 @@ from django.conf import settings
 if not settings.configured:
     # set the default Django settings module for the 'celery' program.
     profile = os.environ.get("DJANGO_BLOG_PROFILE", "develop")
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.{}".format(profile))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"config.settings.{profile}")
 
 
 class MyCelery(Celery):
     def gen_task_name(self, name, module):
-        if module.endswith('.tasks'):
+        if module.endswith(".tasks"):
             module = module[:-6]
-        return super(MyCelery, self).gen_task_name(name, module)
+        return super().gen_task_name(name, module)
 
 
 app = MyCelery("django_blog")
@@ -47,4 +47,6 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # Calls test_beat every 10 seconds
     # sender.add_periodic_task(3.0, debug_task, name="add every 10 seconds")
-    sender.add_periodic_task(crontab(hour=18, minute=30, day_of_week="fri"), mysql_backup)
+    sender.add_periodic_task(
+        crontab(hour=18, minute=30, day_of_week="fri"), mysql_backup
+    )

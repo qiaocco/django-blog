@@ -1,11 +1,12 @@
 import logging
 
-import sentry_sdk
 from dotenv import load_dotenv
+
+import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
-from .base import os, BASE_DIR
+from .base import BASE_DIR, os
 
 dotenv_path = os.path.join(BASE_DIR, ".envs", ".env.product")
 
@@ -37,15 +38,16 @@ sentry_logging = LoggingIntegration(
 
 
 # LOGGING CONFIGURATION
+# https://cheat.readthedocs.io/en/latest/django/logging.html
 # ------------------------------------------------------------------------------
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": True,  # 是否禁用已经存在的logger实例
     "formatters": {  # 日志格式
         "standard": {
-            "format": "%(asctime)s [%(threadName)s:%(thread)d] "
-                      "[%(name)s:%(lineno)d] [%(module)s:%(funcName)s] "
-                      "[%(levelname)s]- %(message)s"
+            "format": "%(asctime)s [%(threadName)s:%(thread)d] %(pathname)s"
+            "[%(name)s:%(lineno)d] [%(module)s:%(funcName)s] "
+            "[%(levelname)s]- %(message)s"
         }
     },
     "filters": {  # 过滤器
@@ -63,7 +65,7 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.handlers.RotatingFileHandler",
             "filename": os.path.join(BASE_DIR, "log", "debug.log"),  # 日志输出文件
-            "maxBytes": 1024 * 1024 * 5,  # 文件大小
+            "maxBytes": 1024 * 1024 * 5,  # 文件大小5M
             "backupCount": 5,  # 备份份数
             "formatter": "standard",  # 使用哪种formatters日志格式
         },
@@ -74,19 +76,17 @@ LOGGING = {
         },
     },
     "loggers": {  # logging管理器
-        "django": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
+        "django": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
         "django.request": {
             "handlers": ["debug", "mail_admins"],
             "level": "ERROR",
             "propagate": True,
         },
         # 对于不在 ALLOWED_HOSTS 中的请求不发送报错邮件
-        "django.security.DisallowedHost": {
-            "handlers": ["null"],
+        "django.security.DisallowedHost": {"handlers": ["null"], "propagate": False},
+        "django.db.backends": {
+            "level": "ERROR",
+            "handlers": ["console"],
             "propagate": False,
         },
     },

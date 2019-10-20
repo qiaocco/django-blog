@@ -1,8 +1,7 @@
-import xadmin
-from xadmin.views import CommAdminView
+from django.contrib import admin
 
 
-class BaseOwnerAdmin:
+class BaseOwnerAdmin(admin.ModelAdmin):
     def get_list_queryset(self):
         request = self.request
         qs = super().get_list_queryset()
@@ -16,9 +15,10 @@ class BaseOwnerAdmin:
         return super(BaseOwnerAdmin, self).save_models()
 
 
-class GlobalSetting(CommAdminView):
+class MyAdminSite(admin.AdminSite):
     site_title = "博客后台"
     site_footer = "power by jasonqiao36.cc"
 
 
-xadmin.site.register(CommAdminView, GlobalSetting)
+admin_site = MyAdminSite(name="myadmin")
+admin_site.register()

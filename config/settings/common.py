@@ -21,8 +21,7 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://{host}:{port}/1".format(
-            host=os.getenv("REDIS_HOST", "redis"),
-            port=os.getenv("REDIS_PORT", "6379"),
+            host=os.getenv("REDIS_HOST", "redis"), port=os.getenv("REDIS_PORT", "6379")
         ),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
@@ -44,12 +43,13 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"
 CELERY_ENABLE_UTC = False
-CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERY_TIMEZONE = "Asia/Shanghai"
+CELERYD_HIJACK_ROOT_LOGGER = False
 
 # django-celery-results
 # https://github.com/celery/django-celery-results
-CELERY_RESULT_BACKEND = 'django-db'
-# CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # ========== END CELERY
 

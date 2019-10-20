@@ -19,7 +19,7 @@ class CommentShowMixin:
         kwargs.update(
             {"comment_form": CommentForm, "comment_list": self.get_comments()}
         )
-        return super(CommentShowMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
 
 class CommentView(TemplateView):
@@ -39,7 +39,7 @@ class CommentView(TemplateView):
                 nickname=request.POST.get("nickname"),
                 content=request.POST.get("content"),
                 email=settings.EMAIL_HOST_USER,
-                link="https://blog.jasonqiao36.cc/{}".format(target),
+                link=f"https://blog.jasonqiao36.cc/{target}",
             )
             return redirect(reverse("post_detail", args=(target,)))
         else:

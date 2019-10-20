@@ -7,7 +7,7 @@ from pygments.lexers import get_lexer_by_name
 def block_code(text, lang, inlinestyles=False, linenos=False):
     if not lang:
         text = text.strip()
-        return u"<pre><code>%s</code></pre>\n" % mistune.escape(text)
+        return "<pre><code>%s</code></pre>\n" % mistune.escape(text)
 
     try:
         lexer = get_lexer_by_name(lang, stripall=True)
@@ -17,9 +17,8 @@ def block_code(text, lang, inlinestyles=False, linenos=False):
             return '<div class="highlight-wrapper">%s</div>\n' % code
         return code
     except Exception:
-        return '<pre class="%s"><code>%s</code></pre>\n' % (
-            lang,
-            mistune.escape(text),
+        return '<pre class="{}"><code>{}</code></pre>\n'.format(
+            lang, mistune.escape(text)
         )
 
 

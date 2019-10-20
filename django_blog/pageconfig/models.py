@@ -26,6 +26,7 @@ class Link(BaseModel):
 
 class SideBar(BaseModel):
     """侧边栏"""
+
     DISPLAY_HTML = 1
     DISPLAY_LATEST = 2
     DISPLAY_HOT = 3
@@ -37,9 +38,12 @@ class SideBar(BaseModel):
         (DISPLAY_COMMENT, "最近评论"),
     )
     title = models.CharField(max_length=64, verbose_name="标题")
-    display_type = models.PositiveIntegerField(default=1, choices=DISPLAY_ITEMS, verbose_name="展示类型")
-    content = models.CharField(max_length=512, blank=True, verbose_name="内容", help_text="如果设置的不是HTML类型，可为空")
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="作者", on_delete=models.PROTECT)
+    display_type = models.PositiveIntegerField(
+        default=1, choices=DISPLAY_ITEMS, verbose_name="展示类型"
+    )
+    content = models.CharField(
+        max_length=512, blank=True, verbose_name="内容", help_text="如果设置的不是HTML类型，可为空"
+    )
 
     class Meta:
         verbose_name = verbose_name_plural = "侧边栏"

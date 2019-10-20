@@ -16,4 +16,4 @@ class Comment(BaseModel):
         verbose_name = verbose_name_plural = "评论"
 
     def __str__(self):
-        return "评论：{}".format(self.nickname)
+        return f"评论：{self.nickname}"
