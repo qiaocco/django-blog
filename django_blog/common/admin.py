@@ -12,7 +12,7 @@ class BaseOwnerAdmin(admin.ModelAdmin):
     def save_models(self):
         if not self.org_obj:
             self.new_obj.owner = self.request.user
-        return super(BaseOwnerAdmin, self).save_models()
+        return super().save_models()
 
 
 class MyAdminSite(admin.AdminSite):

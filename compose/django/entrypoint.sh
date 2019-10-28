@@ -8,16 +8,16 @@ mysql_ready() {
 python << END
 import sys
 
-import pymysql
+import MySQLdb
 
 try:
-    pymysql.connect(
+    MySQLdb.connect(
         db="${MYSQL_DB}",
         user="${MYSQL_USER}",
         password="${MYSQL_PASSWORD}",
         host="${MYSQL_HOST}",
     )
-except pymysql.OperationalError:
+except MySQLdb.OperationalError:
     sys.exit(-1)
 sys.exit(0)
 
