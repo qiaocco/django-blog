@@ -7,6 +7,9 @@ WATCHDOG_RELOAD := watchmedo auto-restart --recursive -d . -p '*.py' --
 django-build-up: ## build and compose up
 	docker-compose -f develop.yml up --build
 
+django-just-up:
+	docker-compose -f develop.yml up
+
 django-down: ## build and compose up
 	docker-compose -f develop.yml down
 
@@ -50,7 +53,7 @@ tmuxp: ## start tmuxp
 
 lint: ## check style with flake8
 	@echo "--> Linting python"
-	flake8 django_blog
+	black .
 	@echo ""
 
 sort: # sort import with isort
