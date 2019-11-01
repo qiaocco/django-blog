@@ -4,11 +4,11 @@
 #
 version: 2
 jobs:
-  black-check:
+  build:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.7.5
+      - image: circleci/python:3.6.1
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -32,7 +32,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install black
+            pip install -r requirements.txt
 
       - save_cache:
           paths:
@@ -45,7 +45,11 @@ jobs:
       # https://pytest.org
       # https://nose.readthedocs.io
       - run:
-          name: black format
+          name: run tests
           command: |
             . venv/bin/activate
-            black --check
+            python manage.py test
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
