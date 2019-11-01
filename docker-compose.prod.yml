@@ -1,0 +1,112 @@
+version: '3'
+
+volumes:
+  mysql_data:
+  redis_data:
+  static_volume:
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile.prod
+    command: /start-prod.sh
+    # add a volume to the web and nginx services
+    # so that each container will share a directory named "staticfiles"
+    volumes:
+      - static_volume:/code/static_files
+    # expose to other docker services, this port will no longer be
+    # published to the host machine.
+    expose:
+      - 8000
+    depends_on:
+      - mysql
+      - redis
+    env_file:
+      - .envs/.env.prod
+
+  celeryworker:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile.prod
+#    command: /start-celeryworker.sh
+    depends_on:
+      - mysql
+      - redis
+    env_file:
+      - .envs/.env.prod
+    command: celery -A django_blog.taskapp worker --loglevel INFO
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile.prod
+    env_file: .envs/.env.prod
+    depends_on:
+      - mysql
+      - redis
+    command: /start-celerybeat.sh
+
+  celeryflower:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile.prod
+    ports:
+      - 8005:8005
+    env_file: .envs/.env.prod
+    depends_on:
+      - mysql
+      - redis
+    command: /start-celeryflower.sh
+
+
+  mysql:
+    image: mysql:5.7
+    command:
+      - --default_authentication_plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    #      - ./compose/mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: django_blog
+      MYSQL_USER: jason
+      MYSQL_PASSWORD: 123
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+
+  redis:
+    image: redis:4.0
+    command: [
+      "bash", "-c",
+      '
+       docker-entrypoint.sh
+       --requirepass 123
+      '
+    ]
+    volumes:
+      - redis_data:/data
+    environment:
+      REDIS_PASS_FILE: /run/secrets/redis-password
+    ports:
+      - '6379:6379'
+    expose:
+      - "6379"
+
+  nginx:
+    build: ./compose/nginx/
+    volumes:
+      - ./compose/nginx:/etc/nginx/conf.d/
+      - ./log/nginx:/var/log/nginx
+      - static_volume:/code/static_files
+    ports:
+      - 8004:80
+    environment:
+      TZ: 'Asia/Shanghai'
+#    depends_on:
+#      - web
+
