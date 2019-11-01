@@ -7,4 +7,4 @@ set -o xtrace
 
 sleep 3
 
-celery -A django_blog.taskapp flower --port=5555
+celery -A django_blog.taskapp flower --port=8005 --workdir /code/django-blog

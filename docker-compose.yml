@@ -44,14 +44,14 @@ services:
       dockerfile: ./compose/django/Dockerfile-dev
     command: /start-dev.sh
     ports:
-      - "8000:8000"
+      - 8000:8000
     volumes:
       - .:/code
     depends_on:
       - mysql
       - redis
     env_file:
-      - .envs/.env
+      - .envs/.env.dev
 
   celeryworker:
     build:
