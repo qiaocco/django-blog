@@ -49,4 +49,4 @@ jobs:
           name: black format
           command: |
             . venv/bin/activate
-            black --check
+            black --check .

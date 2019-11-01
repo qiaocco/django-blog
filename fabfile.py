@@ -68,8 +68,11 @@ def _collect_static(c, deploy_path):
     manage_path = os.path.join(deploy_path, "manage.py")
     venv_name = "blog_py3.6_env"
     with c.prefix("source ~/.zshrc && workon {}".format(venv_name)):
-        c.run("{env} python {manage_path} collectstatic --noinput".format(env="env DJANGO_BLOG_PROFILE=product",
-                                                                          manage_path=manage_path))
+        c.run(
+            "{env} python {manage_path} collectstatic --noinput".format(
+                env="env DJANGO_BLOG_PROFILE=product", manage_path=manage_path
+            )
+        )
 
 
 def restart_project(c):
