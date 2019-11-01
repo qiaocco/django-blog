@@ -46,11 +46,7 @@ jobs:
       # https://nose.readthedocs.io
       - run:
 
-          name: run tests
+          name: black format
           command: |
             . venv/bin/activate
             black --check
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
