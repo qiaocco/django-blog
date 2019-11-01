@@ -1,5 +1,10 @@
 version: '3'
 
+volumes:
+  mysql_data:
+  redis_data:
+
+
 services:
   mysql:
     image: mysql:5.7
@@ -8,7 +13,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - /var/lib/db_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     #      - ./compose/mysql/my.cnf:/etc/mysql/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: 123
@@ -64,4 +69,4 @@ services:
     volumes:
       - .:/code
     env_file:
-      - .envs/.env
+      - .envs/.env.dev
