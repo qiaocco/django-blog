@@ -7,4 +7,4 @@ set -o xtrace
 
 #sleep 3
 
-celery -A django_blog.taskapp worker --loglevel INFO
+celery -A django_blog.taskapp worker --loglevel INFO --workdir /code/django-blog
