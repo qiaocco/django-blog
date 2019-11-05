@@ -29,7 +29,6 @@ services:
     build:
       context: .
       dockerfile: ./compose/django/Dockerfile.prod
-#    command: /start-celeryworker.sh
     depends_on:
       - mysql
       - redis
@@ -100,13 +99,14 @@ services:
   nginx:
     build: ./compose/nginx/
     volumes:
-      - ./compose/nginx:/etc/nginx/conf.d/
-      - ./log/nginx:/var/log/nginx
-      - static_volume:/code/static_files
+      - ./compose/nginx:/etc/nginx/conf.d/  # nginx配置
+      - ./log/nginx:/var/log/nginx # nginx log
+      - static_volume:/code/static_files # Django静态文件
+      - /etc/letsencrypt:/code/letsencrypt # https配置文件
     ports:
-      - 8004:80
+      - "0.0.0.0:443:443"
     environment:
       TZ: 'Asia/Shanghai'
-#    depends_on:
-#      - web
+   depends_on:
+     - web
 
