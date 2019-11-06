@@ -6,9 +6,9 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
-    <meta name="baidu-site-verification" content="m15sm6udEK"/>
-    <meta name="google-site-verification" content="pfj7qm3LvD-pjPf-Xp1a2rEr-OfpmDNwo6saWuNgSg0"/>
-    <title>Jason's Blog</title>
+    <!-- 搜索平台 -->
+    <meta name="baidu-site-verification" content="acGC1Wnnxi"/>
+    <title>qiaocc's Blog</title>
     <link rel="Bookmark" href="{% static 'img/favicon.ico' %}">
     <link rel="Shortcut Icon" href="{% static 'img/favicon.ico' %}"/>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
@@ -21,14 +21,14 @@
         var _hmt = _hmt || [];
         (function () {
             var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?c3751920a705dbf3d958561494b7f094";
+            hm.src = "https://hm.baidu.com/hm.js?6cbd393e2698a1ef52c25d40ca9801cb";
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122242571-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122242571-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -38,7 +38,7 @@
 
         gtag('js', new Date());
 
-        gtag('config', 'UA-122242571-1');
+        gtag('config', 'UA-122242571-2');
     </script>
 
     {% block stylesheet %}
@@ -70,7 +70,7 @@
                             <li><a href="{% url 'category' cate.id %}">{{ cate.name }}</a>
                             </li>
                         {% endfor %}
-                        <li class="dropdown">
+                        <!-- <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">更多可能
                                 <span class="caret"></span></a>
@@ -80,7 +80,7 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-                        </li>
+                        </li> -->
                         <li><a href="{% url 'post_detail' 'about' %}">关于</a></li>
                     </ul>
                 </div>
@@ -180,7 +180,7 @@
     </div>
     <div class="vc-footer-copyright">
         <div> Theme: <a class="vc-a" href="https://github.com/imvicchen/vTheme">Vic theme</a></div>
-        power by <a class="vc-a" href="https://github.com/jasonqiao36">qiaocc</a>
+        power by <a class="vc-a" href="https://github.com/qiaocci">qiaocc</a>
     </div>
     <div class="backtop" title="返回顶部"></div>
 </footer>
