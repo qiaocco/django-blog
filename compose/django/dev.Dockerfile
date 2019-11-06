@@ -1,6 +1,6 @@
 FROM python:3.7.5
 
-WORKDIR /code
+WORKDIR /code/django-blog
 
 # Sane defaults for pip
 ENV PIP_NO_CACHE_DIR off
