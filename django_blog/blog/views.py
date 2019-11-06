@@ -94,7 +94,7 @@ class PostView(CommonViewMixin, CommentShowMixin, DetailView):
         pv_key = f"pv:{uid}:{self.request.path}"
         if not cache.get(pv_key):
             need_increase_pv = True
-            cache.set(pv_key, 1, 1 * 1)  # 1min有效
+            cache.set(pv_key, 1, 1 * 1)  # 1s有效
 
         uv_key = f"uv:{uid}:{self.request.path}"
         if not cache.get(uv_key):

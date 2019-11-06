@@ -14,7 +14,7 @@
                     <span>分类：<a href="">{{ post.category }}</a></span> |
                     <time>标签：{% for tag in post.tag.all %}<a href="{% url 'tag' tag.id %}">{{ tag }} </a>{% endfor %}</time> |
                     <time>发布：{{ post.created_time }}</time> |
-                    <span>阅读量：{{ post.pv }}</span>
+                    <span>点击量：{{ post.pv }}</span>
                 </p>
                 <p class="hidden-xs vc-desc">{{ post.desc }}</p>
                 <p class="clearfix">
