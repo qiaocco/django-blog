@@ -9,7 +9,7 @@ from rest_framework.documentation import include_docs_urls
 
 from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
 from blog.feeds import LatestPostFeed
-from blog.sitemaps import CategorySitemap, PostSitemap, TagSitemap
+from blog.sitemaps import PostSitemap
 from blog.views import CategoryView, IndexView, PostView, SearchView, TagView
 from comment.views import CommentView
 
@@ -19,7 +19,7 @@ router.register(r"category", CategoryViewSet)
 router.register(r"tag", TagViewSet)
 router.register(r"user", UserViewSet)
 
-sitemaps = {"posts": PostSitemap, "categories": CategorySitemap, "tags": TagSitemap}
+sitemaps = {"posts": PostSitemap}
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
