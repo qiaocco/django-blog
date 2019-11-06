@@ -9,7 +9,7 @@ from rest_framework.documentation import include_docs_urls
 
 from blog.api import CategoryViewSet, PostViewSet, TagViewSet, UserViewSet
 from blog.feeds import LatestPostFeed
-from blog.sitemaps import  PostSitemap
+from blog.sitemaps import PostSitemap
 from blog.views import CategoryView, IndexView, PostView, SearchView, TagView
 from comment.views import CommentView
 
