@@ -9,7 +9,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile.prod
+      dockerfile: ./compose/django/prod.Dockerfile
     command: /start-prod.sh
     # add a volume to the web and nginx services
     # so that each container will share a directory named "staticfiles"
@@ -23,24 +23,24 @@ services:
       - mysql
       - redis
     env_file:
-      - .envs/.env.prod
+      - .envs/prod.env
 
   celeryworker:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile.prod
+      dockerfile: ./compose/django/prod.Dockerfile
     depends_on:
       - mysql
       - redis
     env_file:
-      - .envs/.env.prod
+      - .envs/prod.env
     command: celery -A django_blog.taskapp worker --loglevel INFO
 
   celerybeat:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile.prod
-    env_file: .envs/.env.prod
+      dockerfile: ./compose/django/prod.Dockerfile
+    env_file: .envs/prod.env
     depends_on:
       - mysql
       - redis
@@ -49,10 +49,10 @@ services:
   celeryflower:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile.prod
+      dockerfile: ./compose/django/prod.Dockerfile
     ports:
       - 8005:8005
-    env_file: .envs/.env.prod
+    env_file: .envs/prod.env
     depends_on:
       - mysql
       - redis
@@ -107,6 +107,6 @@ services:
       - "0.0.0.0:443:443"
     environment:
       TZ: 'Asia/Shanghai'
-   depends_on:
-     - web
+    depends_on:
+      - web
 

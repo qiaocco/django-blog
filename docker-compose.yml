@@ -51,12 +51,12 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/code
+      - .:/code/django-blog
     depends_on:
       - mysql
       - redis
     env_file:
-      - .envs/.env.dev
+      - .envs/dev.env
 
   celeryworker:
     build:
@@ -67,6 +67,6 @@ services:
       - mysql
       - redis
     volumes:
-      - .:/code
+      - .:/code/django-blog
     env_file:
-      - .envs/.env.dev
+      - .envs/dev.env
