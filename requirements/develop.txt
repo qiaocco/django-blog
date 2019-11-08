@@ -8,6 +8,8 @@ watchdog
 
 # Code quality
 flake8
+isort
+black
 
 # deploy
 fabric

@@ -1,17 +1,8 @@
 import logging
 
-from dotenv import load_dotenv
-
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
-
-from .base import BASE_DIR, os
-
-dotenv_path = os.path.join(BASE_DIR, ".envs", ".env.product")
-
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
 
 from .common import *  # isort:skip
 
