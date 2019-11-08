@@ -46,7 +46,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./compose/django/dev.Dockerfile
     command: /start-dev.sh
     ports:
       - 8000:8000
@@ -61,7 +61,7 @@ services:
   celeryworker:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./compose/django/dev.Dockerfile
     command: /start-celeryworker.sh
     depends_on:
       - mysql
@@ -70,3 +70,18 @@ services:
       - .:/code/django-blog
     env_file:
       - .envs/dev.env
+
+  celeryflower:
+    build:
+      context: .
+      dockerfile: ./compose/django/dev.Dockerfile
+    command: /start-celeryflower.sh
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - .:/code/django-blog
+    env_file:
+      - .envs/dev.env
+    ports:
+      - 8005:8005
