@@ -1,18 +1,20 @@
 session_name: django-blog
-start_directory: ~/workspace/code/django-blog
+start_directory: ~/workspace/code-python/django-blog
 windows:
-- window_name: "后端-Django 及其服务"
+- window_name: "后端-Django及其服务"
   focus: true
   panes:
-  - make django-before-up && workon blog_py3.6_env && make django-runserver
+  - make django-before-up && make django-runserver
 - window_name: "后端-数据库相关"
   panes:
-  - sleep 30 && make dbshell
-  - sleep 30 && workon blog_py3.6_env && make shell
-- window_name: "后端-Celery"
+  - sleep 20 && make dbshell
+  - sleep 20 && make shell
+- window_name: "后端-celeryworker"
   panes:
-  - sleep 20 && workon blog_py3.6_env && make django-celeryworker
-  - sleep 20 && workon blog_py3.6_env && make django-celerybeat
-- window_name: "后端-CeleryFlower"
+  - sleep 25 && make django-celeryworker
+- window_name: "后端-celerybeat"
   panes:
-  - sleep 20 && workon blog_py3.6_env && make django-celeryflower
+  - sleep 25 && make django-celerybeat
+- window_name: "后端-celeryflower"
+  panes:
+  - sleep 30 && make django-celeryflower

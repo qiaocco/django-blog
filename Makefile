@@ -1,55 +1,70 @@
-MYSQL_DOCKER_RUN := docker exec -i -t django-blog_mysql_1
-REDIS_DOCKER_RUN := docker exec -i -t django-blog_redis_1
-WATCHDOG_RELOAD := watchmedo auto-restart --recursive -d . -p '*.py' --
+.DEFAULT_GOAL := help
 
-## ========== 开发时命令 ==============
+define PRINT_HELP_PYSCRIPT
+import re, sys
 
-django-build-up: ## build and compose up
-	docker-compose -f develop.yml up --build
+for line in sys.stdin:
+	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
+	if match:
+		target, help = match.groups()
+		print("%-20s %s" % (target, help))
+endef
+export PRINT_HELP_PYSCRIPT
 
-django-just-up:
-	docker-compose -f develop.yml up
+MYSQL_DOCKER_RUN := docker-compose exec mysql
+REDIS_DOCKER_RUN := docker-compose exec redis
+DJANGO_DOCKER_RUN := docker-compose exec web
+TMUXP := /home/qiaocc/.venv/test_env/bin/tmuxp
 
-django-down: ## build and compose up
-	docker-compose -f develop.yml down
+help:
+	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+
+sep--sep-a: ## ========== 开发时命令 ==============
+
+all-build-up: ## build and compose up
+	docker-compose up --build
+
+all-up: ## compose up
+	docker-compose up
+
+all-down: ## build and compose up
+	docker-compose down
 
 django-before-up: ## some deamons
-	docker-compose -f develop.yml up -d redis mysql
+	docker-compose up -d redis mysql
 
 django-runserver: ## runserver
-	python manage.py runserver
+	docker-compose up web
 
-django-celeryworker: ## celeryworker
-	 $(WATCHDOG_RELOAD) celery -A django_blog.taskapp worker -l info
+django-manager: ## Enter python manage.py
+	$(DJANGO_DOCKER_RUN) python manage.py
 
-django-celeryflower: ## celeryflower
-	celery -A django_blog.taskapp flower --port=5555
-
-django-celerybeat: ## celerybeat
-	$(WATCHDOG_RELOAD) celery -A django_blog.taskapp beat -s celerybeat-schedule
-
-mysql-up: ## mysql
-	docker-compose -f develop.yml up mysql
-
-redis-up: ## redis
-	docker-compose -f develop.yml up redis
-
-rabbitmq-up: ## rabbitmq
-	docker-compose -f develop.yml up rabbitmq
+django-console: ## Enter Django Console
+	$(DJANGO_DOCKER_RUN) python manage.py shell
 
 shell: ## Enter Shell
-	./manage.py shell
+	$(DJANGO_DOCKER_RUN) bash
 
 dbshell: ## Enter mysql
 	$(MYSQL_DOCKER_RUN) sh -c 'exec mysql -ujason -p123'
 
-redis-cli: ## Enter mysql
+redis-shell: ## Enter mysql
 	$(REDIS_DOCKER_RUN) sh -c 'redis-cli -a 123'
 
-tmuxp: ## start tmuxp
-	tmuxp load tmuxp.yml
+django-celeryworker: ## celeryworker
+	 docker-compose up celeryworker
 
-## ========== 测试与代码质量 ==============
+django-celeryflower: ## celeryflower
+	docker-compose up celeryflower
+
+django-celerybeat: ## celerybeat
+	docker-compose up celerybeat
+
+tmuxp: ## start tmuxp
+	$(TMUXP) load tmuxp.yml
+
+
+sep--sep-b: ## ========== 测试与代码质量 ==============
 
 lint: ## check style with flake8
 	@echo "--> Linting python"
@@ -61,8 +76,8 @@ sort: # sort import with isort
 	isort -rc .
 	@echo ""
 
-sep--sep-b: ## ========== 文件清理相关 ==============
-	echo "## ========== 本行只是优雅的分割线  ==============="
+
+sep--sep-c: ## ========== 文件清理相关 ==============
 
 clean: clean-build clean-pyc ## remove all build, test, coverage and Python artifacts
 
@@ -83,7 +98,7 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 
-sep--sep-a: ## ========== 部署命令 ==============
+sep--sep-d: ## ========== 部署命令 ==============
 deploy:	## deploy project
 	@echo "--> Deploy project"
 	fab -H tx -S ~/.ssh/config deploy
