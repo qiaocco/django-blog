@@ -66,7 +66,7 @@ class Post(BaseModel):
         )
 
     def status_show(self):
-        return "当前状态：{}".format(self.get_status_display())
+        return f"当前状态：{self.get_status_display()}"
 
     status_show.short_description = "当前状态"
 
