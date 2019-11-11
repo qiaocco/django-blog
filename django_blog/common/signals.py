@@ -32,8 +32,6 @@ def comment_save_callback(sender, **kwargs):
     logger.debug(f"comment_save_callback, from:{sender}, kwargs:{kwargs}")
     send_mail.delay(
         subject="你有新评论啦",
-        body="用户：{nickname}, 评论:{content}".format(
-            nickname=kwargs.get("nickname"), content=kwargs.get("content")
-        ),
+        body=f"用户：{kwargs.get('nickname')}, 评论:{kwargs.get('content')}",
         to=[kwargs.get("email")],
     )

@@ -14,12 +14,10 @@ def block_code(text, lang, inlinestyles=False, linenos=False):
         formatter = HtmlFormatter(noclasses=inlinestyles, linenos=linenos)
         code = highlight(text, lexer, formatter)
         if linenos:
-            return '<div class="highlight-wrapper">%s</div>\n' % code
+            return f'<div class="highlight-wrapper">{code}</div>\n'
         return code
     except Exception:
-        return '<pre class="{}"><code>{}</code></pre>\n'.format(
-            lang, mistune.escape(text)
-        )
+        return f'<pre class="{lang}"><code>{mistune.escape(text)}</code></pre>\n'
 
 
 class HighlightRenderer(mistune.Renderer):

@@ -1,12 +1,3 @@
-from dotenv import load_dotenv
-
-from .base import BASE_DIR, os  # NOQA
-
-dotenv_path = os.path.join(BASE_DIR, ".envs", ".env")
-
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
-
 from .common import *  # isort:skip
 
 # GENERAL
